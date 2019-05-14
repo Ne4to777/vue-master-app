@@ -8,6 +8,15 @@
 	</div>
 </template>
 
+<script>
+export default {
+	name: 'app',
+	created() {
+		document.title = 'Look Ma!'
+	}
+}
+</script>
+
 <style>
 #app {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
