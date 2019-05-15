@@ -1,21 +1,20 @@
 <template>
 	<div>
-		<div v-for="item in items" :key="item.ID">
-			{{ item.ID }} - {{ item.Title }}
-		</div>
+		<test />
+		<div v-for="item in items" :key="item.ID">{{ item.ID }} - {{ item.Title }}</div>
 	</div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import Test from '@/components/Test.vue'
 
 import spx from 'spx-com'
 
 export default {
 	name: 'home',
 	components: {
-		// HelloWorld
+		Test
 	},
 	data() {
 		return {
