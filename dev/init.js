@@ -27,11 +27,7 @@ fs.stat('./dev/private.json', async err => {
 				domain: 'dme',
 				username: await question('Username: '),
 				password: new Cpass().encode(await question('Password: ')),
-				path: (await question(
-					'Project absolute path (f.e. "Z:/a/b"): '
-				)).replace(/\//g, '\\'),
 				filename: 'index.js',
-				library: (await question('Library name (myLib): ')) || 'myLib'
 			})
 		)
 	}
