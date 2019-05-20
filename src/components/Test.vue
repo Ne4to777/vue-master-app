@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import spx from 'spx-com'
 export default {
 	name: 'Test',
 	data() {
@@ -12,7 +11,7 @@ export default {
 		}
 	},
 	async created() {
-		this.time = (await spx.time.getCurrent()).format('dd.MM.yyyy HH:mm')
+		this.time = (await this.$spx.time.getCurrent()).format('dd.MM.yyyy HH:mm')
 	}
 }
 </script>

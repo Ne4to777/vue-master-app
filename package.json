@@ -4,11 +4,11 @@
 	"private": true,
 	"scripts": {
 		"serve": "node dev/init.js && vue-cli-service serve",
-		"build": "vue-cli-service build --target wc --name master-app"
+		"build": "vue-cli-service build --target wc-async --name master-app"
 	},
 	"dependencies": {
 		"core-js": "^2.6.5",
-		"spx-com": "^1.0.26",
+		"spx-com": "^1.0.27",
 		"vue": "^2.6.10",
 		"vue-router": "^3.0.3",
 		"vuex": "^3.0.1"
