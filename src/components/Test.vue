@@ -11,7 +11,9 @@ export default {
 		}
 	},
 	async created() {
-		this.time = (await this.$spx.time.getCurrent()).format('dd.MM.yyyy HH:mm')
+		this.time = (await spx()
+			.time()
+			.get()).format('dd.MM.yyyy HH:mm')
 	}
 }
 </script>
