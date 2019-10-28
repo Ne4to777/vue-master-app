@@ -10,7 +10,9 @@ import Test from '@/components/Test.vue'
 
 export default {
 	name: 'master-app',
-	components: { Test }
+	components: {
+		Test
+	}
 }
 </script>
 
