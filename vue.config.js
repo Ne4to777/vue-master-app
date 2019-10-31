@@ -1,11 +1,13 @@
 const RestProxy = require('sp-rest-proxy')
 const privateJSON = require('./dev/private.json')
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 module.exports = {
-	publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+	publicPath: isProduction ? './' : '/',
 	devServer: {
 		contentBase: './public',
-		port: 3000,
+		port: 3001,
 		proxy: 'http://localhost:8080',
 		before: () => new RestProxy({
 			configPath: './dev/private.json',
@@ -17,7 +19,7 @@ module.exports = {
 
 	pages: {
 		index: {
-			entry: process.env.NODE_ENV === 'production' ? 'src/main-prod.js' : 'src/main-dev.js',
+			entry: isProduction ? 'src/main-prod.js' : 'src/main-dev.js',
 			template: 'src/index.ejs',
 			filename: 'index.html',
 			templateParameters: {
@@ -26,7 +28,7 @@ module.exports = {
 		}
 	},
 	configureWebpack: {
-		externals: process.env.NODE_ENV === 'production' ? {
+		externals: isProduction ? {
 			vue: 'Vue',
 			'vue-router': 'VueRouter',
 			vuex: 'Vuex'
