@@ -1,78 +1,52 @@
 <template>
-	<div class="aura-container margin-top_base" :class="`width_${normalizedWidth}`">
-		<sidebar />
+	<container class="sidebar__placeholder" :style="{width:currentWidth}" :styled="false">
 		<container
-			class="display_inline-block"
+			class="sidebar"
+			:width="currentWidth"
 		>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</container>
-		<container class="display_inline-block">Widgets</container>
-		<slot></slot>
-	</div>
+	</container>
 </template>
 
 <script>
 import Container from '@/components/global/Container.vue'
-import Sidebar from '@/components/local/Sidebar.vue'
 
 export default {
-	name: 'MasterApp',
+	name: 'Sidebar',
 	components: {
-		Container,
-		Sidebar
+		Container
 	},
 	props: {
-		width: {
-			type: String,
-			default: 'base'
-		},
-		sidebarCollapsed: Boolean
+		collapsed: Boolean
 	},
 	data() {
 		return {
 			init: this.mapProps(),
-			current: this.mapProps()
+			current: this.mapProps(),
+			width: {
+				base: '212px',
+				smallest: 'auto'
+			}
+		}
+	},
+	computed: {
+		currentWidth() {
+			return this.current.collapsed ? this.width.smallest : this.width.base
 		}
 	},
 	methods: {
 		mapProps() {
 			return {
-				width: this.width,
-				sidebar: {
-					collapsed: this.sidebarCollapsed
-				}
+				collapsed: this.collapsed
 			}
-		}
-	},
-	computed: {
-		normalizedWidth() {
-			return [
-				'smallest',
-				'smaller',
-				'small',
-				'base',
-				'large',
-				'larger',
-				'largest'
-			].indexOf(this.current.width) !== -1
-				? 'base'
-				: this.current.width
 		}
 	}
 }
 </script>
 
 <style lang="stylus" scoped>
-@import './assets/stylus/fonts.styl'
-@import './assets/stylus/variables.styl'
+.sidebar__placeholder
+	display inline-block
 
-.aura-container
-	margin-left auto
-	margin-right auto
-	min-height 101 vh
-	background-color $lightgreen
-
-.width_base
-	max-width 1150px
-
-.width_largest
-	width 100%
+.aura-sidebar
+	position relative
 </style>

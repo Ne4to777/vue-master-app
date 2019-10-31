@@ -1,5 +1,5 @@
 import App from './App.vue'
-import NotFound from './components/NotFound.vue'
+import NotFound from './components/global/NotFound.vue'
 import storePlugin from './plugins/store'
 import store from './store'
 

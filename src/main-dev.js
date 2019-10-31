@@ -1,8 +1,8 @@
-import VueInternal from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 
-VueInternal.config.productionTip = false
+Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
