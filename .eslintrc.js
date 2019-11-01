@@ -58,7 +58,8 @@ module.exports = {
 		'semi': [
 			'error',
 			'never'
-		]
+		],
+		'operator-linebreak': 0
 	},
 	parserOptions: {
 		parser: 'babel-eslint',
