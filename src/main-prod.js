@@ -6,7 +6,6 @@ import store from './store'
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
-Vue.use(Vuex)
 Vue.use(storePlugin, store)
 
 Vue.component('not-found', NotFound)
