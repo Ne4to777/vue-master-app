@@ -13,9 +13,7 @@ import { mapGetters } from 'vuex'
 export default {
 	name: 'Widgets',
 	mounted() {
-		if (this.widgetsFloat) {
-			window.addEventListener('scroll', this.onScroll)
-		}
+		window.addEventListener('scroll', this.onScroll)
 	},
 	beforeDestroy() {
 		window.removeEventListener('scroll', this.onScroll)

@@ -3,6 +3,7 @@ const SET_SIDEBAR_PLACEHOLDER_WIDTH = 'SET_SIDEBAR_PLACEHOLDER_WIDTH'
 const SET_SIDEBAR_COLLAPSED = 'SET_SIDEBAR_COLLAPSED'
 const SET_SIDEBAR_PLACEHOLDER_COLLAPSED = 'SET_SIDEBAR_PLACEHOLDER_COLLAPSED'
 const SET_WIDGETS_FLOAT = 'SET_WIDGETS_FLOAT'
+const SET_LIST_REGISTRY = 'SET_LIST_REGISTRY'
 const CONSTANTS = {
 	master: {
 		width: {
@@ -37,7 +38,8 @@ const CONSTANTS = {
 			smaller: 256,
 			smallest: 256
 		}
-	}
+	},
+	LIST_REGISTRY: []
 }
 
 export default {
@@ -55,7 +57,7 @@ export default {
 		widgets: {
 			width: 'base',
 			float: false
-		}
+		},
 	},
 	getters: {
 		sidebarWidthCSS(state) {
@@ -75,6 +77,9 @@ export default {
 		},
 		CONSTANTS() {
 			return CONSTANTS
+		},
+		LIST_REGISTRY() {
+			return CONSTANTS.LIST_REGISTRY
 		}
 	},
 	mutations: {
@@ -92,30 +97,41 @@ export default {
 		},
 		[SET_WIDGETS_FLOAT](state, value) {
 			state.widgets.float = value
+		},
+		[SET_LIST_REGISTRY](state, value) {
+			CONSTANTS.LIST_REGISTRY = value
 		}
 	},
 	actions: {
 		setSidebarWidth({ commit }, value) {
-			console.log('setSidebarWidth', value)
+			// console.log('setSidebarWidth', value)
 			commit(SET_SIDEBAR_WIDTH, value)
 		},
 		setSidebarPlaceholderWidth({ commit }, value) {
-			console.log('setSidebarPlaceholderWidth', value)
+			// console.log('setSidebarPlaceholderWidth', value)
 			commit(SET_SIDEBAR_PLACEHOLDER_WIDTH, value)
 		},
 		setSidebarCollapsed({ commit }, value) {
-			console.log('setSidebarCollapsed', value)
+			// console.log('setSidebarCollapsed', value)
 			commit(SET_SIDEBAR_COLLAPSED, value)
 			commit(SET_SIDEBAR_WIDTH, value ? 'smallest' : 'base')
 		},
 		setSidebarPlaceholderCollapsed({ commit }, value) {
-			console.log('setSidebarPlaceholderCollapsed', value)
+			// console.log('setSidebarPlaceholderCollapsed', value)
 			commit(SET_SIDEBAR_PLACEHOLDER_COLLAPSED, value)
 			commit(SET_SIDEBAR_PLACEHOLDER_WIDTH, value ? 'smallest' : 'base')
 		},
 		setWidgetsFloat({ commit }, value) {
-			console.log('setWidgetsFloat', value)
+			// console.log('setWidgetsFloat', value)
 			commit(SET_WIDGETS_FLOAT, value)
+		},
+		async setListRegistry({ commit }) {
+			// console.log('setListRegistry')
+			const value = await spx('common')
+				.list('ListRegistry')
+				.item()
+				.get({ view: ['Title', 'webRelativeUrl', 'Name'] })
+			commit(SET_LIST_REGISTRY, value)
 		}
 	},
 }
