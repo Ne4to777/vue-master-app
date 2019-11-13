@@ -1,17 +1,19 @@
 <template>
 	<div class="menu">
-		<div v-for="(item,i) in items" :key="i" class="menu__item-container">
+		<div v-for="(item,i) in sidebarMenuItems" :key="i" class="menu__item-container">
 			<input
 				type="radio"
 				:id="`master-sidebar__menu-item_${i}`"
 				class="menu__radio-items-input"
 				name="master-sidebar__menu-item"
-				:checked="item.active || item.items.some(el=>el.active)"
+				:checked="item.items ? item.items.some(isItemActive) : isItemActive(item)"
 			/>
 			<label :for="`master-sidebar__menu-item_${i}`">
 				<component :href="item.url" :is="hasSubitems(item)?'div':'a'" class="menu__item">
-					<div class="menu__icon" :style="{'background-image':getIconUrl(item.icon)}"></div>
-					<div class="menu__title">{{item.title}}</div>
+					<svg class="menu__icon">
+						<image :xlink:href="getIconUrl(item.icon)" width="100%" height="100%" />
+					</svg>
+					<div class="menu__title" v-if="!sidebarCollapsed">{{item.title}}</div>
 					<div class="menu__arrow s-icon s-icon-arrow-right" v-if="hasSubitems(item)"></div>
 				</component>
 			</label>
@@ -23,7 +25,7 @@
 							:id="`master-sidebar__menu-subitem_${j}`"
 							class="menu__radio-subitems-input"
 							name="master-sidebar__menu-subitem"
-							:checked="subitem.active"
+							:checked="isItemActive(subitem)"
 						/>
 						<label :for="`master-sidebar__menu-subitem_${j}`">
 							<a class="menu__subitem" :href="subitem.url">{{subitem.title}}</a>
@@ -36,56 +38,33 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+/* eslint max-len:0 */
 
 export default {
 	name: 'SidebarMenu',
-	mounted() {
-		spx()
-			.time()
-			.get()
-			.then(el => {
-				console.log(this.LIST_REGISTRY)
-			})
-	},
-	data() {
-		return {
-			items: [
-				{
-					title: 'ресурсы',
-					icon: 'globe',
-					url: 'http://www.google.com',
-					items: []
-				},
-				{
-					title: 'инновации',
-					icon: 'bulb',
-					items: [
-						{
-							title: 'эврика',
-							url: 'http://www.yandex.ru',
-							active: true
-						},
-						{
-							title: 'dme labs',
-							url: 'http://www.mail.ru'
-						}
-					]
-				}
-			]
-		}
-	},
 	methods: {
 		getIconUrl(name) {
-			return `url("http://aura.dme.aero.corp/common/Images/current/sidebar/menu/regular/${name}.png")`
+			const { HOST_REGISTRY, LIST_REGISTRY } = this
+			const { webRelativeUrl, Title } = LIST_REGISTRY.MasterImages
+			return `${HOST_REGISTRY.Aura.Title}/${webRelativeUrl}/${Title}/current/sidebar/menu/regular/${name}.svg`
 		},
 		hasSubitems(item) {
 			return item.items && item.items.length
+		},
+		...mapActions({
+			setListRegistry: 'master/setListRegistry'
+		}),
+		isItemActive(item) {
+			return item.url === decodeURI(`${location.pathname}${location.search}`)
 		}
 	},
 	computed: {
 		...mapGetters({
-			LIST_REGISTRY: 'master/LIST_REGISTRY'
+			LIST_REGISTRY: 'master/LIST_REGISTRY',
+			HOST_REGISTRY: 'master/HOST_REGISTRY',
+			sidebarCollapsed: 'master/sidebarCollapsed',
+			sidebarMenuItems: 'master/sidebarMenuItems'
 		})
 	}
 }
@@ -101,11 +80,12 @@ a
 
 .menu
 	margin $margin_smaller 0
+	text-align left
 
 	&__item
 		display block
 		position relative
-		padding 7.5px $padding_base 7.5px $padding_base
+		padding 7.5px $padding_base
 
 		&:hover
 			cursor pointer
@@ -141,6 +121,9 @@ a
 		background-size cover
 		background-position center center
 
+		&-svg
+			fill white
+
 	&__title
 		display inline-block
 		margin-left 15px
@@ -169,7 +152,7 @@ a
 
 	&__subitem
 		display block
-		padding 15px $padding_base
+		padding 7.5px $padding_base
 		font-size $font-size_small
 		text-transform uppercase
 

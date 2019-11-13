@@ -7,7 +7,7 @@
 			<div class="notification__count">9+</div>
 		</div>
 		<a href="/" class="profile">
-			<div class="profile__avatar"></div>
+			<div class="profile__avatar" :style="{'background-image':`url('${USER.avatar}')`}"></div>
 			<div class="profile__info" v-if="!sidebarCollapsed">Алексеева Анастасия</div>
 			<div style="clear:both"></div>
 		</a>
@@ -22,6 +22,9 @@ import SidebarMenu from '@/components/local/Sidebar/SidebarMenu.vue'
 
 export default {
 	name: 'Sidebar',
+	mounted() {
+		console.log(this.USER)
+	},
 	components: { SidebarMenu },
 	data() {
 		return {
@@ -47,7 +50,9 @@ export default {
 		...mapGetters({
 			sidebarWidthCSS: 'master/sidebarWidthCSS',
 			sidebarCollapsed: 'master/sidebarCollapsed',
-			sidebarPlaceholderCollapsed: 'master/sidebarPlaceholderCollapsed'
+			sidebarPlaceholderCollapsed: 'master/sidebarPlaceholderCollapsed',
+			HOST_REGISTRY: 'master/HOST_REGISTRY',
+			USER: 'master/USER'
 		})
 	}
 }
@@ -57,10 +62,9 @@ export default {
 @import './../../../assets/stylus/variables.styl'
 
 .sidebar
-	top $margin_base
-	bottom 0
 	padding $padding_small 0
 	box-sizing border-box
+	background $deepblue
 	background linear-gradient(to top, $blackblue, $deepblue)
 	border-radius $border-radius_base $border-radius_base 0 0
 	box-shadow 0px 10px 20px -5px #000000
@@ -88,7 +92,7 @@ export default {
 	height 100vh
 	background-repeat no-repeat
 	background-position left bottom
-	z-index -1
+	z-index 0
 
 .logo
 	display block
@@ -147,7 +151,7 @@ export default {
 		border-style solid
 		box-sizing border-box
 		vertical-align middle
-		background-image url('http://store-ex3.dme.aero.corp/Photo1/photo.aspx?TabelNumber=0000482')
+		// background-image url('http://intranet.dme.aero.corp/Photo1/photo.aspx?TabelNumber=0000482')
 		background-size cover
 		background-position center center
 

@@ -15,7 +15,9 @@ module.exports = {
 		CryptoJS: 'readonly',
 		SP: 'readonly',
 		spx: 'readonly',
-		history: 'readonly'
+		history: 'readonly',
+		location: 'readonly',
+		_spPageContextInfo: 'readonly'
 	},
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

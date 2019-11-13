@@ -18,6 +18,7 @@ fs.stat('./dev/private.json', async (err) => {
 				deployPath: (await question('Deploy path: ')) || 'Assets',
 				strategy: 'OnpremiseUserCredentials',
 				domain: 'dme',
+				userID: await question('User ID: '),
 				username: await question('Username: '),
 				password: new Cpass().encode(await question('Password: '))
 			})

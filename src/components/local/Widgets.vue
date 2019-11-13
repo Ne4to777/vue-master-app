@@ -1,5 +1,5 @@
 <template>
-	<div :class="scrollClass" class="widgets debug" ref="widgets">
+	<div class="widgets debug-long" ref="widgets">
 		<slot></slot>
 	</div>
 </template>
@@ -20,10 +20,6 @@ export default {
 	},
 	data() {
 		return {
-			pinned: {
-				top: false,
-				bottom: false
-			},
 			scroll: {
 				current: 0
 			},
@@ -31,7 +27,51 @@ export default {
 		}
 	},
 	methods: {
+		setPosition({ fixed, offset }) {
+			const { style } = this.$refs.widgets
+			const position = fixed ? 'fixed' : 'relative'
+			if (style.position !== position) {
+				style.top = offset ? `${offset}px` : ''
+				style.position = position
+			}
+		},
 		onScroll() {
+			const { pageYOffset, innerHeight } = window
+			const { widgets: $widgets } = this.$refs
+			const { top, bottom } = $widgets.getBoundingClientRect()
+			const { margin, scroll } = this
+			const height = innerHeight - margin
+			let position
+			// widgets larger then window
+			if ($widgets.clientHeight > height) {
+				// IE fix
+				if (pageYOffset !== scroll.current && top !== bottom) {
+					if (pageYOffset > scroll.current) {
+						if (bottom <= height) {
+							// scroll down overflow
+							position = {
+								offset: height - $widgets.clientHeight,
+								fixed: true
+							}
+						} else {
+							// scroll down from top
+							position = { offset: top + pageYOffset - margin }
+						}
+					} else if (top >= margin) {
+						// scroll up overflow
+						position = { fixed: true, offset: margin }
+					} else {
+						// scroll up from bottom
+						position = { offset: top + pageYOffset - margin }
+					}
+					scroll.current = pageYOffset
+				}
+			} else {
+				position = { fixed: true, offset: margin }
+			}
+			if (position) this.setPosition(position)
+		},
+		onScroll1() {
 			const { pageYOffset, innerHeight } = window
 			const { widgets: $widgets } = this.$refs
 			const { top, bottom } = $widgets.getBoundingClientRect()
@@ -66,13 +106,12 @@ export default {
 		}
 	},
 	computed: {
-		scrollClass() {
-			const { top, bottom } = this.pinned
-			return top ? 'fixed_top' : bottom ? 'fixed_bottom' : 'scrollable'
-		},
 		...mapGetters({
 			widgetsFloat: 'master/widgetsFloat'
-		})
+		}),
+		scrollable() {
+			return this.$refs.widgets.clientHeight + this.margin > window.innerHeight
+		}
 	}
 }
 </script>
@@ -80,24 +119,23 @@ export default {
 <style lang="stylus" scoped>
 @import './../../assets/stylus/variables.styl'
 
-body
+.widgets
 	text-align justify
-
-.fixed_top
 	position fixed
-	top $margin_base
-
-.fixed_bottom
-	position fixed
-	bottom $margin_base
-
-.scrollable
-	position relative
 
 .widgets
 	width 256px
 
 .debug
-	&:after
-		content 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat'
+	&-long
+		background-color $lightgreen
+
+		&:after
+			content 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+
+	&-short
+		background-color $lightgreen
+
+		&:after
+			content 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 </style>
