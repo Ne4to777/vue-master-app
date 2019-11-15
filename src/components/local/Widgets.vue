@@ -1,5 +1,5 @@
 <template>
-	<div class="widgets debug-long" ref="widgets">
+	<div class="debug-long" ref="widgets">
 		<slot></slot>
 	</div>
 </template>
@@ -39,69 +39,47 @@ export default {
 			const { pageYOffset, innerHeight } = window
 			const { widgets: $widgets } = this.$refs
 			const { top, bottom } = $widgets.getBoundingClientRect()
-			const { margin, scroll } = this
+			const { margin, scroll, setPosition } = this
 			const height = innerHeight - margin
-			let position
-			// widgets larger then window
-			if ($widgets.clientHeight > height) {
-				// IE fix
-				if (pageYOffset !== scroll.current && top !== bottom) {
-					if (pageYOffset > scroll.current) {
-						if (bottom <= height) {
-							// scroll down overflow
-							position = {
-								offset: height - $widgets.clientHeight,
-								fixed: true
-							}
-						} else {
-							// scroll down from top
-							position = { offset: top + pageYOffset - margin }
-						}
-					} else if (top >= margin) {
-						// scroll up overflow
-						position = { fixed: true, offset: margin }
-					} else {
-						// scroll up from bottom
-						position = { offset: top + pageYOffset - margin }
-					}
-					scroll.current = pageYOffset
-				}
-			} else {
-				position = { fixed: true, offset: margin }
-			}
-			if (position) this.setPosition(position)
-		},
-		onScroll1() {
-			const { pageYOffset, innerHeight } = window
-			const { widgets: $widgets } = this.$refs
-			const { top, bottom } = $widgets.getBoundingClientRect()
-			const { pinned, margin, scroll } = this
+			const bodyHeight = document.body.clientHeight
+			const { clientHeight } = $widgets
 
-			if ($widgets.clientHeight + margin > innerHeight) {
-				if (pageYOffset !== scroll.current && top !== bottom) {
-					if (pageYOffset > scroll.current) {
-						if (bottom < innerHeight - margin) {
-							pinned.bottom = true
-							$widgets.style.top = ''
-						} else if (pinned.top) {
-							pinned.top = false
-							if (this.scrollClass === 'scrollable') {
-								$widgets.style.top = `${top + pageYOffset - margin}px`
+			// widgets larger then body
+			if (bodyHeight > clientHeight) {
+				// widgets larger then window
+				const offset = height - clientHeight
+				if (offset < 0) {
+					// IE fix
+					if (pageYOffset !== scroll.current && top !== bottom) {
+						if (pageYOffset > scroll.current) {
+							if (bottom <= height) {
+								// scroll down overflow
+								setPosition({
+									offset,
+									fixed: true
+								})
+							} else {
+								// scroll down from top
+								setPosition({
+									fixed: !pageYOffset,
+									offset: top + pageYOffset - margin
+								})
 							}
+						} else if (top >= margin) {
+							// scroll up overflow
+							setPosition({
+								fixed: !!pageYOffset,
+								offset: pageYOffset ? margin : 0
+							})
+						} else {
+							// scroll up from bottom
+							setPosition({ offset: top + pageYOffset - margin })
 						}
-					} else if (top > margin) {
-						pinned.top = true
-						$widgets.style.top = ''
-					} else if (pinned.bottom) {
-						pinned.bottom = false
-						if (this.scrollClass === 'scrollable') {
-							$widgets.style.top = `${top + pageYOffset - margin}px`
-						}
+						scroll.current = pageYOffset
 					}
-					scroll.current = pageYOffset
+				} else {
+					setPosition({ fixed: true, offset: margin })
 				}
-			} else {
-				pinned.top = true
 			}
 		}
 	},
@@ -118,13 +96,6 @@ export default {
 
 <style lang="stylus" scoped>
 @import './../../assets/stylus/variables.styl'
-
-.widgets
-	text-align justify
-	position fixed
-
-.widgets
-	width 256px
 
 .debug
 	&-long

@@ -137,11 +137,11 @@ const getInitData = async () => new Promise((resolve, reject) => {
 	const listRegistryItems = listRegistryList.getItems(query)
 	const user = usersList.getItems(userQuery)
 
-	const sidebarItems = sidebarList.getItems(sidebarQuery)
+	const sidebarMenuItems = sidebarList.getItems(sidebarQuery)
 
 	clientContext.load(hostRegistryItems, `Include(${['Title', 'Name']})`)
 	clientContext.load(listRegistryItems, `Include(${['Title', 'webRelativeUrl', 'Name']})`)
-	clientContext.load(sidebarItems, `Include(${['Title', 'icon', 'url', 'FileDirRef', 'orderCount']})`)
+	clientContext.load(sidebarMenuItems, `Include(${['Title', 'icon', 'url', 'FileDirRef', 'orderCount']})`)
 	clientContext.load(user)
 
 	clientContext.executeQueryAsync(() => resolve({
@@ -150,7 +150,7 @@ const getInitData = async () => new Promise((resolve, reject) => {
 		Sidebar: orderTree(buildTreeByPaths(el => {
 			const urls = el.FileDirRef.split(LISTS.Sidebar)[1].split('/').slice(1)
 			return urls.length ? [...urls, el.Title] : [el.Title]
-		})(getFieldValues(sidebarItems))),
+		})(getFieldValues(sidebarMenuItems))),
 		USER: user.get_data()[0].get_fieldValues()
 	}),
 		(sender, args) => reject(args))
@@ -167,7 +167,7 @@ export default async () => {
 	const {
 		HOST_REGISTRY,
 		LIST_REGISTRY,
-		Sidebar: sidebarItems,
+		Sidebar: sidebarMenuItems,
 		USER
 	} = await storage.get('INIT_DATA', getInitData)
 
@@ -222,7 +222,13 @@ export default async () => {
 					width: 'base',
 					collapsed: false
 				},
-				items: sidebarItems
+				menu: {
+					items: sidebarMenuItems,
+
+				},
+				notification: {
+					items: [1, 2, 3]
+				}
 			},
 			widgets: {
 				width: 'base',
@@ -243,7 +249,10 @@ export default async () => {
 				return state.sidebar.placeholder.collapsed
 			},
 			sidebarMenuItems(state) {
-				return state.sidebar.items
+				return state.sidebar.menu.items
+			},
+			sidebarNotificationItems(state) {
+				return state.sidebar.notification.items
 			},
 			widgetsFloat(state) {
 				return state.widgets.float

@@ -1,18 +1,21 @@
 <template>
-	<div class="menu">
+	<div>
 		<div v-for="(item,i) in sidebarMenuItems" :key="i" class="menu__item-container">
 			<input
 				type="radio"
 				:id="`master-sidebar__menu-item_${i}`"
 				class="menu__radio-items-input"
 				name="master-sidebar__menu-item"
+				:disabled="hasSubitems(item)"
 				:checked="item.items ? item.items.some(isItemActive) : isItemActive(item)"
 			/>
 			<label :for="`master-sidebar__menu-item_${i}`">
 				<component :href="item.url" :is="hasSubitems(item)?'div':'a'" class="menu__item">
-					<svg class="menu__icon">
-						<image :xlink:href="getIconUrl(item.icon)" width="100%" height="100%" />
-					</svg>
+					<div class="menu__icon">
+						<svg class="menu__icon-svg">
+							<use :xlink:href="`#icon-${item.icon}`" />
+						</svg>
+					</div>
 					<div class="menu__title" v-if="!sidebarCollapsed">{{item.title}}</div>
 					<div class="menu__arrow s-icon s-icon-arrow-right" v-if="hasSubitems(item)"></div>
 				</component>
@@ -39,16 +42,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+
 /* eslint max-len:0 */
 
 export default {
 	name: 'SidebarMenu',
 	methods: {
-		getIconUrl(name) {
-			const { HOST_REGISTRY, LIST_REGISTRY } = this
-			const { webRelativeUrl, Title } = LIST_REGISTRY.MasterImages
-			return `${HOST_REGISTRY.Aura.Title}/${webRelativeUrl}/${Title}/current/sidebar/menu/regular/${name}.svg`
-		},
 		hasSubitems(item) {
 			return item.items && item.items.length
 		},
@@ -71,17 +70,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import './../../../assets/stylus/variables.styl'
+@import './../../../../assets/stylus/variables.styl'
 
 a
-	color $grey
+	color $darkgrey
 	outline none
 	text-decoration none
 
 .menu
-	margin $margin_smaller 0
-	text-align left
-
 	&__item
 		display block
 		position relative
@@ -114,19 +110,24 @@ a
 			background-color $lightblack
 
 	&__icon
+		position relative
 		display inline-block
 		height 24px
 		width 24px
 		vertical-align middle
-		background-size cover
-		background-position center center
 
 		&-svg
-			fill white
+			width 100%
+			height 100%
+			stroke-width 1.6
+			stroke currentColor
+			stroke-linecap round
+			fill transparent
+			stroke-miterlimit 4
 
 	&__title
 		display inline-block
-		margin-left 15px
+		margin-left $margin_base
 		vertical-align bottom
 		text-transform uppercase
 
@@ -142,12 +143,13 @@ a
 		background-color $deepblue
 		padding $padding_small 0
 		width 212px
+		text-align left
 
 		&-wrapper
 			display none
 			position absolute
 			top 0
-			right 0
+			right 1px
 			width 0
 
 	&__subitem
