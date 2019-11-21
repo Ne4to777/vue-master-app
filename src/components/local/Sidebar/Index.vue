@@ -3,7 +3,7 @@
 		<sidebar-icons />
 		<div class="sidebar__background-placeholder"></div>
 		<sidebar-collapser class="sidebar__collapser" />
-		<sidebar-logo class="sidebar__logo" :class="{'sidebar__logo_shifted':sidebarCollapsed}" />
+		<sidebar-logo class="sidebar__logo" :class="{'sidebar__logo_shifted': sidebarCollapsed}" />
 		<sidebar-notification class="sidebar__notification" />
 		<sidebar-profile class="sidebar__profile" />
 		<sidebar-menu class="sidebar__menu" />
@@ -24,9 +24,6 @@ import SidebarCollapser from '@/components/local/Sidebar/components/SidebarColla
 
 export default {
 	name: 'Sidebar',
-	mounted() {
-		console.log(this.USER)
-	},
 	components: {
 		SidebarIcons,
 		SidebarMenu,
@@ -43,9 +40,7 @@ export default {
 	computed: {
 		...mapGetters({
 			sidebarCollapsed: 'master/sidebarCollapsed',
-			sidebarPlaceholderCollapsed: 'master/sidebarPlaceholderCollapsed',
-			HOST_REGISTRY: 'master/HOST_REGISTRY',
-			USER: 'master/USER'
+			sidebarPlaceholderCollapsed: 'master/sidebarPlaceholderCollapsed'
 		})
 	}
 }

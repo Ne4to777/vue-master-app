@@ -1,20 +1,11 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
+import REGISTRY from './registry.json'
 import User from './Classes/User'
-import localHybridStorage from './localHybrid'
+import localHybridStorage from './hybridStorages/local'
+import {
+	getItems, execute, mapBy, getFieldValues
+} from './utility'
 
 const getRandomHash = () => CryptoJS.MD5(new Date().getTime().toString()).toString()
-
-const SET_SIDEBAR_MENU_ITEMS = 'SET_SIDEBAR_MENU_ITEMS'
-const SET_SIDEBAR_WIDTH = 'SET_SIDEBAR_WIDTH'
-const SET_SIDEBAR_PLACEHOLDER_WIDTH = 'SET_SIDEBAR_PLACEHOLDER_WIDTH'
-const SET_SIDEBAR_COLLAPSED = 'SET_SIDEBAR_COLLAPSED'
-const SET_SIDEBAR_PLACEHOLDER_COLLAPSED = 'SET_SIDEBAR_PLACEHOLDER_COLLAPSED'
-const SET_WIDGETS_FLOAT = 'SET_WIDGETS_FLOAT'
-const SET_USER = 'SET_USER'
-const SET_HOST_REGISTRY = 'SET_HOST_REGISTRY'
-const SET_LIST_REGISTRY = 'SET_LIST_REGISTRY'
 
 const CONSTANTS = {
 
@@ -75,14 +66,7 @@ export default {
 			width: 'base',
 			float: false
 		},
-		USER: {
-			avatar: {
-			},
-			path: {
-
-			},
-			name: {}
-		},
+		USER: {},
 		HOST_REGISTRY: {},
 		LIST_REGISTRY: {},
 	},
@@ -125,72 +109,102 @@ export default {
 		}
 	},
 	mutations: {
-		[SET_USER](state, value) {
+		SET_USER(state, value) {
 			state.USER = value
 		},
-		[SET_HOST_REGISTRY](state, value) {
+		SET_HOST_REGISTRY(state, value) {
 			state.HOST_REGISTRY = value
 		},
-		[SET_LIST_REGISTRY](state, value) {
+		SET_LIST_REGISTRY(state, value) {
 			state.LIST_REGISTRY = value
 		},
-		[SET_SIDEBAR_MENU_ITEMS](state, value) {
+		SET_SIDEBAR_MENU_ITEMS(state, value) {
 			state.sidebar.menu.items = value
 		},
-		[SET_SIDEBAR_WIDTH](state, value) {
+		SET_SIDEBAR_WIDTH(state, value) {
 			state.sidebar.width = value
 		},
-		[SET_SIDEBAR_PLACEHOLDER_WIDTH](state, value) {
+		SET_SIDEBAR_PLACEHOLDER_WIDTH(state, value) {
 			state.sidebar.placeholder.width = value
 		},
-		[SET_SIDEBAR_COLLAPSED](state, value) {
+		SET_SIDEBAR_COLLAPSED(state, value) {
 			state.sidebar.collapsed = value
 		},
-		[SET_SIDEBAR_PLACEHOLDER_COLLAPSED](state, value) {
+		SET_SIDEBAR_PLACEHOLDER_COLLAPSED(state, value) {
 			state.sidebar.placeholder.collapsed = value
 		},
-		[SET_WIDGETS_FLOAT](state, value) {
+		SET_WIDGETS_FLOAT(state, value) {
 			state.widgets.float = value
-		}
+		},
+
 	},
 	actions: {
-		async initData({ commit }) {
+		async initMasterData({ dispatch }, value) {
+			if (!value.localStorageOff) dispatch('verifyVersions', value)
+			dispatch('setMasterData', value)
+		},
+
+		async setMasterData({ commit }, value) {
 			const {
 				HOST_REGISTRY,
 				LIST_REGISTRY,
 				Sidebar,
 				USER
-			} = await localHybridStorage.get()
-			commit(SET_HOST_REGISTRY, HOST_REGISTRY)
-			commit(SET_LIST_REGISTRY, LIST_REGISTRY)
-			commit(SET_SIDEBAR_MENU_ITEMS, Sidebar.menu.items)
-			commit(SET_USER, new User(USER, {
+			} = await localHybridStorage.get(value)
+
+			commit('SET_HOST_REGISTRY', HOST_REGISTRY)
+			commit('SET_LIST_REGISTRY', LIST_REGISTRY)
+			commit('SET_SIDEBAR_MENU_ITEMS', Sidebar.menu.items)
+			commit('SET_USER', new User(USER, {
 				defaultAvatarHost: HOST_REGISTRY.Avatar,
 				customAvatarList: LIST_REGISTRY.MasterAvatars,
 				customImagesList: LIST_REGISTRY.MasterImages
 			}))
 		},
+
+		verifyVersions({ dispatch }, value) {
+			const clientContext = new SP.ClientContext(`/${REGISTRY.MasterWeb}`)
+			const versionsCollection = getItems({
+				list: REGISTRY.Versions,
+				view: [
+					'Title',
+					'hash'
+				]
+			})(clientContext)
+			execute(clientContext)
+				.then(() => mapBy('Title', getFieldValues(versionsCollection)))
+				.then(versions => {
+					const isUsersActual = localHybridStorage.checkVersion('user', versions.users.hash)
+					if (!isUsersActual) {
+						localHybridStorage.remove('USER')
+						localHybridStorage.updateVersion('user', versions.users.hash)
+						dispatch('setMasterData', value)
+					}
+					const isMasterActual = localHybridStorage.checkVersion('master', versions.master.hash)
+					if (!isMasterActual) {
+						localHybridStorage.destroy()
+						localHybridStorage.updateVersion('master', versions.master.hash)
+						dispatch('setMasterData', value)
+					}
+				})
+		},
+
 		setSidebarWidth({ commit }, value) {
-			// console.log('setSidebarWidth', value)
-			commit(SET_SIDEBAR_WIDTH, value)
+			commit('SET_SIDEBAR_WIDTH', value)
 		},
 		setSidebarPlaceholderWidth({ commit }, value) {
-			// console.log('setSidebarPlaceholderWidth', value)
-			commit(SET_SIDEBAR_PLACEHOLDER_WIDTH, value)
+			commit('SET_SIDEBAR_PLACEHOLDER_WIDTH', value)
 		},
 		setSidebarCollapsed({ commit }, value) {
-			// console.log('setSidebarCollapsed', value)
-			commit(SET_SIDEBAR_COLLAPSED, value)
-			commit(SET_SIDEBAR_WIDTH, value ? 'smallest' : 'base')
+			commit('SET_SIDEBAR_COLLAPSED', value)
+			commit('SET_SIDEBAR_WIDTH', value ? 'smallest' : 'base')
 		},
 		setSidebarPlaceholderCollapsed({ commit }, value) {
-			// console.log('setSidebarPlaceholderCollapsed', value)
-			commit(SET_SIDEBAR_PLACEHOLDER_COLLAPSED, value)
-			commit(SET_SIDEBAR_PLACEHOLDER_WIDTH, value ? 'smallest' : 'base')
+			commit('SET_SIDEBAR_PLACEHOLDER_COLLAPSED', value)
+			commit('SET_SIDEBAR_PLACEHOLDER_WIDTH', value ? 'smallest' : 'base')
 		},
 		setWidgetsFloat({ commit }, value) {
-			// console.log('setWidgetsFloat', value)
-			commit(SET_WIDGETS_FLOAT, value)
+			commit('SET_WIDGETS_FLOAT', value)
 		}
 	},
 }

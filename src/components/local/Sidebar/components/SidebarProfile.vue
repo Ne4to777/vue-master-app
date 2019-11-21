@@ -1,13 +1,7 @@
 <template>
 	<a href="/">
-		<div
-			class="profile__avatar"
-			:style="{
-				'background-image':`url('${USER.avatar.current}')`,
-				'background-position': USER.avatar.position || 'center'
-			}"
-		></div>
-		<div class="profile__info" v-if="!sidebarCollapsed">{{USER.name.short}}</div>
+		<div class="profile__avatar master-sidebar__profile-avatar" :style="avatar"></div>
+		<div class="profile__info" v-if="!sidebarCollapsed">{{name}}</div>
 		<div style="clear:both"></div>
 	</a>
 </template>
@@ -17,15 +11,26 @@ import { mapGetters } from 'vuex'
 
 export default {
 	name: 'SidebarProfile',
-	data() {
-		return {}
-	},
-	methods: {},
 	computed: {
 		...mapGetters({
 			sidebarCollapsed: 'master/sidebarCollapsed',
 			USER: 'master/USER'
-		})
+		}),
+		avatar() {
+			const style = {}
+			if (this.USER.avatar) {
+				if (this.USER.avatar.current) {
+					style['background-image'] = `url(${this.USER.avatar.current})`
+				}
+				if (this.USER.avatar.current) {
+					style['background-position'] = `url(${this.USER.avatar.position})`
+				}
+			}
+			return style
+		},
+		name() {
+			return this.USER.name ? this.USER.name.short : ''
+		}
 	}
 }
 </script>

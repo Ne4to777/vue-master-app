@@ -57,10 +57,7 @@ export default class User {
 		}
 
 		this.avatar = {
-			current:
-				customAvatar ||
-				defaultAvatar ||
-				`${customImagesList.webRelativeUrl}/${customImagesList.Title}/current/master/anonymous/index.png`,
+			current: customAvatar || defaultAvatar,
 			default: defaultAvatar,
 			custom: customAvatar,
 			position: data.avatarPosition

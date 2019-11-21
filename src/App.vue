@@ -31,8 +31,8 @@ export default {
 		Sidebar,
 		Widgets
 	},
-	async created() {
-		await this.initData()
+	created() {
+		this.initMasterData({ localStorageOff: this.localStorageOff })
 	},
 	mounted() {
 		window.addEventListener('resize', this.onResize)
@@ -60,7 +60,7 @@ export default {
 		},
 		localStorageOff: {
 			type: Boolean,
-			default: true
+			default: false
 		}
 	},
 	data() {
@@ -84,7 +84,7 @@ export default {
 			return window.innerWidth < this.CONSTANTS.master.collapseSidebarWidth
 		},
 		...mapActions({
-			initData: 'master/initData',
+			initMasterData: 'master/initMasterData',
 			setSidebarCollapsed: 'master/setSidebarCollapsed',
 			setSidebarPlaceholderCollapsed: 'master/setSidebarPlaceholderCollapsed',
 			setWidgetsFloat: 'master/setWidgetsFloat'
