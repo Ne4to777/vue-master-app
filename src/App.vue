@@ -31,12 +31,16 @@ export default {
 		Sidebar,
 		Widgets
 	},
-	async mounted() {
+	async created() {
+		await this.initData()
+	},
+	mounted() {
 		window.addEventListener('resize', this.onResize)
 		if (this.isSidebarCollapsed || this.needToCollapse()) {
 			this.sidebarCollapse(true)
 		}
 		this.setWidgetsFloat(this.isWidgetsFloat)
+		if (this.localStorageOff) this.LOCAL_STORAGE.clear()
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
@@ -51,6 +55,10 @@ export default {
 			default: false
 		},
 		isWidgetsFloat: {
+			type: Boolean,
+			default: true
+		},
+		localStorageOff: {
 			type: Boolean,
 			default: true
 		}
@@ -76,10 +84,10 @@ export default {
 			return window.innerWidth < this.CONSTANTS.master.collapseSidebarWidth
 		},
 		...mapActions({
+			initData: 'master/initData',
 			setSidebarCollapsed: 'master/setSidebarCollapsed',
 			setSidebarPlaceholderCollapsed: 'master/setSidebarPlaceholderCollapsed',
-			setWidgetsFloat: 'master/setWidgetsFloat',
-			setListRegistry: 'master/setListRegistry'
+			setWidgetsFloat: 'master/setWidgetsFloat'
 		})
 	},
 	computed: {
@@ -97,7 +105,8 @@ export default {
 			sidebarCollapsed: 'master/sidebarCollapsed',
 			widgetsFloat: 'master/widgetsFloat',
 			LIST_REGISTRY: 'master/LIST_REGISTRY',
-			HOST_REGISTRY: 'master/HOST_REGISTRY'
+			HOST_REGISTRY: 'master/HOST_REGISTRY',
+			LOCAL_STORAGE: 'master/LOCAL_STORAGE'
 		})
 	}
 }

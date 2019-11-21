@@ -1,7 +1,13 @@
 <template>
 	<a href="/">
-		<div class="profile__avatar" :style="{'background-image':`url('${USER.avatar}')`}"></div>
-		<div class="profile__info" v-if="!sidebarCollapsed">{{USER.shortname}}</div>
+		<div
+			class="profile__avatar"
+			:style="{
+				'background-image':`url('${USER.avatar.current}')`,
+				'background-position': USER.avatar.position || 'center'
+			}"
+		></div>
+		<div class="profile__info" v-if="!sidebarCollapsed">{{USER.name.short}}</div>
 		<div style="clear:both"></div>
 	</a>
 </template>
