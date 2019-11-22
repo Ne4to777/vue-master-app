@@ -1,8 +1,9 @@
-/* eslint-disable no-underscore-dangle */
 import Vue from 'vue'
+import Notifications from 'vue-notification'
 import App from './App.vue'
 import storePlugin from './plugins/store'
 import store from './storage/store'
+import errorHandler from './errorHandler'
 
 spx().user().setDefaults({
 	customWebTitle: 'common',
@@ -14,13 +15,16 @@ spx().user().setDefaults({
 	customQuery: 'Boolean active eq true'
 })
 
+
 Vue.config.productionTip = false
 
-window._spPageContextInfo = {
-	userId: 10842
-}
-
 Vue.use(storePlugin, store)
+Vue.use(Notifications)
+
+window.onerror = function (message, source, lineno, colno, error) { }
+
+
+// Vue.config.errorHandler = errorHandler
 
 new Vue({
 	render: h => h(App)

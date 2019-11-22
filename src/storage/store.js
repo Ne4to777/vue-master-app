@@ -1,11 +1,32 @@
 import REGISTRY from './registry.json'
 import User from './Classes/User'
 import localHybridStorage from './hybridStorages/local'
-import {
-	getItems, execute, mapBy, getFieldValues
-} from './utility'
+import { getRandomHash } from './utility'
 
-const getRandomHash = () => CryptoJS.MD5(new Date().getTime().toString()).toString()
+
+const setFaviconRef = ref => {
+	const head = document.getElementsByTagName('head')[0]
+	head.removeChild(document.querySelector('link[rel*=\'icon\']'))
+	const link = document.createElement('link')
+	link.type = 'image/x-icon'
+	link.rel = 'shortcut icon'
+	link.id = 'notified-favicon'
+	link.href = `/${REGISTRY.MasterWeb}/Images/current/master/favicon/${ref}/index.ico?=${new Date().getTime()}`
+	head.appendChild(link)
+}
+
+const versionsList = spx(REGISTRY.MasterWeb).list(REGISTRY.Versions)
+
+const updateVersionsHash = list => {
+	versionsList
+		.item({
+			ID: REGISTRY.VersionIDs[list],
+			hash: getRandomHash()
+		})
+		.update({
+			view: ['ID'],
+		})
+}
 
 const CONSTANTS = {
 
@@ -19,7 +40,7 @@ const CONSTANTS = {
 			smaller: 1150,
 			smallest: 1150
 		},
-		collapseSidebarWidth: 900
+		collapseSidebarWidth: 600
 	},
 	sidebar: {
 		width: {
@@ -59,7 +80,7 @@ export default {
 				items: []
 			},
 			notification: {
-				items: [1, 2, 3]
+				items: []
 			}
 		},
 		widgets: {
@@ -69,6 +90,7 @@ export default {
 		USER: {},
 		HOST_REGISTRY: {},
 		LIST_REGISTRY: {},
+		errors: []
 	},
 	getters: {
 		sidebarWidthCSS(state) {
@@ -106,6 +128,9 @@ export default {
 		},
 		LOCAL_STORAGE() {
 			return localHybridStorage
+		},
+		errors(state) {
+			return state.errors
 		}
 	},
 	mutations: {
@@ -136,12 +161,15 @@ export default {
 		SET_WIDGETS_FLOAT(state, value) {
 			state.widgets.float = value
 		},
+		PUSH_ERROR(state, value) {
+			state.errors.push(value)
+		}
 
 	},
 	actions: {
 		async initMasterData({ dispatch }, value) {
-			if (!value.localStorageOff) dispatch('verifyVersions', value)
 			dispatch('setMasterData', value)
+			if (!value.localStorageOff) dispatch('verifyVersions', value)
 		},
 
 		async setMasterData({ commit }, value) {
@@ -162,31 +190,22 @@ export default {
 			}))
 		},
 
-		verifyVersions({ dispatch }, value) {
-			const clientContext = new SP.ClientContext(`/${REGISTRY.MasterWeb}`)
-			const versionsCollection = getItems({
-				list: REGISTRY.Versions,
-				view: [
-					'Title',
-					'hash'
-				]
-			})(clientContext)
-			execute(clientContext)
-				.then(() => mapBy('Title', getFieldValues(versionsCollection)))
-				.then(versions => {
-					const isUsersActual = localHybridStorage.checkVersion('user', versions.users.hash)
-					if (!isUsersActual) {
-						localHybridStorage.remove('USER')
-						localHybridStorage.updateVersion('user', versions.users.hash)
-						dispatch('setMasterData', value)
-					}
-					const isMasterActual = localHybridStorage.checkVersion('master', versions.master.hash)
-					if (!isMasterActual) {
-						localHybridStorage.destroy()
-						localHybridStorage.updateVersion('master', versions.master.hash)
-						dispatch('setMasterData', value)
-					}
-				})
+		async verifyVersions({ dispatch }, value) {
+			const versions = await versionsList
+				.item()
+				.get({ view: ['hash', 'Title'], mapBy: 'Title' })
+			const isUsersActual = localHybridStorage.checkVersion('user', versions.users.hash)
+			if (!isUsersActual) {
+				localHybridStorage.remove('USER')
+				localHybridStorage.updateVersion('user', versions.users.hash)
+				dispatch('setMasterData', value)
+			}
+			const isMasterActual = localHybridStorage.checkVersion('master', versions.master.hash)
+			if (!isMasterActual) {
+				localHybridStorage.destroy()
+				localHybridStorage.updateVersion('master', versions.master.hash)
+				dispatch('setMasterData', value)
+			}
 		},
 
 		setSidebarWidth({ commit }, value) {
@@ -205,6 +224,21 @@ export default {
 		},
 		setWidgetsFloat({ commit }, value) {
 			commit('SET_WIDGETS_FLOAT', value)
+		},
+		setNotifiedFavicon() {
+			setFaviconRef('notified')
+		},
+		unsetNotifiedFavicon() {
+			setFaviconRef('regular')
+		},
+		updateMasterVersion() {
+			updateVersionsHash('master')
+		},
+		updateUsersVersion() {
+			updateVersionsHash('users')
+		},
+		pushError({ commit }, value) {
+			commit('PUSH_ERROR', value)
 		}
 	},
 }

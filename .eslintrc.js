@@ -16,8 +16,7 @@ module.exports = {
 		SP: 'readonly',
 		spx: 'readonly',
 		history: 'readonly',
-		location: 'readonly',
-		_spPageContextInfo: 'readonly'
+		location: 'readonly'
 	},
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

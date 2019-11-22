@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
 	name: 'SidebarNotification',
@@ -15,13 +15,20 @@ export default {
 			title: 'Уведомления'
 		}
 	},
-	methods: {},
+	methods: {
+		...mapActions({
+			setNotifiedFavicon: 'master/setNotifiedFavicon',
+			unsetNotifiedFavicon: 'master/unsetNotifiedFavicon'
+		})
+	},
 	computed: {
 		...mapGetters({
 			sidebarNotificationItems: 'master/sidebarNotificationItems'
 		}),
 		count() {
 			const { length } = this.sidebarNotificationItems
+			if (length) this.setNotifiedFavicon()
+			else this.unsetNotifiedFavicon()
 			return !length ? '' : length > 9 ? '9+' : `${length}`
 		}
 	}

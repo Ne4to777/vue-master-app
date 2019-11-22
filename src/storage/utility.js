@@ -61,3 +61,6 @@ export const getItems = ({ list, query, view }) => clientContext => {
 	clientContext.load(items, includeViewFields(view))
 	return items
 }
+
+
+export const getRandomHash = () => CryptoJS.MD5(new Date().getTime().toString()).toString()

@@ -4,5 +4,9 @@
 	"Sidebar": "Sidebar",
 	"Users": "Users",
 	"Versions": "Versions",
+	"VersionIDs": {
+		"master": 1,
+		"users": 2
+	},
 	"MasterWeb": "common"
 }

@@ -11,6 +11,11 @@ import { mapGetters } from 'vuex'
 
 export default {
 	name: 'SidebarProfile',
+	data() {
+		return {
+			fake: ''
+		}
+	},
 	computed: {
 		...mapGetters({
 			sidebarCollapsed: 'master/sidebarCollapsed',
@@ -18,6 +23,7 @@ export default {
 		}),
 		avatar() {
 			const style = {}
+			// this.fake()
 			if (this.USER.avatar) {
 				if (this.USER.avatar.current) {
 					style['background-image'] = `url(${this.USER.avatar.current})`

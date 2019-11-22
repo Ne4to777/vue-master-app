@@ -16,6 +16,6 @@ spx().user().setDefaults({
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
+Vue.use(storePlugin, store)
 Vue.component('not-found', NotFound)
 Vue.component('master-app', App)
-Vue.use(storePlugin, store)

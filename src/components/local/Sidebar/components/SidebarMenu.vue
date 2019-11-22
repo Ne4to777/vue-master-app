@@ -44,6 +44,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 /* eslint max-len:0 */
+/* eslint no-restricted-globals:0 */
 
 export default {
 	name: 'SidebarMenu',
@@ -71,11 +72,6 @@ export default {
 
 <style lang="stylus" scoped>
 @import './../../../../assets/stylus/variables.styl'
-
-a
-	color $darkgrey
-	outline none
-	text-decoration none
 
 .menu
 	&__item

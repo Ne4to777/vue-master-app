@@ -14,13 +14,12 @@
 				<slot>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod</slot>
 			</div>
 		</div>
+		<notifications class="master__errors-notifier" group="foo" :closeOnClick="true" />
 	</div>
 </template>
 
 <script>
-/* eslint {object-shorthand:0} */
-/* eslint {default-case:0} */
-/* eslint {no-case-declarations:0} */
+/* eslint max-len:0 */
 import { mapGetters, mapActions } from 'vuex'
 import Sidebar from '@/components/local/Sidebar/Index.vue'
 import Widgets from '@/components/local/Widgets.vue'
@@ -41,6 +40,16 @@ export default {
 		}
 		this.setWidgetsFloat(this.isWidgetsFloat)
 		if (this.localStorageOff) this.LOCAL_STORAGE.clear()
+
+		setTimeout(() => {
+			this.pushError({ a: 'oh no' })
+		}, 1000)
+		setTimeout(() => {
+			this.pushError({ a: 'oh my god' })
+		}, 2000)
+		setTimeout(() => {
+			this.pushError({ a: 'oh fuck' })
+		}, 3000)
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.onResize)
@@ -81,13 +90,21 @@ export default {
 			this.setSidebarCollapsed(collapsed)
 		},
 		needToCollapse() {
-			return window.innerWidth < this.CONSTANTS.master.collapseSidebarWidth
+			return (
+				window.innerWidth <
+				this.CONSTANTS.sidebar.width.base +
+					this.CONSTANTS.widgets.width.base +
+					this.CONSTANTS.master.collapseSidebarWidth
+			)
 		},
 		...mapActions({
 			initMasterData: 'master/initMasterData',
 			setSidebarCollapsed: 'master/setSidebarCollapsed',
 			setSidebarPlaceholderCollapsed: 'master/setSidebarPlaceholderCollapsed',
-			setWidgetsFloat: 'master/setWidgetsFloat'
+			setWidgetsFloat: 'master/setWidgetsFloat',
+			updateMasterVersion: 'master/updateMasterVersion',
+			updateUsersVersion: 'master/updateUsersVersion',
+			pushError: 'master/pushError'
 		})
 	},
 	computed: {
@@ -106,8 +123,19 @@ export default {
 			widgetsFloat: 'master/widgetsFloat',
 			LIST_REGISTRY: 'master/LIST_REGISTRY',
 			HOST_REGISTRY: 'master/HOST_REGISTRY',
-			LOCAL_STORAGE: 'master/LOCAL_STORAGE'
+			LOCAL_STORAGE: 'master/LOCAL_STORAGE',
+			errors: 'master/errors'
 		})
+	},
+	watch: {
+		errors(value) {
+			const error = value.slice(-1)[0]
+			this.$notify({
+				group: 'foo',
+				title: 'Important message',
+				text: error.a
+			})
+		}
 	}
 }
 </script>
@@ -116,6 +144,12 @@ export default {
 @import './assets/stylus/fonts.styl'
 @import './assets/stylus/icons.styl'
 @import './assets/stylus/variables.styl'
+
+.fade-enter-active, .fade-leave-active
+	transition opacity 0.5s
+
+.fade-enter, .fade-leave-to
+	opacity 0
 
 body
 	text-align justify
@@ -134,6 +168,7 @@ a
 	position relative
 	margin $margin_base auto
 	min-height 101vh
+	min-width 930px
 
 	&__sidebar
 		position fixed
@@ -166,6 +201,11 @@ a
 			padding-left $padding_base
 			width 256px
 			height 1px
+
+	&__errors-notifier
+		position fixed
+		right 0
+		bottom 0
 
 .body__background-placeholder
 	position fixed

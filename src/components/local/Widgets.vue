@@ -5,23 +5,25 @@
 </template>
 
 <script>
-/* eslint {object-shorthand:0} */
-/* eslint {default-case:0} */
-/* eslint {no-case-declarations:0} */
+/* eslint max-len:0 */
 import { mapGetters } from 'vuex'
 
 export default {
 	name: 'Widgets',
 	mounted() {
 		window.addEventListener('scroll', this.onScroll)
+		window.addEventListener('resize', this.onResize)
 	},
 	beforeDestroy() {
 		window.removeEventListener('scroll', this.onScroll)
+		window.removeEventListener('resize', this.onResize)
 	},
 	data() {
 		return {
 			scroll: {
-				current: 0
+				currentY: 0,
+				currentX: 0,
+				positionX: 0
 			},
 			margin: 20
 		}
@@ -31,27 +33,38 @@ export default {
 			const { style } = this.$refs.widgets
 			const position = fixed ? 'fixed' : 'relative'
 			if (style.position !== position) {
+				style.left = fixed ? `${this.scroll.positionX}px` : ''
 				style.top = offset ? `${offset}px` : ''
 				style.position = position
 			}
 		},
-		onScroll() {
-			const { pageYOffset, innerHeight } = window
+		onResize() {
+			const { pageYOffset } = window
+			const { margin, scroll, setPosition } = this
 			const { widgets: $widgets } = this.$refs
-			const { top, bottom } = $widgets.getBoundingClientRect()
+			const { top, left } = $widgets.getBoundingClientRect()
+			scroll.positionX = left
+			setPosition({ offset: top + pageYOffset - margin })
+		},
+		onScroll() {
+			const { pageYOffset, pageXOffset, innerHeight } = window
+			const { widgets: $widgets } = this.$refs
+			const { top, bottom, left } = $widgets.getBoundingClientRect()
 			const { margin, scroll, setPosition } = this
 			const height = innerHeight - margin
 			const bodyHeight = document.body.clientHeight
 			const { clientHeight } = $widgets
 
-			// widgets larger then body
+			if (!scroll.positionX) scroll.positionX = left
+
+			// widgets higher then body
 			if (bodyHeight > clientHeight) {
-				// widgets larger then window
+				// widgets higher then window
 				const offset = height - clientHeight
 				if (offset < 0) {
 					// IE fix
-					if (pageYOffset !== scroll.current && top !== bottom) {
-						if (pageYOffset > scroll.current) {
+					if (pageYOffset !== scroll.currentY && top !== bottom) {
+						if (pageYOffset > scroll.currentY) {
 							if (bottom <= height) {
 								// scroll down overflow
 								setPosition({
@@ -75,11 +88,17 @@ export default {
 							// scroll up from bottom
 							setPosition({ offset: top + pageYOffset - margin })
 						}
-						scroll.current = pageYOffset
+						scroll.currentY = pageYOffset
 					}
 				} else {
 					setPosition({ fixed: true, offset: margin })
 				}
+			}
+			// scroll horistontal
+			if (pageXOffset !== scroll.currentX) {
+				setPosition({ offset: top + pageYOffset - margin })
+				scroll.positionX = left
+				scroll.currentX = pageXOffset
 			}
 		}
 	},
