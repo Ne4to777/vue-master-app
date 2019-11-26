@@ -1,4 +1,6 @@
 /* eslint-disable no-param-reassign */
+import { mapGetters, mapActions } from 'vuex'
+
 export const execute = clientContext => new Promise((resolve, reject) => clientContext.executeQueryAsync(
 	resolve,
 	(sender, args) => reject(args)
@@ -64,3 +66,16 @@ export const getItems = ({ list, query, view }) => clientContext => {
 
 
 export const getRandomHash = () => CryptoJS.MD5(new Date().getTime().toString()).toString()
+
+export const mapByModule = module => mapper => items =>
+	mapper(
+		items.reduce((acc, item) => {
+			acc[item] = `${module}/${item}`
+			return acc
+		}, {})
+	)
+
+export const mapByMaster = mapByModule('master')
+
+export const mapMasterGetters = mapByMaster(mapGetters)
+export const mapMasterActions = mapByMaster(mapActions)

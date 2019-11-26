@@ -6,7 +6,7 @@
 
 <script>
 /* eslint max-len:0 */
-import { mapGetters } from 'vuex'
+import { mapMasterGetters } from '@/storage/utility'
 
 export default {
 	name: 'Widgets',
@@ -24,8 +24,7 @@ export default {
 				currentY: 0,
 				currentX: 0,
 				positionX: 0
-			},
-			margin: 20
+			}
 		}
 	},
 	methods: {
@@ -66,7 +65,7 @@ export default {
 					if (pageYOffset !== scroll.currentY && top !== bottom) {
 						if (pageYOffset > scroll.currentY) {
 							if (bottom <= height) {
-								// scroll down overflow
+								// scroll down over
 								setPosition({
 									offset,
 									fixed: true
@@ -79,7 +78,7 @@ export default {
 								})
 							}
 						} else if (top >= margin) {
-							// scroll up overflow
+							// scroll up over
 							setPosition({
 								fixed: !!pageYOffset,
 								offset: pageYOffset ? margin : 0
@@ -103,9 +102,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			widgetsFloat: 'master/widgetsFloat'
-		}),
+		...mapMasterGetters(['widgetsFloat', 'CONSTANTS']),
+		margin() {
+			return this.CONSTANTS.master.marginBase
+		},
 		scrollable() {
 			return this.$refs.widgets.clientHeight + this.margin > window.innerHeight
 		}

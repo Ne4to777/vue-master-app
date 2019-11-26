@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapMasterGetters, mapMasterActions } from '@/storage/utility'
 
 export default {
 	name: 'SidebarCollapser',
@@ -19,9 +19,7 @@ export default {
 			console.log('click')
 			this.setSidebarCollapsed(!this.sidebarCollapsed)
 		},
-		...mapActions({
-			setSidebarCollapsed: 'master/setSidebarCollapsed'
-		})
+		...mapMasterActions(['setSidebarCollapsed'])
 	},
 	computed: {
 		arrowClass() {
@@ -30,10 +28,7 @@ export default {
 		isCollapserVisible() {
 			return this.sidebarCollapsed || this.sidebarPlaceholderCollapsed
 		},
-		...mapGetters({
-			sidebarCollapsed: 'master/sidebarCollapsed',
-			sidebarPlaceholderCollapsed: 'master/sidebarPlaceholderCollapsed'
-		})
+		...mapMasterGetters(['sidebarCollapsed', 'sidebarPlaceholderCollapsed'])
 	}
 }
 </script>

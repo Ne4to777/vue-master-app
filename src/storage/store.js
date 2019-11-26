@@ -11,7 +11,15 @@ const setFaviconRef = ref => {
 	link.type = 'image/x-icon'
 	link.rel = 'shortcut icon'
 	link.id = 'notified-favicon'
-	link.href = `/${REGISTRY.MasterWeb}/Images/current/master/favicon/${ref}/index.ico?=${new Date().getTime()}`
+	link.href = [
+		REGISTRY.MasterWeb,
+		REGISTRY.Images,
+		'current/master/favicon',
+		ref,
+		'index.ico?='
+	]
+		.join('/')
+		.concat(new Date().getTime())
 	head.appendChild(link)
 }
 
@@ -40,7 +48,8 @@ const CONSTANTS = {
 			smaller: 1150,
 			smallest: 1150
 		},
-		collapseSidebarWidth: 600
+		collapseSidebarWidth: 600,
+		marginBase: 20
 	},
 	sidebar: {
 		width: {
@@ -62,6 +71,17 @@ const CONSTANTS = {
 			small: 256,
 			smaller: 256,
 			smallest: 256
+		}
+	},
+	toTopScroller: {
+		width: {
+			largest: 100,
+			larger: 100,
+			large: 100,
+			base: 100,
+			small: 100,
+			smaller: 100,
+			smallest: 100
 		}
 	}
 }

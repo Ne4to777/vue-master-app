@@ -7,23 +7,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapMasterGetters } from '@/storage/utility'
 
 export default {
 	name: 'SidebarProfile',
 	data() {
-		return {
-			fake: ''
-		}
+		return {}
 	},
 	computed: {
-		...mapGetters({
-			sidebarCollapsed: 'master/sidebarCollapsed',
-			USER: 'master/USER'
-		}),
+		...mapMasterGetters(['sidebarCollapsed', 'USER']),
 		avatar() {
 			const style = {}
-			// this.fake()
 			if (this.USER.avatar) {
 				if (this.USER.avatar.current) {
 					style['background-image'] = `url(${this.USER.avatar.current})`

@@ -1,30 +1,23 @@
 import Vue from 'vue'
 import Notifications from 'vue-notification'
+import VueScrollTo from 'vue-scrollto'
 import App from './App.vue'
 import storePlugin from './plugins/store'
 import store from './storage/store'
-import errorHandler from './errorHandler'
-
-spx().user().setDefaults({
-	customWebTitle: 'common',
-	customListTitle: 'Users',
-	customIdColumn: 'userID',
-	customLoginColumn: 'login',
-	customNameColumn: 'Title',
-	customEmailColumn: 'email',
-	customQuery: 'Boolean active eq true'
-})
+import errorsHandlerPlugin from './plugins/errorsHandler'
+import polyfillsPlugin from './plugins/polyfills'
+import spxPlugin from './plugins/spx'
 
 
 Vue.config.productionTip = false
 
+Vue.use(errorsHandlerPlugin)
+Vue.use(polyfillsPlugin)
+Vue.use(spxPlugin)
 Vue.use(storePlugin, store)
 Vue.use(Notifications)
+Vue.use(VueScrollTo)
 
-window.onerror = function (message, source, lineno, colno, error) { }
-
-
-// Vue.config.errorHandler = errorHandler
 
 new Vue({
 	render: h => h(App)

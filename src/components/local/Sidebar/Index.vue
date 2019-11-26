@@ -14,7 +14,7 @@
 
 <script>
 /* eslint max-len:0 */
-import { mapGetters } from 'vuex'
+import { mapMasterGetters } from '@/storage/utility'
 import SidebarIcons from '@/components/local/Sidebar/components/SidebarIcons.vue'
 import SidebarLogo from '@/components/local/Sidebar/components/SidebarLogo.vue'
 import SidebarNotification from '@/components/local/Sidebar/components/SidebarNotification.vue'
@@ -41,10 +41,7 @@ export default {
 	},
 	methods: {},
 	computed: {
-		...mapGetters({
-			sidebarCollapsed: 'master/sidebarCollapsed',
-			sidebarPlaceholderCollapsed: 'master/sidebarPlaceholderCollapsed'
-		})
+		...mapMasterGetters(['sidebarCollapsed', 'sidebarPlaceholderCollapsed'])
 	}
 }
 </script>
@@ -96,6 +93,7 @@ export default {
 
 	&__menu
 		position relative
+		min-height 234px
 		margin $margin_smaller 0
 		z-index 1
 

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapMasterGetters, mapMasterActions } from '@/storage/utility'
 
 /* eslint max-len:0 */
 /* eslint no-restricted-globals:0 */
@@ -52,20 +52,18 @@ export default {
 		hasSubitems(item) {
 			return item.items && item.items.length
 		},
-		...mapActions({
-			setListRegistry: 'master/setListRegistry'
-		}),
+		...mapMasterActions(['setListRegistry']),
 		isItemActive(item) {
 			return item.url === decodeURI(`${location.pathname}${location.search}`)
 		}
 	},
 	computed: {
-		...mapGetters({
-			LIST_REGISTRY: 'master/LIST_REGISTRY',
-			HOST_REGISTRY: 'master/HOST_REGISTRY',
-			sidebarCollapsed: 'master/sidebarCollapsed',
-			sidebarMenuItems: 'master/sidebarMenuItems'
-		})
+		...mapMasterGetters([
+			'LIST_REGISTRY',
+			'HOST_REGISTRY',
+			'sidebarCollapsed',
+			'sidebarMenuItems'
+		])
 	}
 }
 </script>
