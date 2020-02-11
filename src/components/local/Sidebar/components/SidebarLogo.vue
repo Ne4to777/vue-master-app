@@ -8,7 +8,7 @@
 export default {
 	name: 'SidebarLogo',
 	data() {
-		return { a: b() }
+		return {}
 	},
 	methods: {},
 	computed: {}

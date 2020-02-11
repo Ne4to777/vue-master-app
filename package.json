@@ -6,6 +6,7 @@
 		"serve": "node dev/init.js && vue-cli-service serve",
 		"build": "vue-cli-service build --production",
 		"safe-install": "npm i && node dev/sweeper.fix.js && npm run pull-stylus",
+		"update-password": "node dev/update-password",
 		"lint": "vue-cli-service lint",
 		"deploy": "node dev/deploy.js",
 		"pull-stylus": "node dev/pull-stylus.js",

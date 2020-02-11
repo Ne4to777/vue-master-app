@@ -29,7 +29,8 @@ export default {
 	},
 	methods: {
 		getTextHTML(item) {
-			return `<span class="errors-notifier__name">${item.name}</span>: <span class="errors-notifier__info">${item.info}</span>`
+			return `
+				<span class="errors-notifier__name">${item.name}</span>: <span class="errors-notifier__info">${item.info}</span>`
 		}
 	},
 	watch: {
