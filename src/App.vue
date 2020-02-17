@@ -68,7 +68,7 @@ export default {
 		},
 		localStorageOff: {
 			type: Boolean,
-			default: false
+			default: true
 		}
 	},
 	data() {

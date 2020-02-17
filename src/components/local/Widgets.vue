@@ -7,23 +7,29 @@
 <script>
 /* eslint max-len:0 */
 import { mapMasterGetters } from '@/storage/utility'
+import { throttle } from '@/utility/runtime'
+import { I } from '@/utility/combinators'
 
 export default {
 	name: 'Widgets',
 	mounted() {
-		window.addEventListener('scroll', this.onScroll)
-		window.addEventListener('resize', this.onResize)
+		this.scrollHandlerThrottled = throttle(this.scrollHandler, 10)
+		this.resizeHandlerThrottled = throttle(this.resizeHandler)
+		window.addEventListener('scroll', this.scrollHandlerThrottled)
+		window.addEventListener('resize', this.resizeHandlerThrottled)
 	},
 	beforeDestroy() {
-		window.removeEventListener('scroll', this.onScroll)
-		window.removeEventListener('resize', this.onResize)
+		window.removeEventListener('scroll', this.scrollHandlerThrottled)
+		window.removeEventListener('resize', this.resizeHandlerThrottled)
 	},
 	data() {
 		return {
 			scroll: {
 				currentY: 0,
 				currentX: 0,
-				positionX: 0
+				positionX: 0,
+				scrollHandlerThrottled: I,
+				resizeHandlerThrottled: I
 			}
 		}
 	},
@@ -37,7 +43,7 @@ export default {
 				style.position = position
 			}
 		},
-		onResize() {
+		resizeHandler() {
 			const { pageYOffset } = window
 			const { margin, scroll, setPosition } = this
 			const { widgets: $widgets } = this.$refs
@@ -45,7 +51,7 @@ export default {
 			scroll.positionX = left
 			setPosition({ offset: top + pageYOffset - margin })
 		},
-		onScroll() {
+		scrollHandler() {
 			const { pageYOffset, pageXOffset, innerHeight } = window
 			const { widgets: $widgets } = this.$refs
 			const { top, bottom, left } = $widgets.getBoundingClientRect()

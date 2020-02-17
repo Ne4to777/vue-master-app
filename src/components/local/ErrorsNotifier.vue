@@ -13,7 +13,10 @@
 				<svg class="errors-notifier__close" @click="props.close">
 					<use xlink:href="#icon-cross" />
 				</svg>
-				<div class="errors-notifier__content" v-html="getTextHTML(props.item.text)"></div>
+				<div class="errors-notifier__content">
+					<span class="errors-notifier__name">{{props.item.text.name}}</span>
+					<span class="errors-notifier__info">: {{props.item.text.info}}</span>
+				</div>
 			</div>
 		</template>
 	</notifications>
@@ -21,21 +24,16 @@
 
 <script>
 import { mapMasterGetters } from '@/storage/utility'
+import { last } from '@/utility/array'
 
 export default {
 	name: 'ErrorsNotifier',
 	computed: {
 		...mapMasterGetters(['errors'])
 	},
-	methods: {
-		getTextHTML(item) {
-			return `
-				<span class="errors-notifier__name">${item.name}</span>: <span class="errors-notifier__info">${item.info}</span>`
-		}
-	},
 	watch: {
 		errors(value) {
-			this.$notify(value.slice(-1)[0])
+			this.$notify(last(value))
 		}
 	}
 }
@@ -49,6 +47,7 @@ export default {
 
 	&__error
 		position relative
+		margin-top 4px
 		padding $padding_small $padding_base
 		border-radius $border-radius_base
 		border-width $border-width_base

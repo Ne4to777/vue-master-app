@@ -19,14 +19,14 @@ export default class Hybrid {
 		this.clientContext = clientContext
 	}
 
-	async get(params = {}) {
-		const { localStorageOff } = params
+	async get({ localStorageOff }) {
+		let result = {}
 		const value = !localStorageOff && this.storage.get(this.namespace) || {}
 		let needToQuery = false
 		const items = this.keys.reduce((acc, key) => {
 			if (!value[key]) {
 				acc[key] = {
-					data: this.getters[key].getter(this.clientContext),
+					data: this.getters[key].request(this.clientContext),
 					formatter: this.getters[key].formatter
 				}
 				needToQuery = true
@@ -34,17 +34,16 @@ export default class Hybrid {
 			return acc
 		}, {})
 
-		let result = {}
 
 		if (localStorageOff || needToQuery) {
 			console.log(this.driverName, 'from DB')
 
 			await execute(this.clientContext)
 
-			await Promise.all(this.keys.map(async key => {
+			this.keys.map(async key => {
 				const item = items[key]
-				if (item) result[key] = await item.formatter(item.data)
-			}, {}))
+				if (item) result[key] = item.formatter(item.data)
+			}, {})
 			result = { ...value, ...result }
 		} else {
 			console.log(this.driverName, 'from storage')
@@ -66,24 +65,29 @@ export default class Hybrid {
 		if (!data.VERSIONS) data.VERSIONS = {}
 		data.VERSIONS[key] = hash
 		this.storage.set(this.namespace, data)
+		return this
 	}
 
 	set(key, value) {
 		const data = this.storage.get(this.namespace) || {}
 		this.storage.set(this.namespace, { ...data, [key]: value })
+		return this
 	}
 
 	remove(key) {
 		const data = this.storage.get(this.namespace) || {}
 		delete data[key]
 		this.storage.set(this.namespace, data)
+		return this
 	}
 
 	destroy() {
 		this.storage.remove(this.namespace)
+		return this
 	}
 
 	clear() {
 		this.storage.remove(this.namespace)
+		return this
 	}
 }

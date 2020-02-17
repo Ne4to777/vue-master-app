@@ -1,4 +1,5 @@
-const isObject = x => typeof x === 'object' && x !== null
+import { isObject, isDefined } from '@/utility/checkers'
+
 export default class Storage {
 	constructor(driver = window.localStorage) {
 		this.driver = driver
@@ -14,14 +15,17 @@ export default class Storage {
 	}
 
 	set(key, value) {
-		if (value !== undefined) this.driver.setItem(key, isObject(value) ? JSON.stringify(value) : value)
+		if (isDefined(value)) this.driver.setItem(key, isObject(value) ? JSON.stringify(value) : value)
+		return this
 	}
 
 	remove(key) {
-		return this.driver.removeItem(key)
+		this.driver.removeItem(key)
+		return this
 	}
 
 	clear() {
 		this.driver.clear()
+		return this
 	}
 }

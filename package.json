@@ -10,7 +10,9 @@
 		"lint": "vue-cli-service lint",
 		"deploy": "node dev/deploy.js",
 		"pull-stylus": "node dev/pull-stylus.js",
-		"test:unit": "vue-cli-service test:unit"
+		"test:all": "vue-cli-service test:unit",
+		"test:logical": "vue-cli-service test:unit -f logical.spec.js",
+		"test:combinators": "vue-cli-service test:unit -f combinators.spec.js"
 	},
 	"dependencies": {
 		"core-js": "^2.6.5",

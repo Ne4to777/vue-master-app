@@ -1,106 +1,102 @@
 /* eslint-disable max-len */
-const getNameVariations = title => {
-	const variations = {
-		firstname: '',
-		lastname: '',
-		patronymic: '',
-		shortname: ''
-	}
-	const nameSplits = title.split(/\s/)
-	switch (nameSplits.length) {
-		case 1:
-			[variations.firstname] = nameSplits
-			break
-		case 2:
-			[variations.lastname, variations.firstname] = nameSplits
-			break
-		case 3:
-			[variations.lastname, variations.firstname, variations.patronymic] = nameSplits
-			break
-		case 4:
-			if (/кызы|[а-я]гл[а-я]/i.test(nameSplits[3])) {
-				[variations.lastname, variations.firstname] = nameSplits
-				variations.patronymic = `${nameSplits[2]} ${nameSplits[3]}`
-			} else {
-				[, , variations.firstname, variations.patronymic] = nameSplits
-				variations.lastname = `${nameSplits[0]} ${nameSplits[1]}`
-			}
-			break
-		default:
-			variations.lastname = nameSplits.slice(0, -2).join(' ')
-			variations.firstname = nameSplits[nameSplits.length - 2]
-			variations.patronymic = nameSplits[nameSplits.length - 1]
-			break
-	}
-	variations.shortname = [variations.lastname, variations.firstname].join(' ')
-	return variations
-}
+import { joinBySlash, joinBySpace } from '@/utility/array'
+import { trimPipes, splitByPipe } from '@/utility/string'
+import { pipe, K } from '@/utility/combinators'
+import { isFilled } from '@/utility/checkers'
+import { ifThen } from '@/utility/conditional'
 
-const trimPipes = str => str ? str.replace(/^\||\|$/g, '').split('|') : null
+
+const pathToArray = ifThen(isFilled)(pipe([trimPipes, splitByPipe]), K(''))
+
+let defaultAvatarHost
+let customAvatarList
 
 export default class User {
-	constructor(data, { defaultAvatarHost, customAvatarList, customImagesList }) {
-		const customAvatar = data.avatar
-			? `${customAvatarList.webRelativeUrl}/${customAvatarList.Title}/${data.avatar}`
+	constructor({
+		avatar,
+		avatarPosition,
+		workerID,
+		ID,
+		userID,
+		administrativeLeaderID,
+		methodistLeaderID,
+		phoneWork,
+		phoneMobile,
+		Title,
+		name,
+		surname,
+		patronymic,
+		position,
+		address,
+		room,
+		login,
+		gender,
+		birthDate,
+		email,
+		fired,
+		active,
+		fullPath,
+		shortPath
+	} = {}) {
+		const customAvatar = avatar
+			? joinBySlash(customAvatarList.webRelativeUrl, customAvatarList.Title, avatar)
 			: null
 
-		const defaultAvatar = data.workerID
-			? `${defaultAvatarHost.Title}/Photo1/photo.aspx?TabelNumber=${data.workerID}`
+		const defaultAvatar = workerID
+			? joinBySlash(defaultAvatarHost.Title, 'Photo1', `photo.aspx?TabelNumber=${workerID}`)
 			: null
 
 		this.id = {
-			list: data.ID,
-			user: data.userID,
-			worker: data.workerID,
-			administrativeManager: data.administrativeManagerID,
-			methodistManager: data.methodistManagerID
+			list: ID,
+			user: userID,
+			worker: workerID,
+			administrativeLeader: administrativeLeaderID,
+			methodistLeader: methodistLeaderID
 		}
 
 		this.avatar = {
 			current: customAvatar || defaultAvatar,
 			default: defaultAvatar,
 			custom: customAvatar,
-			position: data.avatarPosition
+			position: avatarPosition
 		}
 
 		this.phone = {
-			work: data.phoneWork,
-			mobile: data.phoneMobile
+			work: phoneWork,
+			mobile: phoneMobile
 		}
 
-		const nameVariations = getNameVariations(data.Title)
-
 		this.name = {
-			full: data.Title,
-			first: nameVariations.firstname,
-			last: nameVariations.lastname,
-			patronymic: nameVariations.patronymic,
-			short: nameVariations.shortname
+			full: Title,
+			first: name,
+			last: surname,
+			patronymic,
+			short: joinBySpace(surname, name)
 		}
 
 		this.path = {
-			full: trimPipes(data.fullPath),
-			short: trimPipes(data.shortPath)
+			full: pathToArray(fullPath),
+			short: pathToArray(shortPath)
 		}
 
-		this.position = data.position
-		this.address = data.address
-		this.room = data.room
-		this.login = data.login
-		this.gender = data.gender
-		this.birthDate = data.birthDate
-		this.email = data.email
-		this.fired = data.fired
-		this.active = data.active
-
-
-		this.defaultAvatarHost = defaultAvatarHost
-		this.customAvatarList = customAvatarList
-		this.customImagesList = customImagesList
+		this.position = position
+		this.address = address
+		this.room = room
+		this.login = login
+		this.gender = gender
+		this.birthDate = birthDate
+		this.email = email
+		this.fired = fired
+		this.active = active === '1'
 	}
 
+	static setDefaultAvatarHost(value) {
+		defaultAvatarHost = value
+		return User
+	}
 
-	of(data) {
-		return this.constructor(data, this)
+	static setCustomAvatarList(value) {
+		customAvatarList = value
+		return User
 	}
 }

@@ -7,19 +7,28 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { throttle } from '@/utility/runtime'
+import { I } from '@/utility/combinators'
 
 export default {
 	name: 'VueScrollTo',
 	mounted() {
-		window.addEventListener('resize', this.onResize)
-		this.setVisibility()
+		this.resizeHandlerThrottled = throttle(this.resizeHandler)
+		this.scrollHandlerThrottled = throttle(this.scrollHandler)
+		window.addEventListener('resize', this.resizeHandlerThrottled)
+		window.addEventListener('scroll', this.scrollHandlerThrottled)
+		this.scrollHandler().resizeHandler()
 	},
 	beforeDestroy() {
-		window.removeEventListener('resize', this.onResize)
+		window.removeEventListener('resize', this.resizeHandlerThrottled)
+		window.removeEventListener('scroll', this.scrollHandlerThrottled)
 	},
 	data() {
 		return {
-			isVisible: true
+			isVisibleByScroll: true,
+			isVisibleByResize: true,
+			scrollHandlerThrottled: I,
+			resizeHandlerThrottled: I
 		}
 	},
 	computed: {
@@ -31,16 +40,22 @@ export default {
 		},
 		width() {
 			return this.CONSTANTS.toTopScroller.width.base
+		},
+		isVisible() {
+			return this.isVisibleByScroll && this.isVisibleByResize
 		}
 	},
 	methods: {
-		onResize() {
-			this.setVisibility()
-		},
-		setVisibility() {
-			this.isVisible =
-				this.$parent.$refs.master.clientWidth + 2 * this.width + this.margin <
+		resizeHandler() {
+			const { $parent, width, margin } = this
+			this.isVisibleByResize =
+				$parent.$refs.master.clientWidth + 2 * width + margin <
 				window.innerWidth
+			return this
+		},
+		scrollHandler() {
+			this.isVisibleByScroll = window.scrollY > window.innerHeight
+			return this
 		}
 	}
 }

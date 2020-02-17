@@ -2,6 +2,7 @@ import REGISTRY from './registry.json'
 import User from './Classes/User'
 import localHybridStorage from './hybridStorages/local'
 import { getRandomHash } from './utility'
+import { joinBySlash } from '@/utility/array'
 
 
 const setFaviconRef = ref => {
@@ -11,30 +12,27 @@ const setFaviconRef = ref => {
 	link.type = 'image/x-icon'
 	link.rel = 'shortcut icon'
 	link.id = 'notified-favicon'
-	link.href = [
+	link.href = joinBySlash(
 		REGISTRY.MasterWeb,
 		REGISTRY.Images,
 		'current/master/favicon',
 		ref,
 		'index.ico?='
-	]
-		.join('/')
+	)
 		.concat(new Date().getTime())
 	head.appendChild(link)
 }
 
 const versionsList = spx(REGISTRY.MasterWeb).list(REGISTRY.Versions)
 
-const updateVersionsHash = list => {
-	versionsList
-		.item({
-			ID: REGISTRY.VersionIDs[list],
-			hash: getRandomHash()
-		})
-		.update({
-			view: ['ID'],
-		})
-}
+const updateVersionsHash = list => versionsList
+	.item({
+		ID: REGISTRY.VersionIDs[list],
+		hash: getRandomHash()
+	})
+	.update({
+		view: ['ID'],
+	})
 
 const CONSTANTS = {
 
@@ -197,33 +195,35 @@ export default {
 				HOST_REGISTRY,
 				LIST_REGISTRY,
 				Sidebar,
-				USER
+				USER,
+				USER_SP
 			} = await localHybridStorage.get(value)
+
+			User
+				.setDefaultAvatarHost(HOST_REGISTRY.Avatar)
+				.setCustomAvatarList(LIST_REGISTRY.MasterAvatars)
 
 			commit('SET_HOST_REGISTRY', HOST_REGISTRY)
 			commit('SET_LIST_REGISTRY', LIST_REGISTRY)
 			commit('SET_SIDEBAR_MENU_ITEMS', Sidebar.menu.items)
-			commit('SET_USER', new User(USER, {
-				defaultAvatarHost: HOST_REGISTRY.Avatar,
-				customAvatarList: LIST_REGISTRY.MasterAvatars,
-				customImagesList: LIST_REGISTRY.MasterImages
-			}))
+			commit('SET_USER', new User(USER || USER_SP))
 		},
 
 		async verifyVersions({ dispatch }, value) {
 			const versions = await versionsList
 				.item()
 				.get({ view: ['hash', 'Title'], mapBy: 'Title' })
-			const isUsersActual = localHybridStorage.checkVersion('user', versions.users.hash)
-			if (!isUsersActual) {
-				localHybridStorage.remove('USER')
-				localHybridStorage.updateVersion('user', versions.users.hash)
+			if (!localHybridStorage.checkVersion('user', versions.users.hash)) {
+				localHybridStorage
+					.remove('USER')
+					.updateVersion('user', versions.users.hash)
 				dispatch('setMasterData', value)
 			}
-			const isMasterActual = localHybridStorage.checkVersion('master', versions.master.hash)
-			if (!isMasterActual) {
-				localHybridStorage.destroy()
-				localHybridStorage.updateVersion('master', versions.master.hash)
+
+			if (!localHybridStorage.checkVersion('master', versions.master.hash)) {
+				localHybridStorage
+					.destroy()
+					.updateVersion('master', versions.master.hash)
 				dispatch('setMasterData', value)
 			}
 		},

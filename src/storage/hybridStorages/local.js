@@ -1,33 +1,38 @@
 /* eslint-disable no-param-reassign */
 import Hybrid from '../Classes/Hybrid'
 import {
-	execute,
+	mapBy, nth, slice, concat
+} from '@/utility/array'
+import { splitBySlash, splitBy } from '@/utility/string'
+import { pipe, parallel, C } from '@/utility/combinators'
+import { prop } from '@/utility/object'
+import { newClientContext } from '@/utility/sp'
+import {
 	getFieldValues,
-	mapBy,
 	getItems,
 	orderTree,
 	buildTreeByPaths
 } from '../utility'
 import REGISTRY from '../registry.json'
 
-
+const formatByName = pipe([getFieldValues, mapBy('Name')])
 export default new Hybrid({
 	driver: window.localStorage,
-	clientContext: new SP.ClientContext(`/${REGISTRY.MasterWeb}`),
+	clientContext: newClientContext(REGISTRY.MasterWeb),
 	namespace: 'MASTER',
 	getters: {
 		HOST_REGISTRY: {
-			getter: getItems({
+			request: getItems({
 				list: REGISTRY.HostRegistry,
 				view: [
 					'Title',
 					'Name'
 				]
 			}),
-			formatter: items => mapBy('Name', getFieldValues(items))
+			formatter: formatByName
 		},
 		LIST_REGISTRY: {
-			getter: getItems({
+			request: getItems({
 				list: REGISTRY.ListRegistry,
 				view: [
 					'Title',
@@ -35,11 +40,10 @@ export default new Hybrid({
 					'webRelativeUrl'
 				]
 			}),
-			formatter: items => mapBy('Name', getFieldValues(items))
+			formatter: formatByName
 		},
-
 		Sidebar: {
-			getter:
+			request:
 				getItems({
 					list: REGISTRY.Sidebar,
 					query: '<View Scope="RecursiveAll"></View>',
@@ -53,15 +57,27 @@ export default new Hybrid({
 				}),
 			formatter: items => ({
 				menu: {
-					items: orderTree(buildTreeByPaths(el => {
-						const urls = el.FileDirRef.split(REGISTRY.Sidebar)[1].split('/').slice(1)
-						return urls.length ? [...urls, el.Title] : [el.Title]
-					})(getFieldValues(items)))
+					items: pipe([
+						getFieldValues,
+						buildTreeByPaths(
+							parallel([
+								pipe([
+									prop('FileDirRef'),
+									splitBy(REGISTRY.Sidebar),
+									nth(1),
+									splitBySlash,
+									slice(1),
+								]),
+								prop('Title')
+							])(C(concat)),
+						),
+						orderTree,
+					])(items)
 				}
 			})
 		},
 		USER: {
-			getter:
+			request:
 				getItems({
 					list: REGISTRY.Users,
 					query: `
@@ -78,13 +94,16 @@ export default new Hybrid({
 					view: [
 						'ID',
 						'Title',
+						'name',
+						'surname',
+						'patronymic',
 						'workerID',
 						'userID',
 						'avatar',
 						'avatarPosition',
 						'email',
-						'administrativeManagerID',
-						'methodistManagerID',
+						'administrativeLeaderID',
+						'methodistLeaderID',
 						'login',
 						'position',
 						'fullPath',
@@ -96,29 +115,29 @@ export default new Hybrid({
 						'phoneWork',
 						'gender',
 						'fired',
-						'inactive',
 						'active'
 					]
 				}),
-			formatter: async items => {
-				let user = items.get_data()[0]
-				let userProps = {}
-				if (user) {
-					userProps = user.get_fieldValues()
-				} else {
-					const clientContextUser = new SP.ClientContext(`/${REGISTRY.MasterWeb}`)
-					user = clientContextUser.get_web().get_currentUser()
-					clientContextUser.load(user)
-					await execute(clientContextUser)
-					const props = user.get_objectData().get_properties()
-					userProps = {
-						Title: props.Title,
-						login: props.LoginName.split(/\\/)[1],
-						userID: props.Id,
-						email: props.Email
-					}
+			formatter: items => items.get_data().reduce((acc, user) => user.get_fieldValues(), {})
+		},
+		USER_SP: {
+			request: clientContext => {
+				const user = clientContext.get_web().get_currentUser()
+				clientContext.load(user)
+				return user
+			},
+			formatter: user => {
+				const {
+					Title, LoginName, Id, Email
+				} = user.get_objectData().get_properties()
+				return {
+					Title,
+					login: LoginName.replace(/.+\\/, ''),
+					userID: Id,
+					email: Email,
+					active: '1',
+					fired: false
 				}
-				return userProps
 			}
 		}
 

@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { mapGetters, mapActions } from 'vuex'
+import { joinBySlash } from '@/utility/array'
+
 
 export const execute = clientContext => new Promise((resolve, reject) => clientContext.executeQueryAsync(
 	resolve,
@@ -45,11 +47,6 @@ export const orderTree = o => {
 }
 
 
-export const mapBy = (by, items) => items.reduce((acc, item) => {
-	acc[item[by]] = item
-	return acc
-}, {})
-
 export const includeViewFields = fields => `Include(${fields})`
 
 export const getItems = ({ list, query, view }) => clientContext => {
@@ -67,13 +64,12 @@ export const getItems = ({ list, query, view }) => clientContext => {
 
 export const getRandomHash = () => CryptoJS.MD5(new Date().getTime().toString()).toString()
 
-export const mapByModule = module => mapper => items =>
-	mapper(
-		items.reduce((acc, item) => {
-			acc[item] = `${module}/${item}`
-			return acc
-		}, {})
-	)
+export const mapByModule = moduleName => mapper => items => mapper(
+	items.reduce((acc, item) => {
+		acc[item] = joinBySlash(moduleName, item)
+		return acc
+	}, {})
+)
 
 export const mapByMaster = mapByModule('master')
 
