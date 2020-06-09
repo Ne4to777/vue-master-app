@@ -1,0 +1,23 @@
+formatByProp(tag, prop, variable)
+	.{tag}
+		{prop} $ + variable
+
+generateClassesBySizes(prop, sizes)
+	for size in sizes
+		name = prop + _ + size
+		formatByProp(name, prop, name)
+
+generateClassesBySizesAndAxes(prop, sizes, axes)
+	for axe in axes
+		for size in sizes
+			name = prop + '-' + axe
+			suffix = '_' + size
+			formatByProp(name + suffix, name, prop + suffix)
+
+generateClassebByColorsAndIntensities(prop, colors, intensities)
+	for colour in colors
+		for intensity in intensities
+			suffix = '-' + colour + '_' + intensity
+			formatByProp(prop + suffix, prop, 'color' + suffix)
+
+				

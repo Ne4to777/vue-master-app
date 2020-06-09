@@ -1,0 +1,76 @@
+@import 'data.styl'
+@import 'paths.styl'
+@import 'variables.styl'
+@import 'functions.styl'
+
+
+
+.fade-enter-active, .fade-leave-active
+	transition opacity 0.5s
+
+.fade-enter, .fade-leave-to
+	opacity 0
+
+.debug
+	background-color $lightgreen
+
+	& *
+		background-color $grey
+
+.body
+	background-color $color-grey_lighter
+	font-family Roboto
+	font-size $font-size_base
+	line-height $line-height_base
+	text-align justify
+
+	&__background-placeholder
+		position fixed
+		top 0
+		left 0
+		right 0
+		height 100vh
+		background-image $body-background
+		background-repeat no-repeat
+		background-size 100% 100%
+		z-index 0
+	
+	&__master
+		position relative
+		margin $margin_base auto
+		width 1150px
+		min-height 101vh
+		min-width 930px
+
+a
+	text-decoration none
+	outline none
+	color inherit
+	&:focus
+		outline none
+
+.cursor_pointer
+	cursor pointer
+
+.to-top-scroller
+	width 100px
+
+.display_inline-block
+	display inline-block
+
+// MARGIN
+
+generateClassesBySizes('margin', sizes)
+generateClassesBySizesAndAxes('margin', sizes, axes)
+
+// PADDING
+
+generateClassesBySizes('padding', sizes)
+generateClassesBySizesAndAxes('padding', sizes, axes)
+
+// COLORS
+
+generateClassebByColorsAndIntensities('color', colors, intensities)
+generateClassebByColorsAndIntensities('background-color', colors, intensities)
+generateClassebByColorsAndIntensities('border-color', colors, intensities)
+
