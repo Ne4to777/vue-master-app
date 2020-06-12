@@ -4,15 +4,28 @@
 		<div class="sidebar__background-placeholder"></div>
 		<sidebar-collapser class="sidebar__collapser" />
 		<sidebar-logo class="sidebar__logo" />
-		<sidebar-notification class="sidebar__notification" />
-		<sidebar-profile class="sidebar__profile" />
-		<sidebar-menu class="sidebar__menu" />
+		<sidebar-notification
+			class="sidebar__notification"
+			:count="notification.count"
+		/>
+		<sidebar-profile
+			class="sidebar__profile"
+			:avatarUrl="profile.avatar.url"
+			:avatarPosition="profile.avatar.position"
+			:name="profile.name"
+		/>
+		<sidebar-menu
+			class="sidebar__menu"
+			:tree="menu.tree"
+			:isTitlesVisible="menu.isTitlesVisible"
+			:isIconsVisible="menu.isIconsVisible"
+		/>
 		<sidebar-search class="sidebar__search" />
 		<sidebar-footer class="sidebar__footer" />
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import SidebarIcons from '@/components/local/Sidebar/components/Icons/index.vue'
 import SidebarLogo from '@/components/local/Sidebar/components/Logo/index.vue'
@@ -23,6 +36,70 @@ import SidebarSearch from '@/components/local/Sidebar/components/Search/index.vu
 import SidebarFooter from '@/components/local/Sidebar/components/Footer/index.vue'
 import SidebarCollapser from '@/components/local/Sidebar/components/Collapser/index.vue'
 
+const COUNT = 100
+
+const PROFILE = {
+	avatar: {
+		url:
+			'' && require('@/components/local/Sidebar/components/Profile/avatar.png'),
+		position: ''
+	},
+	name: 'Алексеев Алексей Сергеевич' && ''
+}
+
+const TREE = {
+	title: 'root',
+	url: '/?a=1',
+
+	nodes: [
+		{
+			title: 'title1',
+			icon: '#icon-bulb',
+			isActive: true,
+			onClick: () => console.log('click'),
+			nodes: []
+		},
+		{
+			title: 'title2',
+			icon: '#icon-globe',
+			url: '/?a=3',
+			nodes: [
+				{
+					title: 'title21',
+					icon: '#icon-info',
+					url: '/?a=4'
+				}
+			]
+		},
+		{
+			title: 'title3',
+			icon: '#icon-sheet',
+			url: '/?a=5',
+			nodes: [
+				{
+					title: 'title31',
+					icon: '#icon-wrench',
+					url: '/?a=6',
+					nodes: [
+						{
+							title: 'title311',
+							icon: '#icon-bell',
+							onClick: () => console.log('click'),
+							nodes: []
+						},
+						{
+							title: 'title312',
+							icon: '#icon-discussion',
+							url: '/?a=8',
+							isActive: true,
+							nodes: []
+						}
+					]
+				}
+			]
+		}
+	]
+}
 @Component({
 	components: {
 		SidebarIcons,
@@ -35,7 +112,17 @@ import SidebarCollapser from '@/components/local/Sidebar/components/Collapser/in
 		SidebarFooter
 	}
 })
-export default class Sidebar extends Vue {}
+export default class Sidebar extends Vue {
+	private readonly notification = { count: COUNT }
+
+	private readonly profile = PROFILE
+
+	private readonly menu = {
+		tree: TREE,
+		isTitlesVisible: true,
+		isIconsVisible: true
+	}
+}
 </script>
 
 <style lang="stylus" scoped>

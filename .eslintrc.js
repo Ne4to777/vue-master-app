@@ -15,6 +15,7 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 
 	},
+
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -28,6 +29,8 @@ module.exports = {
 		'no-await-in-loop': 0,
 		'no-loop-func': 0,
 		'implicit-arrow-linebreak': 0,
+		'import/no-dynamic-require': 0,
+		'global-require': 0,
 		'import/no-cycle': [
 			0,
 			{
@@ -64,34 +67,44 @@ module.exports = {
 			'never'
 		],
 		'operator-linebreak': 0,
-		"@typescript-eslint/semi": ["error", "never"],
-		"@typescript-eslint/member-delimiter-style": ["error", { "multiline": { "delimiter": "none" } }],
-		"@typescript-eslint/member-ordering": "warn",
-		"@typescript-eslint/no-magic-numbers": [
-			"error",
+		'@typescript-eslint/semi': ['error', 'never'],
+		'@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'none' } }],
+		'@typescript-eslint/member-ordering': 'warn',
+		'@typescript-eslint/no-magic-numbers': [
+			'error',
 			{
-				"ignoreNumericLiteralTypes": true,
-				"ignoreEnums": true,
-				"enforceConst": true,
-				"ignoreReadonlyClassProperties": true,
-				"ignore": [0, 24, 60, 1000]
+				'ignoreNumericLiteralTypes': true,
+				'ignoreEnums': true,
+				'enforceConst': true,
+				'ignoreReadonlyClassProperties': true,
+				'ignore': [0, 24, 60, 1000]
 			}
 		],
-		"@typescript-eslint/brace-style": ["error", "1tbs"],
-		"@typescript-eslint/indent": ["error", "tab", { "SwitchCase": 1 }],
-		"@typescript-eslint/quotes": ["error", "single", { "avoidEscape": true }],
-		"@typescript-eslint/func-call-spacing": ["error", "never"],
-		"@typescript-eslint/no-useless-constructor": "error",
-		"@typescript-eslint/prefer-for-of": "warn",
-		"@typescript-eslint/no-parameter-properties": "error",
-		"@typescript-eslint/no-unnecessary-type-arguments": "warn",
-		"@typescript-eslint/prefer-function-type": "warn",
-		"@typescript-eslint/prefer-readonly": "warn",
-		"@typescript-eslint/no-explicit-any": "off",
-		"@typescript-eslint/camelcase": ["error", { "properties": "never" }],
-		"@typescript-eslint/explicit-function-return-type": ["error", { "allowExpressions": true }],
-		"@typescript-eslint/interface-name-prefix": "off",
-		"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_$" }],
+		'@typescript-eslint/brace-style': ['error', '1tbs'],
+		'@typescript-eslint/indent': ['error', 'tab', { 'SwitchCase': 1 }],
+		'@typescript-eslint/quotes': ['error', 'single', { 'avoidEscape': true }],
+		'@typescript-eslint/func-call-spacing': ['error', 'never'],
+		'@typescript-eslint/no-useless-constructor': 'error',
+		'@typescript-eslint/prefer-for-of': 'warn',
+		'@typescript-eslint/no-parameter-properties': 'error',
+		'@typescript-eslint/no-unnecessary-type-arguments': 'warn',
+		'@typescript-eslint/prefer-function-type': 'warn',
+		'@typescript-eslint/prefer-readonly': 'warn',
+		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/camelcase': ['error', { 'properties': 'never' }],
+		'@typescript-eslint/explicit-function-return-type': ['error', { 'allowExpressions': true }],
+		'@typescript-eslint/interface-name-prefix': 'off',
+		'@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_$' }],
+	},
+	settings: {
+		'import/parsers': {
+			'@typescript-eslint/parser': ['.ts', '.tsx']
+		},
+		'import/resolver': {
+			typescript: {
+				alwaysTryTypes: true
+			}
+		}
 	},
 	overrides: [
 		{

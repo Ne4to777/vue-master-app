@@ -1,23 +1,36 @@
+
 <template>
 	<div class="profile">
 		<a href="/">
-			<div class="profile__avatar"></div>
-			<div class="profile__info">Алексеев Алексей Сергеевич</div>
+			<div class="profile__avatar" :style="avatarStyle"></div>
+			<div class="profile__name">{{ name }}</div>
 			<div style="clear:both"></div>
 		</a>
 	</div>
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
-@Component({
-	data() {
-		return {}
-	},
-	computed: {}
-})
-export default class SidebarProfile extends Vue {}
+@Component
+export default class SidebarProfile extends Vue {
+	@Prop(String) readonly name!: string
+
+	@Prop({ type: String, default: '' }) readonly avatarUrl!: string
+
+	@Prop({ type: String, default: '' }) readonly avatarPosition!: string
+
+	get avatarStyle(): object {
+		let styles = {}
+		if (this.avatarUrl) {
+			styles = {
+				backgroundImage: `url(${this.avatarUrl})`,
+				backgroundPosition: this.avatarPosition
+			}
+		}
+		return styles
+	}
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -25,7 +38,7 @@ export default class SidebarProfile extends Vue {}
 @import '~@/assets/styles/variables.styl'
 
 .profile
-	background-color $color-grey-darker
+	background-color $color-grey_darker
 	padding 12px $padding_base
 	box-sizing border-box
 
@@ -44,7 +57,7 @@ export default class SidebarProfile extends Vue {}
 		background-size cover
 		background-position center center
 
-	&__info
+	&__name
 		display inline-block
 		max-width 63%
 		margin-left 15px

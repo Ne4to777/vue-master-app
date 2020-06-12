@@ -3,12 +3,15 @@
 		:tree="tree"
 		:depth="0"
 		:styles="{ arrow: 's-icon s-icon-arrow-right' }"
+		:isIconVisible="isIconsVisible"
+		:isTitleVisible="isTitlesVisible"
 	></tree-menu>
 </template>
 
-<script>
-import { Component, Vue } from 'vue-property-decorator'
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import TreeMenu from '@/components/global/TreeMenu/index.vue'
+import { TreeI } from '@/components/global/TreeMenu/types'
 
 @Component({
 	components: {
@@ -16,59 +19,11 @@ import TreeMenu from '@/components/global/TreeMenu/index.vue'
 	}
 })
 export default class SidebarMenu extends Vue {
-	tree = {
-		title: 'root',
-		url: '/?a=1',
+	@Prop(Object) readonly tree!: TreeI
 
-		nodes: [
-			{
-				title: 'title1',
-				icon: '#icon-bulb',
-				isActive: true,
-				onClick: () => console.log('click'),
-				nodes: []
-			},
-			{
-				title: 'title2',
-				icon: '#icon-globe',
-				url: '/?a=3',
-				nodes: [
-					{
-						title: 'title21',
-						icon: '#icon-info',
-						url: '/?a=4'
-					}
-				]
-			},
-			{
-				title: 'title3',
-				icon: '#icon-sheet',
-				url: '/?a=5',
-				nodes: [
-					{
-						title: 'title31',
-						icon: '#icon-wrench',
-						url: '/?a=6',
-						nodes: [
-							{
-								title: 'title311',
-								icon: '#icon-bell',
-								onClick: () => console.log('click'),
-								nodes: []
-							},
-							{
-								title: 'title312',
-								icon: '#icon-discussion',
-								url: '/?a=8',
-								isActive: true,
-								nodes: []
-							}
-						]
-					}
-				]
-			}
-		]
-	}
+	@Prop({ type: Boolean, default: true }) readonly isIconsVisible!: boolean
+
+	@Prop({ type: Boolean, default: true }) readonly isTitlesVisible!: boolean
 }
 </script>
 
@@ -118,9 +73,11 @@ export default class SidebarMenu extends Vue {
 		fill transparent
 		stroke-miterlimit 4
 
+		& + .tree__title
+			margin-left $margin_base
+
 	&__title
 		display inline-block
-		padding-left $padding_base
 		vertical-align bottom
 		text-transform uppercase
 

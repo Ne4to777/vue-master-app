@@ -1,19 +1,13 @@
 <template>
 	<div>
-		<a href="/" class="logo master-sidebar__logo"></a>
+		<a href="/" class="logo master-sidebar__logo">Аура</a>
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({
-	data() {
-		return {}
-	},
-	methods: {},
-	computed: {}
-})
+@Component
 export default class SidebarLogo extends Vue {}
 </script>
 

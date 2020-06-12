@@ -12,10 +12,10 @@
 			:href="tree.url"
 			@click="clickHandler($event)"
 		>
-			<svg :class="css.icon">
+			<svg v-if="isIconVisible" :class="css.icon">
 				<use :xlink:href="tree.icon" />
 			</svg>
-			<div :class="css.title">{{ tree.title }}</div>
+			<div v-if="isTitleVisible" :class="css.title">{{ tree.title }}</div>
 			<div :class="css.arrow" v-if="hasChildren"></div>
 		</component>
 
@@ -28,6 +28,8 @@
 				:depth="depth + 1"
 				:delay="delay"
 				:styles="styles"
+				:isIconVisible="isIconVisible"
+				:isTitleVisible="isTitleVisible"
 			/>
 		</div>
 	</div>
@@ -35,35 +37,21 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { joinBySpace } from '@/utility/array'
-
-interface ITree {
-	tree: object
-	nodes: Array<object>
-	isActive?: boolean
-	onClick: (e: MouseEvent) => void
-	icon: string
-}
-
-interface IStyles {
-	tree: string
-	nodes: string
-	node: string
-	content: string
-	title: string
-	active: string
-	arrow: string
-	icon: string
-}
+import { TreeI, StylesI } from '@/components/global/TreeMenu/types'
 
 @Component
 export default class TreeMenu extends Vue {
-	@Prop(Object) readonly tree!: ITree
+	@Prop(Object) readonly tree!: TreeI
 
 	@Prop(Number) readonly depth!: number
 
 	@Prop({ type: Number, default: 0 }) readonly delay!: number
 
-	@Prop({ type: Object, default: () => ({}) }) readonly styles!: IStyles
+	@Prop({ type: Object, default: () => ({}) }) readonly styles!: StylesI
+
+	@Prop({ type: Boolean, default: true }) readonly isIconVisible!: boolean
+
+	@Prop({ type: Boolean, default: true }) readonly isTitleVisible!: boolean
 
 	readonly css: object = {
 		tree: joinBySpace(['tree', this.styles.tree]),

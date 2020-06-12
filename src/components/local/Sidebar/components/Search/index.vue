@@ -7,10 +7,10 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({})
+@Component
 export default class SidebarSearch extends Vue {}
 </script>
 
@@ -32,12 +32,12 @@ export default class SidebarSearch extends Vue {}
 			font-style italic
 
 		&:focus
-			background-color $white
-			color $black
+			background-color $color-grey_lightest
+			color $color-grey_darkest
 			font-style normal
 
-			&+.search__icon-placeholder>.search__icon
-				color $black
+			& + .search__icon-placeholder > .search__icon
+				color $color-grey_darkest
 
 	&__icon
 		display block

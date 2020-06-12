@@ -1,7 +1,12 @@
 <template>
 	<div class="notification">
-		<div class="notification__icon notification__icon_active"></div>
-		<div class="notification__count">9+</div>
+		<div
+			class="notification__icon"
+			:class="{ notification__icon_active: count }"
+		></div>
+		<div v-if="isCounterVisible" class="notification__counter">
+			{{ content }}
+		</div>
 	</div>
 </template>
 
@@ -10,10 +15,16 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class SidebarNotification extends Vue {
-	@Prop() private readonly msg!: string
+	@Prop() private readonly count!: number
 
-	onClick(): void {
-		console.log(this.msg)
+	private readonly COUNT_MAX = 9
+
+	get content(): string {
+		return this.count > this.COUNT_MAX ? `${this.COUNT_MAX}+` : `${this.count}`
+	}
+
+	get isCounterVisible(): boolean {
+		return !!this.count
 	}
 }
 </script>
@@ -25,9 +36,7 @@ export default class SidebarNotification extends Vue {
 $size = 20px
 
 .notification
-	background-image $notification-image
-
-	&__count
+	&__counter
 		position absolute
 		width 100%
 		height 100%
@@ -50,7 +59,6 @@ $size = 20px
 		height $size
 		cursor pointer
 		background-image $notification-image
-		background-size $size * 2
 		background-position-y center
 
 		&_active
