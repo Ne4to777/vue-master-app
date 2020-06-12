@@ -1,16 +1,40 @@
-/* eslint-disable no-self-compare */
 import {
-	throwNumberError, throwStringError, throwArrayError, throwObjectError, throwBooleanError
+	throwNumberError,
+	throwStringError,
+	throwArrayError,
+	throwObjectError,
+	throwBooleanError
 } from '@/utility/throws'
 
-import { W, pipe } from '@/utility/combinators'
-import { equal, unequal } from '@/utility/equality'
 import {
-	TRUE, FALSE, negate, conjunct, disjunct
+	W,
+	pipe
+} from '@/utility/combinators'
+
+import {
+	equal,
+	unequal
+} from '@/utility/equality'
+
+import {
+	TRUE,
+	FALSE,
+	negate,
+	conjunct,
+	disjunct
 } from '@/utility/logical'
-import { ifThen } from '@/utility/conditional'
-import { prop } from '@/utility/object'
-import { typeEqual, switchType } from '@/utility/type'
+
+import {
+	ifThen
+} from '@/utility/conditional'
+
+import {
+	prop
+} from '@/utility/object'
+import {
+	typeEqual,
+	switchType
+} from '@/utility/type'
 
 export const isNumber = typeEqual('number')
 export const isNotNumber = negate(isNumber)

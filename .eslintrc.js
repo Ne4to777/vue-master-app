@@ -34,6 +34,12 @@ module.exports = {
 				'maxDepth': 1
 			}
 		],
+		'import/newline-after-import': [
+			'error',
+			{
+				'count': 1
+			}
+		],
 		'max-len': [
 			'error',
 			120
@@ -58,7 +64,6 @@ module.exports = {
 			'never'
 		],
 		'operator-linebreak': 0,
-		"@typescript-eslint/no-extra-parens": ["error"],
 		"@typescript-eslint/semi": ["error", "never"],
 		"@typescript-eslint/member-delimiter-style": ["error", { "multiline": { "delimiter": "none" } }],
 		"@typescript-eslint/member-ordering": "warn",

@@ -6,6 +6,7 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
+
 @Component({
 	data() {
 		return {}

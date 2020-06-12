@@ -1,5 +1,9 @@
 <template>
-	<tree-menu :tree="tree" :depth="0"></tree-menu>
+	<tree-menu
+		:tree="tree"
+		:depth="0"
+		:styles="{ arrow: 's-icon s-icon-arrow-right' }"
+	></tree-menu>
 </template>
 
 <script>
@@ -9,65 +13,63 @@ import TreeMenu from '@/components/global/TreeMenu/index.vue'
 @Component({
 	components: {
 		TreeMenu
-	},
-	data() {
-		return {
-			tree: {
-				title: 'root',
-				url: '/?a=1',
+	}
+})
+export default class SidebarMenu extends Vue {
+	tree = {
+		title: 'root',
+		url: '/?a=1',
+
+		nodes: [
+			{
+				title: 'title1',
+				icon: '#icon-bulb',
+				isActive: true,
+				onClick: () => console.log('click'),
+				nodes: []
+			},
+			{
+				title: 'title2',
+				icon: '#icon-globe',
+				url: '/?a=3',
 				nodes: [
 					{
-						title: 'title1',
-						icon: 'icon',
-						onClick: () => console.log('click'),
-						nodes: []
-					},
+						title: 'title21',
+						icon: '#icon-info',
+						url: '/?a=4'
+					}
+				]
+			},
+			{
+				title: 'title3',
+				icon: '#icon-sheet',
+				url: '/?a=5',
+				nodes: [
 					{
-						title: 'title2',
-						icon: 'icon',
-						url: '/?a=3',
+						title: 'title31',
+						icon: '#icon-wrench',
+						url: '/?a=6',
 						nodes: [
 							{
-								title: 'title21',
-								icon: 'icon',
-								url: '/?a=4'
-							}
-						]
-					},
-					{
-						title: 'title3',
-						icon: 'icon',
-						url: '/?a=5',
-						nodes: [
+								title: 'title311',
+								icon: '#icon-bell',
+								onClick: () => console.log('click'),
+								nodes: []
+							},
 							{
-								title: 'title31',
-								icon: 'icon',
-								url: '/?a=6',
-								nodes: [
-									{
-										title: 'title311',
-										icon: 'icon',
-										onClick: () => console.log('click'),
-										nodes: []
-									},
-									{
-										title: 'title312',
-										icon: 'icon',
-										url: '/?a=8',
-										nodes: []
-									}
-								]
+								title: 'title312',
+								icon: '#icon-discussion',
+								url: '/?a=8',
+								isActive: true,
+								nodes: []
 							}
 						]
 					}
 				]
 			}
-		}
-	},
-	methods: {},
-	computed: {}
-})
-export default class SidebarMenu extends Vue {}
+		]
+	}
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -92,6 +94,10 @@ export default class SidebarMenu extends Vue {}
 		font-size $font-size_small
 		text-transform uppercase
 
+		&_active
+			color $color-grey_lightest
+			background-color $color-grey_darker
+
 	&__content
 		display block
 		padding ($padding_small / 2) $padding_base
@@ -102,39 +108,19 @@ export default class SidebarMenu extends Vue {}
 			box-shadow inset $border-width_large 0 0 $color-grey_lightest
 			background-color $color-grey_darker
 
-	&__radio-items-input
-		display none
-
-		&:checked+label>*
-			color $color-grey_lightest
-			box-shadow inset $border-width_large 0 0 $color-grey_lightest
-
-	&__radio-subitems-input
-		display none
-
-		&:checked+label>*
-			color $color-grey_lightest
-			background-color $color-grey_darker
-
 	&__icon
-		position relative
-		display inline-block
 		height 24px
 		width 24px
 		vertical-align middle
-
-		&-svg
-			width 100%
-			height 100%
-			stroke-width 1.6
-			stroke currentColor
-			stroke-linecap round
-			fill transparent
-			stroke-miterlimit 4
+		stroke-width 1.6
+		stroke currentColor
+		stroke-linecap round
+		fill transparent
+		stroke-miterlimit 4
 
 	&__title
 		display inline-block
-		margin-left $margin_base
+		padding-left $padding_base
 		vertical-align bottom
 		text-transform uppercase
 

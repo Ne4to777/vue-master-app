@@ -1,44 +1,58 @@
 <template>
-	<div :class="current.css.tree" v-if="depth===0">
-		<tree-menu
-			:class="current.css.node"
-			v-for="node,i in tree.nodes"
-			:tree="node"
-			:key="i"
-			:depth="depth+1"
-		></tree-menu>
-	</div>
 	<div
-		v-else-if="tree.title"
-		:class="current.css.tree"
-		@mouseenter="setTreeMouseOver(true)"
-		@mouseleave="setTreeMouseOver(false)"
+		v-if="tree.title"
+		:class="css.tree"
+		@mouseenter="setMouseOverTreeDelayed(true)"
+		@mouseleave="setMouseOverTreeDelayed(false)"
 	>
 		<component
+			v-if="depth"
 			:is="tree.url ? 'a' : 'div'"
-			:class="current.css.content"
+			:class="css.content"
 			:href="tree.url"
 			@click="clickHandler($event)"
-		>{{ tree.title}}</component>
+		>
+			<svg :class="css.icon">
+				<use :xlink:href="tree.icon" />
+			</svg>
+			<div :class="css.title">{{ tree.title }}</div>
+			<div :class="css.arrow" v-if="hasChildren"></div>
+		</component>
 
-		<div :class="current.css.nodes" v-if="isChildrenVisible">
+		<div :class="{ [css.nodes]: depth }" v-if="isChildrenVisible">
 			<tree-menu
-				:class="current.css.node"
-				v-for="node,i in tree.nodes"
+				:class="[css.node, { [css.active]: node.isActive }]"
+				v-for="(node, i) in tree.nodes"
 				:tree="node"
 				:key="i"
-				:depth="depth+1"
-			></tree-menu>
+				:depth="depth + 1"
+				:delay="delay"
+				:styles="styles"
+			/>
 		</div>
 	</div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { joinBySpace } from '@/utility/array'
 
 interface ITree {
 	tree: object
 	nodes: Array<object>
+	isActive?: boolean
 	onClick: (e: MouseEvent) => void
+	icon: string
+}
+
+interface IStyles {
+	tree: string
+	nodes: string
+	node: string
+	content: string
+	title: string
+	active: string
+	arrow: string
+	icon: string
 }
 
 @Component
@@ -47,30 +61,51 @@ export default class TreeMenu extends Vue {
 
 	@Prop(Number) readonly depth!: number
 
-	current = {
-		isMouseOverTree: false,
-		css: {
-			tree: 'tree',
-			nodes: 'tree__nodes',
-			node: 'tree__node',
-			content: 'tree__content'
-		}
+	@Prop({ type: Number, default: 0 }) readonly delay!: number
+
+	@Prop({ type: Object, default: () => ({}) }) readonly styles!: IStyles
+
+	readonly css: object = {
+		tree: joinBySpace(['tree', this.styles.tree]),
+		nodes: joinBySpace(['tree__nodes', this.styles.nodes]),
+		node: joinBySpace(['tree__node', this.styles.node]),
+		content: joinBySpace(['tree__content', this.styles.content]),
+		title: joinBySpace(['tree__title', this.styles.title]),
+		active: joinBySpace(['tree__node_active', this.styles.active]),
+		arrow: joinBySpace(['tree__arrow', this.styles.arrow]),
+		icon: joinBySpace(['tree__icon', this.styles.icon])
 	}
 
-	setTreeMouseOver(value: boolean): void {
-		this.$set(this.current, 'isMouseOverTree', value)
+	private isMouseOverTree = false
+
+	private timeoutLabel = 0
+
+	setMouseOverTreeDelayed(value: boolean): void {
+		if (value) {
+			clearTimeout(this.timeoutLabel)
+			this.isMouseOverTree = true
+		} else {
+			this.timeoutLabel = setTimeout(() => {
+				this.isMouseOverTree = false
+			}, this.delay)
+		}
 	}
 
 	clickHandler(e: MouseEvent): void {
+		const { tree } = this
 		e.stopPropagation()
-		if (this.tree.onClick) {
+		if (tree.onClick) {
 			e.preventDefault()
-			this.tree.onClick(e)
+			tree.onClick(e)
 		}
 	}
 
+	get hasChildren(): boolean {
+		return !!this.tree?.nodes?.length
+	}
+
 	get isChildrenVisible(): boolean {
-		return !!(this.current.isMouseOverTree && this.tree?.nodes?.length)
+		return !!((this.isMouseOverTree && this.hasChildren) || !this.depth)
 	}
 }
 </script>

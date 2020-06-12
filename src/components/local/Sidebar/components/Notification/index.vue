@@ -10,9 +10,9 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class SidebarNotification extends Vue {
-	@Prop() private msg!: string
+	@Prop() private readonly msg!: string
 
-	onClick() {
+	onClick(): void {
 		console.log(this.msg)
 	}
 }

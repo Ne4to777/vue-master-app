@@ -22,6 +22,7 @@ import SidebarMenu from '@/components/local/Sidebar/components/Menu/index.vue'
 import SidebarSearch from '@/components/local/Sidebar/components/Search/index.vue'
 import SidebarFooter from '@/components/local/Sidebar/components/Footer/index.vue'
 import SidebarCollapser from '@/components/local/Sidebar/components/Collapser/index.vue'
+
 @Component({
 	components: {
 		SidebarIcons,
@@ -32,12 +33,7 @@ import SidebarCollapser from '@/components/local/Sidebar/components/Collapser/in
 		SidebarLogo,
 		SidebarSearch,
 		SidebarFooter
-	},
-	data() {
-		return {}
-	},
-	methods: {},
-	computed: {}
+	}
 })
 export default class Sidebar extends Vue {}
 </script>
