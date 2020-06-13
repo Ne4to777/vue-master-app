@@ -8,7 +8,10 @@
 				</widgetbar>
 			</div>
 			<div class="master__sidebar-placeholder">
-				<sidebar class="master__sidebar"></sidebar>
+				<sidebar
+					class="master__sidebar"
+					:isCollapsed.sync="sidebar.isCollapsed"
+				></sidebar>
 			</div>
 			<div class="master__main-placeholder">
 				<main class="master__main">
@@ -27,23 +30,18 @@ import Main from '@/components/local/Main/index.vue'
 import Dummy from '@/components/local/Dummy/index.vue'
 
 @Component({
-	name: 'MasterApp',
 	components: {
 		Sidebar,
 		Widgetbar,
 		Main,
 		Dummy
-	},
-	props: {},
-	data() {
-		return {
-			test: 'test'
-		}
-	},
-	methods: {},
-	computed: {}
+	}
 })
-export default class App extends Vue {}
+export default class MasterApp extends Vue {
+	private readonly sidebar = {
+		isCollapsed: false
+	}
+}
 </script>
 
 <style lang="stylus" scoped>

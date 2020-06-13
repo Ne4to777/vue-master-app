@@ -1,16 +1,11 @@
 <template>
-	<div
-		v-if="tree.title"
-		:class="css.tree"
-		@mouseenter="setMouseOverTreeDelayed(true)"
-		@mouseleave="setMouseOverTreeDelayed(false)"
-	>
+	<div v-if="tree.title" :class="css.tree" v-on="mouseHandler()">
 		<component
 			v-if="depth"
 			:is="tree.url ? 'a' : 'div'"
 			:class="css.content"
 			:href="tree.url"
-			@click="clickHandler($event)"
+			@click="clickHandler"
 		>
 			<svg v-if="isIconVisible" :class="css.icon">
 				<use :xlink:href="tree.icon" />
@@ -37,13 +32,16 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { joinBySpace } from '@/utility/array'
+import { switchValueDelayed } from '@/utility/runtime'
 import { TreeI, StylesI } from '@/components/global/TreeMenu/types'
+
+const setMouseOverTreeDelayed = switchValueDelayed('isMouseOverTree', 'timeoutLabel', 'delay')
 
 @Component
 export default class TreeMenu extends Vue {
 	@Prop(Object) readonly tree!: TreeI
 
-	@Prop(Number) readonly depth!: number
+	@Prop({ type: Number, default: 0 }) readonly depth!: number
 
 	@Prop({ type: Number, default: 0 }) readonly delay!: number
 
@@ -64,22 +62,24 @@ export default class TreeMenu extends Vue {
 		icon: joinBySpace(['tree__icon', this.styles.icon])
 	}
 
-	private isMouseOverTree = false
+	private readonly isMouseOverTree = false
 
-	private timeoutLabel = 0
+	private readonly timeoutLabel = 0
 
-	setMouseOverTreeDelayed(value: boolean): void {
-		if (value) {
-			clearTimeout(this.timeoutLabel)
-			this.isMouseOverTree = true
-		} else {
-			this.timeoutLabel = setTimeout(() => {
-				this.isMouseOverTree = false
-			}, this.delay)
-		}
+	mouseHandler(): object {
+		return this.depth
+			? {
+				mouseenter: () => this.setMouseOverTreeDelayed(true),
+				mouseleave: () => this.setMouseOverTreeDelayed(false)
+			}
+			: {}
 	}
 
-	clickHandler(e: MouseEvent): void {
+	private setMouseOverTreeDelayed(value: boolean): void {
+		setMouseOverTreeDelayed.call(this, value)
+	}
+
+	private clickHandler(e: MouseEvent): void {
 		const { tree } = this
 		e.stopPropagation()
 		if (tree.onClick) {
@@ -97,5 +97,3 @@ export default class TreeMenu extends Vue {
 	}
 }
 </script>
-
-<style lang="stylus"></style>

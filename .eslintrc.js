@@ -28,9 +28,19 @@ module.exports = {
 		'no-console': 0,
 		'no-await-in-loop': 0,
 		'no-loop-func': 0,
+		'func-names': 0,
 		'implicit-arrow-linebreak': 0,
 		'import/no-dynamic-require': 0,
 		'global-require': 0,
+		'lines-between-class-members': [
+			'error',
+			'always'
+		],
+		'space-before-function-paren': ['error', {
+			anonymous: 'always',
+			named: 'never',
+			asyncArrow: 'always'
+		}],
 		'import/no-cycle': [
 			0,
 			{

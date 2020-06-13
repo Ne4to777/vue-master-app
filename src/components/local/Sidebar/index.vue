@@ -1,8 +1,16 @@
 <template>
-	<div class="sidebar">
+	<div
+		class="sidebar"
+		@mouseenter="setMouseOverSidebarDelayed(true)"
+		@mouseleave="setMouseOverSidebarDelayed(false)"
+	>
 		<sidebar-icons />
 		<div class="sidebar__background-placeholder"></div>
-		<sidebar-collapser class="sidebar__collapser" />
+		<sidebar-collapser
+			v-if="isMouseOver"
+			class="sidebar__collapser"
+			v-model="syncedIsCollapsed"
+		/>
 		<sidebar-logo class="sidebar__logo" />
 		<sidebar-notification
 			class="sidebar__notification"
@@ -19,14 +27,15 @@
 			:tree="menu.tree"
 			:isTitlesVisible="menu.isTitlesVisible"
 			:isIconsVisible="menu.isIconsVisible"
+			:delay="menu.delay"
 		/>
-		<sidebar-search class="sidebar__search" />
+		<sidebar-search class="sidebar__search" :url="search.url" />
 		<sidebar-footer class="sidebar__footer" />
 	</div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, PropSync, Vue } from 'vue-property-decorator'
 import SidebarIcons from '@/components/local/Sidebar/components/Icons/index.vue'
 import SidebarLogo from '@/components/local/Sidebar/components/Logo/index.vue'
 import SidebarNotification from '@/components/local/Sidebar/components/Notification/index.vue'
@@ -36,15 +45,18 @@ import SidebarSearch from '@/components/local/Sidebar/components/Search/index.vu
 import SidebarFooter from '@/components/local/Sidebar/components/Footer/index.vue'
 import SidebarCollapser from '@/components/local/Sidebar/components/Collapser/index.vue'
 
+import { switchValueDelayed } from '@/utility/runtime'
+
+const setMouseOverSidebarDelayed = switchValueDelayed('isMouseOver', 'collapser.timeoutLabel', 'collapser.delay')
+
 const COUNT = 100
 
 const PROFILE = {
 	avatar: {
-		url:
-			'' && require('@/components/local/Sidebar/components/Profile/avatar.png'),
+		url: require('@/components/local/Sidebar/components/Profile/avatar.png'),
 		position: ''
 	},
-	name: 'Алексеев Алексей Сергеевич' && ''
+	name: 'Алексеев Алексей Сергеевич'
 }
 
 const TREE = {
@@ -95,6 +107,19 @@ const TREE = {
 							nodes: []
 						}
 					]
+				},
+				{
+					title: 'title311',
+					icon: '#icon-bell',
+					onClick: () => console.log('click'),
+					nodes: []
+				},
+				{
+					title: 'title312',
+					icon: '#icon-discussion',
+					url: '/?a=8',
+					isActive: true,
+					nodes: []
 				}
 			]
 		}
@@ -113,6 +138,14 @@ const TREE = {
 	}
 })
 export default class Sidebar extends Vue {
+	@PropSync('isCollapsed', { type: Boolean }) syncedIsCollapsed!: boolean
+
+	private readonly isMouseOver = false
+
+	private readonly timeoutCollapserLabel!: number
+
+	private readonly collapser = { timeoutLabel: 0, delay: 100 }
+
 	private readonly notification = { count: COUNT }
 
 	private readonly profile = PROFILE
@@ -120,7 +153,14 @@ export default class Sidebar extends Vue {
 	private readonly menu = {
 		tree: TREE,
 		isTitlesVisible: true,
-		isIconsVisible: true
+		isIconsVisible: true,
+		delay: 100
+	}
+
+	private readonly search = { url: '/test' }
+
+	private setMouseOverSidebarDelayed(value: boolean): void {
+		setMouseOverSidebarDelayed.call(this, value)
 	}
 }
 </script>

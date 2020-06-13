@@ -1,10 +1,10 @@
 <template>
 	<tree-menu
 		:tree="tree"
-		:depth="0"
 		:styles="{ arrow: 's-icon s-icon-arrow-right' }"
 		:isIconVisible="isIconsVisible"
 		:isTitleVisible="isTitlesVisible"
+		:delay="delay"
 	></tree-menu>
 </template>
 
@@ -24,6 +24,8 @@ export default class SidebarMenu extends Vue {
 	@Prop({ type: Boolean, default: true }) readonly isIconsVisible!: boolean
 
 	@Prop({ type: Boolean, default: true }) readonly isTitlesVisible!: boolean
+
+	@Prop({ type: Number, default: 0 }) readonly delay!: number
 }
 </script>
 

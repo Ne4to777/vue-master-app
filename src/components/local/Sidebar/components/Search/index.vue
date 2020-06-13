@@ -1,17 +1,35 @@
 <template>
 	<div class="search">
-		<input type="text" class="search__input" placeholder="Поиск..." />
+		<input
+			type="text"
+			class="search__input"
+			placeholder="Поиск..."
+			ref="input"
+			@keyup.enter="onSearch()"
+		/>
 		<a class="search__icon-placeholder">
-			<div class="s-icon s-icon-magnifier search__icon"></div>
+			<div
+				class="s-icon s-icon-magnifier search__icon"
+				@click="onSearch()"
+			></div>
 		</a>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+
+declare const location: any
 
 @Component
-export default class SidebarSearch extends Vue {}
+export default class SidebarSearch extends Vue {
+	@Prop({ type: String, default: '' }) readonly url!: string
+
+	onSearch(): void {
+		const inputElement = this.$refs.input as HTMLInputElement
+		location.assign(`${this.url}?q=${inputElement.value}`)
+	}
+}
 </script>
 
 <style lang="stylus" scoped>
