@@ -1,27 +1,45 @@
 import { getByProps, setByProps } from '@/utility/object'
 import { splitByDot } from '@/utility/string'
 
-const THROTTLE_DELAY = 100
-export const throttle = (f: Function, delay = THROTTLE_DELAY): Function => {
+const DELAY_TIME = 100
+export const delay = (f: Function, time = DELAY_TIME): Function => {
 	let timeoutLabel: number
-	return (x: any): void => {
+	return (...args: any[]): void => {
 		if (timeoutLabel) clearTimeout(timeoutLabel)
 		timeoutLabel = setTimeout(() => {
-			f(x)
-			clearTimeout(timeoutLabel)
-		}, delay)
+			f(...args)
+		}, time)
+	}
+}
+
+const THROTTLE_TIME = 100
+export const throttle = (f: Function, time = THROTTLE_TIME): Function => {
+	let lastTime = Date.now()
+	let timeoutLabel: number
+	return (...args: any[]): void => {
+		const nowTime = Date.now()
+		const deltaTime = lastTime + time - nowTime
+		if (timeoutLabel) clearTimeout(timeoutLabel)
+		if (deltaTime < 0) {
+			f(...args)
+			lastTime = nowTime
+		} else {
+			timeoutLabel = setTimeout(() => {
+				f(...args)
+			}, deltaTime)
+		}
 	}
 }
 
 export const switchValueDelayed = (
 	valueKey: string,
 	timeoutLabelKey: string,
-	delay: string
+	delayKey: string
 ): Function =>
 	function (value: boolean): void {
 		const valueKeys = splitByDot(valueKey)
 		const labelKeys = splitByDot(timeoutLabelKey)
-		const delayKeys = splitByDot(delay)
+		const delayKeys = splitByDot(delayKey)
 
 		if (value) {
 			clearTimeout(getByProps(labelKeys)(this))

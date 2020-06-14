@@ -2,7 +2,9 @@
 	<div class="footer">
 		<div class="footer__item footer__item_pointer">Обратная связь</div>
 		<a class="footer__item" href="/">Об Ауре</a>
-		<div class="footer__item">Нашли ошибку? Выделите её и нажмите Ctrl + Enter</div>
+		<div class="footer__item">
+			Нашли ошибку? Выделите её и нажмите Ctrl + Enter
+		</div>
 		<div class="footer__item">© , «Aura» – портал</div>
 	</div>
 </template>
@@ -10,7 +12,7 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({})
+@Component
 export default class SidebarFooter extends Vue {}
 </script>
 

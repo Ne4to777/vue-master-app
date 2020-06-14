@@ -4,7 +4,7 @@
 		<div class="master body__master">
 			<div class="master__widgetbar-placeholder">
 				<widgetbar class="master__widgetbar">
-					<dummy :length="3000" />
+					<dummy :length="2500" />
 				</widgetbar>
 			</div>
 			<div class="master__sidebar-placeholder">
@@ -15,7 +15,7 @@
 			</div>
 			<div class="master__main-placeholder">
 				<main class="master__main">
-					<dummy />
+					<dummy :length="11500" />
 				</main>
 			</div>
 		</div>
