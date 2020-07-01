@@ -1,17 +1,17 @@
-<template>
+<template functional>
 	<div class="search">
 		<input
 			type="text"
 			class="search__input"
 			placeholder="Поиск..."
-			ref="input"
-			@keyup.enter="onSearch()"
+			id="sidebar__search-input"
+			@keyup.enter="$options.methods.onSearch(props.url, $event.target.value)"
 		/>
 		<a class="search__icon-placeholder">
 			<div
-				class="s-icon s-icon-magnifier search__icon"
-				@click="onSearch()"
-			></div>
+				class="icon-magnifier search__icon"
+				@click="$options.methods.onSearch(props.url)"
+			/>
 		</a>
 	</div>
 </template>
@@ -21,18 +21,24 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 declare const location: any
 
-@Component
+@Component({
+	name: 'SidebarSearch',
+	methods: {
+		onSearch(url, value): void {
+			const query = value === undefined
+				? (document.getElementById('sidebar__search-input') as HTMLInputElement).value
+				: value
+
+			if (query) location.assign(`${url}?q=${query}`)
+		}
+	}
+})
 export default class SidebarSearch extends Vue {
 	@Prop({ type: String, default: '' }) readonly url!: string
-
-	onSearch(): void {
-		const inputElement = this.$refs.input as HTMLInputElement
-		location.assign(`${this.url}?q=${inputElement.value}`)
-	}
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~@/assets/styles/variables.styl'
 
 .search
@@ -42,20 +48,20 @@ export default class SidebarSearch extends Vue {
 		border-radius $border-radius_base
 		box-sizing border-box
 		background-color $color-blue_darker
-		border $border-width_base solid $color-grey_darker
-		color $color-grey_dark
+		border $border-width_base solid $color-gray_darker
+		color $color-gray_dark
 		transition $transition-duration_small background-color linear
 
 		&::placeholder
 			font-style italic
 
 		&:focus
-			background-color $color-grey_lightest
-			color $color-grey_darkest
+			background-color $color-gray_lightest
+			color $color-gray_darkest
 			font-style normal
 
 			& + .search__icon-placeholder > .search__icon
-				color $color-grey_darkest
+				color $color-gray_darkest
 
 	&__icon
 		display block

@@ -1,20 +1,32 @@
 <template>
-	<div v-if="tree.title" :class="css.tree" v-on="mouseHandler()">
+	<div v-if="tree.title || tree.icon" :class="css.tree" v-on="mouseHandler()">
 		<component
-			v-if="depth"
+			v-if="this.depth || this.isRootVisible"
 			:is="tree.url ? 'a' : 'div'"
-			:class="css.content"
+			:class="{ [css.content]: this.depth, [css.nodeRoot]: !this.depth }"
 			:href="tree.url"
 			@click="clickHandler"
 		>
-			<svg v-if="isIconVisible" :class="css.icon">
-				<use :xlink:href="tree.icon" />
-			</svg>
-			<div v-if="isTitleVisible" :class="css.title">{{ tree.title }}</div>
-			<div :class="css.arrow" v-if="hasChildren"></div>
+			<svg-ref
+				v-if="isIconVisible"
+				:class="css.icon"
+				:viewBox="tree.iconViewBox"
+				:ref-id="tree.icon"
+			/>
+			<div v-if="tree.title && isTitleVisible" :class="css.title">
+				{{ tree.title }}
+			</div>
+			<div :class="css.arrow" v-if="isArrowVisible"></div>
 		</component>
 
-		<div :class="{ [css.nodes]: depth }" v-if="isChildrenVisible">
+		<div
+			:class="[
+				css.nodes,
+				`${css.nodes}_${this.depth}`,
+				{ [css.nodesRoot]: !(this.depth || this.isRootVisible) }
+			]"
+			v-if="isChildrenVisible"
+		>
 			<tree-menu
 				:class="[css.node, { [css.active]: node.isActive }]"
 				v-for="(node, i) in tree.nodes"
@@ -34,10 +46,16 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { joinBySpace } from '@/utility/array'
 import { switchValueDelayed } from '@/utility/runtime'
 import { TreeI, StylesI } from '@/components/global/TreeMenu/types'
+import SvgRef from '@/components/global/SvgRef/index.vue'
 
-const setMouseOverTreeDelayed = switchValueDelayed('isMouseOverTree', 'timeoutLabel', 'delay')
+const setChildrenVisibilityDelayed = switchValueDelayed('isChildrenNeedToShow', 'timeoutLabel', 'delay')
 
-@Component
+@Component({
+	name: 'TreeMenu',
+	components: {
+		SvgRef
+	}
+})
 export default class TreeMenu extends Vue {
 	@Prop(Object) readonly tree!: TreeI
 
@@ -51,10 +69,17 @@ export default class TreeMenu extends Vue {
 
 	@Prop({ type: Boolean, default: true }) readonly isTitleVisible!: boolean
 
+	@Prop({ type: Boolean, required: false }) readonly isRootVisible!: boolean
+
+	@Prop({ type: Boolean, required: false }) readonly isRootArrowVisible!: boolean
+
+
 	readonly css: object = {
 		tree: joinBySpace(['tree', this.styles.tree]),
 		nodes: joinBySpace(['tree__nodes', this.styles.nodes]),
+		nodesRoot: joinBySpace(['tree__nodes_root', this.styles.nodesRoot]),
 		node: joinBySpace(['tree__node', this.styles.node]),
+		nodeRoot: joinBySpace(['tree__node_root', this.styles.nodeRoot]),
 		content: joinBySpace(['tree__content', this.styles.content]),
 		title: joinBySpace(['tree__title', this.styles.title]),
 		active: joinBySpace(['tree__node_active', this.styles.active]),
@@ -62,21 +87,24 @@ export default class TreeMenu extends Vue {
 		icon: joinBySpace(['tree__icon', this.styles.icon])
 	}
 
-	private readonly isMouseOverTree = false
+	private readonly isChildrenNeedToShow = false
 
 	private readonly timeoutLabel = 0
 
 	mouseHandler(): object {
-		return this.depth
-			? {
-				mouseenter: () => this.setMouseOverTreeDelayed(true),
-				mouseleave: () => this.setMouseOverTreeDelayed(false)
-			}
-			: {}
-	}
+		const {
+			tree, depth, isRootVisible, isChildrenNeedToShow
+		} = this
+		const result: Record<string, Function> = {}
+		const handler = setChildrenVisibilityDelayed.bind(this)
+		if (tree.isChildrenShownByClick) {
+			result.mouseup = () => handler(!isChildrenNeedToShow)
+		} else if (depth || isRootVisible) {
+			result.mouseenter = () => handler(true)
+			result.mouseleave = () => handler(false)
+		}
 
-	private setMouseOverTreeDelayed(value: boolean): void {
-		setMouseOverTreeDelayed.call(this, value)
+		return result
 	}
 
 	private clickHandler(e: MouseEvent): void {
@@ -92,8 +120,48 @@ export default class TreeMenu extends Vue {
 		return !!this.tree?.nodes?.length
 	}
 
+	get isArrowVisible(): boolean {
+		let result = false
+		const {
+			hasChildren,
+			isRootArrowVisible,
+			depth
+		} = this
+
+		if (depth) {
+			if (hasChildren) {
+				result = true
+			}
+		} else if (isRootArrowVisible) {
+			result = true
+		}
+		return result
+	}
+
 	get isChildrenVisible(): boolean {
-		return !!((this.isMouseOverTree && this.hasChildren) || !this.depth)
+		let result = false
+		const {
+			hasChildren,
+			isRootVisible,
+			depth,
+			isChildrenNeedToShow
+		} = this
+
+		if (hasChildren) {
+			if (isRootVisible) {
+				if (isChildrenNeedToShow) {
+					result = true
+				}
+			} else if (depth) {
+				if (isChildrenNeedToShow) {
+					result = true
+				}
+			} else {
+				result = true
+			}
+		}
+
+		return result
 	}
 }
 </script>

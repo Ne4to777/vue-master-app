@@ -1,35 +1,44 @@
 <template>
 	<div class="notification">
-		<div
+		<svg-ref
 			class="notification__icon"
-			:class="{ notification__icon_active: count }"
-		></div>
+			:class="{ notification__icon_active: isCounterVisible }"
+			:ref-id="'icon-bell'"
+		/>
 		<div v-if="isCounterVisible" class="notification__counter">
-			{{ content }}
+			{{ count }}
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import SvgRef from '@/components/global/SvgRef/index.vue'
 
-@Component
+@Component({
+	name: 'SidebarNotification',
+	components: {
+		SvgRef
+	}
+})
 export default class SidebarNotification extends Vue {
-	@Prop() private readonly count!: number
+	@Prop({ type: Array, default: [] }) private readonly items!: object[]
 
 	private readonly COUNT_MAX = 9
 
-	get content(): string {
-		return this.count > this.COUNT_MAX ? `${this.COUNT_MAX}+` : `${this.count}`
+	get count(): string {
+		const { COUNT_MAX, items } = this
+		const { length } = items
+		return length > COUNT_MAX ? `${COUNT_MAX}+` : `${length}`
 	}
 
 	get isCounterVisible(): boolean {
-		return !!this.count
+		return this.items.length > 0
 	}
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~@/assets/styles/paths.styl'
 @import '~@/assets/styles/variables.styl'
 
@@ -47,7 +56,7 @@ $size = 20px
 		line-height $line-height_larger
 		text-align center
 		user-select none
-		color $color-grey_lightest
+		color $color-gray_lightest
 		border-radius $border-radius_largest
 		border-width $border-width_base
 		border-color $color-blue_darker
@@ -58,9 +67,14 @@ $size = 20px
 		width $size
 		height $size
 		cursor pointer
-		background-image $notification-image
-		background-position-y center
+		vertical-align bottom
+		stroke-width 1.6
+		stroke currentColor
+		stroke-linecap round
+		fill transparent
+		stroke-miterlimit 4
+		pointer-events none
 
 		&_active
-			background-position-x -($size)
+			color $color-gray_lightest
 </style>

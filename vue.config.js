@@ -1,30 +1,47 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const privateJSON = require('./dev/private.json')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
-const externals = isProduction
-	? {
+let externals = {}
+let optimization = {}
+let templateParameters = {
+	BASE_URL: '@/'
+}
+let publicPath = '/'
+let template = 'src/index.dev.ejs'
+let filenameHashing = true
+
+if (isProduction) {
+	externals = {
 		vue: 'Vue',
 		// 'vue-router': 'VueRouter',
 		vuex: 'Vuex'
 	}
-	: {}
-const optimization = isProduction
-	? {
+	optimization = {
 		splitChunks: {
 			chunks: 'all'
 		}
 	}
-	: {}
+	templateParameters = {
+		BASE_URL: privateJSON.siteUrl
+	}
+	publicPath = './'
+	template = 'src/index.prod.ejs'
+	filenameHashing = false
+}
+
 
 module.exports = {
-	filenameHashing: !isProduction,
+	filenameHashing,
+	publicPath,
 	pages: {
 		index: {
 			entry: 'src/main.ts',
-			template: 'src/index.ejs',
-			filename: 'index.html'
+			template,
+			filename: 'index.html',
+			templateParameters
 		}
 	},
 	configureWebpack: {

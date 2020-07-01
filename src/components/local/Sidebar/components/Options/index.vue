@@ -1,10 +1,10 @@
 <template>
-	<div class="collapser">
-		<label for="collapser__input" class="collapser__label">
+	<div class="options">
+		<label for="options__input" class="options__label">
 			<input
 				type="checkbox"
-				id="collapser__input"
-				class="collapser__input"
+				id="options__input"
+				class="options__input"
 				:checked="isRight"
 				@change="onChange"
 			/>
@@ -16,8 +16,10 @@
 <script lang="ts">
 import { Component, Model, Vue } from 'vue-property-decorator'
 
-@Component
-export default class SidebarCollapser extends Vue {
+@Component({
+	name: 'SidebarOptions'
+})
+export default class SidebarOptions extends Vue {
 	@Model('change', { type: Boolean, default: false }) readonly isRight!: boolean
 
 	onChange(e: Event): void {
@@ -30,24 +32,21 @@ export default class SidebarCollapser extends Vue {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~@/assets/styles/variables.styl'
 
-.collapser
-	border-radius 0 $border-radius_base $border-radius_base 0
+.options
+	border-radius $border-radius_base 0 0 $border-radius_base
 	text-align center
-	line-height 80px
-	font-size 10px
-	color #FFFFFF
-	background-color #4D4F51
+	font-size $font-size_smaller
+	color $color-gray_lightest
+	background-color $color-gray_darker
 	user-select none
+	border-right 1px solid $color-gray_darker
 
 	&__label
-		position absolute
-		top 0
-		bottom 0
-		right 0
-		left 0
+		display block
+		line-height 80px
 		cursor pointer
 
 	&__input

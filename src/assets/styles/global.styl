@@ -10,13 +10,13 @@
 	opacity 0
 
 .debug
-	background-color $lightgreen
+	background-color $color-green_light
 
 	& *
-		background-color $grey
+		background-color $color-gray_base
 
 .body
-	background-color $color-grey_lighter
+	background-color $color-gray_lighter
 	font-family Roboto
 	font-size $font-size_base
 	line-height $line-height_base
@@ -36,9 +36,7 @@
 	&__master
 		position relative
 		box-sizing border-box
-		padding $padding_base 0
 		margin 0 auto
-		width 1150px
 		min-height 100.1vh
 		min-width 930px
 
@@ -49,15 +47,6 @@ a
 
 	&:focus
 		outline none
-
-.cursor_pointer
-	cursor pointer
-
-.to-top-scroller
-	width 100px
-
-.display_inline-block
-	display inline-block
 
 // MARGIN
 generateClassesBySizes('margin', sizes)

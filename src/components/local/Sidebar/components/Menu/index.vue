@@ -1,11 +1,14 @@
-<template>
-	<tree-menu
-		:tree="tree"
-		:styles="{ arrow: 's-icon s-icon-arrow-right' }"
-		:isIconVisible="isIconsVisible"
-		:isTitleVisible="isTitlesVisible"
-		:delay="delay"
-	></tree-menu>
+<template functional>
+	<component
+		:is="$options.components.TreeMenu"
+		:tree="props.tree"
+		:styles="{ arrow: 'icon-arrow-right' }"
+		:isIconVisible="props.isIconsVisible"
+		:isTitleVisible="props.isTitlesVisible"
+		:delay="props.delay"
+		:isRootVisible="props.isRootVisible"
+		:isRootArrowVisible="props.isRootArrowVisible"
+	/>
 </template>
 
 <script lang="ts">
@@ -14,6 +17,7 @@ import TreeMenu from '@/components/global/TreeMenu/index.vue'
 import { TreeI } from '@/components/global/TreeMenu/types'
 
 @Component({
+	name: 'SidebarMenu',
 	components: {
 		TreeMenu
 	}
@@ -24,6 +28,10 @@ export default class SidebarMenu extends Vue {
 	@Prop({ type: Boolean, default: true }) readonly isIconsVisible!: boolean
 
 	@Prop({ type: Boolean, default: true }) readonly isTitlesVisible!: boolean
+
+	@Prop({ type: Boolean, default: true }) readonly isRootVisible!: boolean
+
+	@Prop({ type: Boolean, default: false }) readonly isRootArrowVisible!: boolean
 
 	@Prop({ type: Number, default: 0 }) readonly delay!: number
 }
@@ -45,6 +53,16 @@ export default class SidebarMenu extends Vue {
 		top -($padding_small / 2)
 		right -212px
 
+		&_0
+			top 32px
+			right -180px
+
+		&_root
+			position relative
+			top 0
+			right 0
+			background none
+
 	&__node
 		display block
 		position relative
@@ -52,8 +70,15 @@ export default class SidebarMenu extends Vue {
 		text-transform uppercase
 
 		&_active
-			color $color-grey_lightest
-			background-color $color-grey_darker
+			color $color-gray_lightest
+			background-color $color-gray_darker
+
+		&_root
+			user-select none
+
+			&:hover
+				cursor pointer
+				color $color-gray_lightest
 
 	&__content
 		display block
@@ -61,21 +86,25 @@ export default class SidebarMenu extends Vue {
 
 		&:hover
 			cursor pointer
-			color $color-grey_lightest
-			box-shadow inset $border-width_large 0 0 $color-grey_lightest
-			background-color $color-grey_darker
+			color $color-gray_lightest
+			box-shadow inset $border-width_large 0 0 $color-gray_lightest
+			background-color $color-gray_darker
 
 	&__icon
 		height 24px
 		width 24px
-		vertical-align middle
+		vertical-align bottom
 		stroke-width 1.6
 		stroke currentColor
 		stroke-linecap round
 		fill transparent
 		stroke-miterlimit 4
+		pointer-events none
 
 		& + .tree__title
+			margin 0 $margin_base
+
+		& + .tree__arrow
 			margin-left $margin_base
 
 	&__title
@@ -85,7 +114,7 @@ export default class SidebarMenu extends Vue {
 
 	&__arrow
 		position absolute
-		top 38%
+		top 14px
 		right $margin_base
 		font-size $font-size_small
 </style>

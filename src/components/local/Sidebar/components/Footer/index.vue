@@ -1,4 +1,4 @@
-<template>
+<template functional>
 	<div class="footer">
 		<div class="footer__item footer__item_pointer">Обратная связь</div>
 		<a class="footer__item" href="/">Об Ауре</a>
@@ -12,11 +12,11 @@
 <script>
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component
+@Component({ name: 'SidebarFooter' })
 export default class SidebarFooter extends Vue {}
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~@/assets/styles/variables.styl'
 
 .footer

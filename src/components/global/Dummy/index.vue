@@ -6,7 +6,9 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import textJSON from './text.json'
 
-@Component
+@Component({
+	name: 'Dummy'
+})
 export default class Dummy extends Vue {
 	@Prop(Number) readonly length!: number
 
@@ -28,5 +30,3 @@ export default class Dummy extends Vue {
 	}
 }
 </script>
-
-<style lang="stylus" scoped></style>

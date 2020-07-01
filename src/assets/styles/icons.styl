@@ -1,13 +1,17 @@
-$dir = '../icons/SimpleLineIcons/'
-@charset 'UTF-8'
+@import 'paths.styl'
+
 @font-face
 	font-family 'simple-line-icons'
-	src url($dir + 'Simple-Line-Icons.eot?v=2.4.0')
-	src url($dir + 'Simple-Line-Icons.eot?v=2.4.0#iefix') format('embedded-opentype'), url($dir + 'Simple-Line-Icons.woff2?v=2.4.0') format('woff2'), url($dir + 'Simple-Line-Icons.ttf?v=2.4.0') format('truetype'), url($dir + 'Simple-Line-Icons.woff?v=2.4.0') format('woff'), url($dir + 'Simple-Line-Icons.svg?v=2.4.0#simple-line-icons') format('svg')
+	src url($iconsDir + 'Simple-Line-Icons.eot?v=2.4.0')
+	src url($iconsDir + 'Simple-Line-Icons.eot?v=2.4.0#iefix') format('embedded-opentype'), url($iconsDir + 'Simple-Line-Icons.woff2?v=2.4.0') format('woff2'), url($iconsDir + 'Simple-Line-Icons.woff?v=2.4.0') format('woff'), url($iconsDir + 'Simple-Line-Icons.ttf?v=2.4.0') format('truetype'), url($iconsDir + 'Simple-Line-Icons.svg?v=2.4.0#simple-line-icons') format('svg')
 	font-weight normal
 	font-style normal
 
-.s-icon
+/*
+ Use the following CSS code if you want to have a class per icon.
+ Instead of a list of all class selectors, you can use the generic [class*="icon-"] selector, but it's slower:
+*/
+.icon-user, .icon-people, .icon-user-female, .icon-user-follow, .icon-user-following, .icon-user-unfollow, .icon-login, .icon-logout, .icon-emotsmile, .icon-phone, .icon-call-end, .icon-call-in, .icon-call-out, .icon-map, .icon-location-pin, .icon-direction, .icon-directions, .icon-compass, .icon-layers, .icon-menu, .icon-list, .icon-options-vertical, .icon-options, .icon-arrow-down, .icon-arrow-left, .icon-arrow-right, .icon-arrow-up, .icon-arrow-up-circle, .icon-arrow-left-circle, .icon-arrow-right-circle, .icon-arrow-down-circle, .icon-check, .icon-clock, .icon-plus, .icon-minus, .icon-close, .icon-event, .icon-exclamation, .icon-organization, .icon-trophy, .icon-screen-smartphone, .icon-screen-desktop, .icon-plane, .icon-notebook, .icon-mustache, .icon-mouse, .icon-magnet, .icon-energy, .icon-disc, .icon-cursor, .icon-cursor-move, .icon-crop, .icon-chemistry, .icon-speedometer, .icon-shield, .icon-screen-tablet, .icon-magic-wand, .icon-hourglass, .icon-graduation, .icon-ghost, .icon-game-controller, .icon-fire, .icon-eyeglass, .icon-envelope-open, .icon-envelope-letter, .icon-bell, .icon-badge, .icon-anchor, .icon-wallet, .icon-vector, .icon-speech, .icon-puzzle, .icon-printer, .icon-present, .icon-playlist, .icon-pin, .icon-picture, .icon-handbag, .icon-globe-alt, .icon-globe, .icon-folder-alt, .icon-folder, .icon-film, .icon-feed, .icon-drop, .icon-drawer, .icon-docs, .icon-doc, .icon-diamond, .icon-cup, .icon-calculator, .icon-bubbles, .icon-briefcase, .icon-book-open, .icon-basket-loaded, .icon-basket, .icon-bag, .icon-action-undo, .icon-action-redo, .icon-wrench, .icon-umbrella, .icon-trash, .icon-tag, .icon-support, .icon-frame, .icon-size-fullscreen, .icon-size-actual, .icon-shuffle, .icon-share-alt, .icon-share, .icon-rocket, .icon-question, .icon-pie-chart, .icon-pencil, .icon-note, .icon-loop, .icon-home, .icon-grid, .icon-graph, .icon-microphone, .icon-music-tone-alt, .icon-music-tone, .icon-earphones-alt, .icon-earphones, .icon-equalizer, .icon-like, .icon-dislike, .icon-control-start, .icon-control-rewind, .icon-control-play, .icon-control-pause, .icon-control-forward, .icon-control-end, .icon-volume-1, .icon-volume-2, .icon-volume-off, .icon-calendar, .icon-bulb, .icon-chart, .icon-ban, .icon-bubble, .icon-camrecorder, .icon-camera, .icon-cloud-download, .icon-cloud-upload, .icon-envelope, .icon-eye, .icon-flag, .icon-heart, .icon-info, .icon-key, .icon-link, .icon-lock, .icon-lock-open, .icon-magnifier, .icon-magnifier-add, .icon-magnifier-remove, .icon-paper-clip, .icon-paper-plane, .icon-power, .icon-refresh, .icon-reload, .icon-settings, .icon-star, .icon-symbol-female, .icon-symbol-male, .icon-target, .icon-credit-card, .icon-paypal, .icon-social-tumblr, .icon-social-twitter, .icon-social-facebook, .icon-social-instagram, .icon-social-linkedin, .icon-social-pinterest, .icon-social-github, .icon-social-google, .icon-social-reddit, .icon-social-skype, .icon-social-dribbble, .icon-social-behance, .icon-social-foursqare, .icon-social-soundcloud, .icon-social-spotify, .icon-social-stumbleupon, .icon-social-youtube, .icon-social-dropbox, .icon-social-vkontakte, .icon-social-steam
 	font-family 'simple-line-icons'
 	speak none
 	font-style normal
@@ -18,592 +22,570 @@ $dir = '../icons/SimpleLineIcons/'
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing antialiased
 	-moz-osx-font-smoothing grayscale
-	font-size inherit
-	color inherit
-	outline none
-	display inline-block
 
-.s-icon--block
-	display block
-
-.s-icon--middle
-	vertical-align middle
-
-.s-icon:before
-	font-size inherit
-	height auto
-	width auto
-	max-width 100%
-	max-height 100%
-	display block
-
-.s-icon-rub:before
-	content '\f158'
-	font-family FontAwesome
-
-.s-icon-user:before
+.icon-user:before
 	content '\e005'
 
-.s-icon-people:before
+.icon-people:before
 	content '\e001'
 
-.s-icon-user-female:before
+.icon-user-female:before
 	content '\e000'
 
-.s-icon-user-follow:before
+.icon-user-follow:before
 	content '\e002'
 
-.s-icon-user-following:before
+.icon-user-following:before
 	content '\e003'
 
-.s-icon-user-unfollow:before
+.icon-user-unfollow:before
 	content '\e004'
 
-.s-icon-login:before
+.icon-login:before
 	content '\e066'
 
-.s-icon-logout:before
+.icon-logout:before
 	content '\e065'
 
-.s-icon-emotsmile:before
+.icon-emotsmile:before
 	content '\e021'
 
-.s-icon-phone:before
+.icon-phone:before
 	content '\e600'
 
-.s-icon-call-end:before
+.icon-call-end:before
 	content '\e048'
 
-.s-icon-call-in:before
+.icon-call-in:before
 	content '\e047'
 
-.s-icon-call-out:before
+.icon-call-out:before
 	content '\e046'
 
-.s-icon-map:before
+.icon-map:before
 	content '\e033'
 
-.s-icon-location-pin:before
+.icon-location-pin:before
 	content '\e096'
 
-.s-icon-direction:before
+.icon-direction:before
 	content '\e042'
 
-.s-icon-directions:before
+.icon-directions:before
 	content '\e041'
 
-.s-icon-compass:before
+.icon-compass:before
 	content '\e045'
 
-.s-icon-layers:before
+.icon-layers:before
 	content '\e034'
 
-.s-icon-menu:before
+.icon-menu:before
 	content '\e601'
 
-.s-icon-list:before
+.icon-list:before
 	content '\e067'
 
-.s-icon-options-vertical:before
+.icon-options-vertical:before
 	content '\e602'
 
-.s-icon-options:before
+.icon-options:before
 	content '\e603'
 
-.s-icon-arrow-down:before
+.icon-arrow-down:before
 	content '\e604'
 
-.s-icon-arrow-left:before
+.icon-arrow-left:before
 	content '\e605'
 
-.s-icon-arrow-right:before
+.icon-arrow-right:before
 	content '\e606'
 
-.s-icon-arrow-up:before
+.icon-arrow-up:before
 	content '\e607'
 
-.s-icon-arrow-up-circle:before
+.icon-arrow-up-circle:before
 	content '\e078'
 
-.s-icon-arrow-left-circle:before
+.icon-arrow-left-circle:before
 	content '\e07a'
 
-.s-icon-arrow-right-circle:before
+.icon-arrow-right-circle:before
 	content '\e079'
 
-.s-icon-arrow-down-circle:before
+.icon-arrow-down-circle:before
 	content '\e07b'
 
-.s-icon-check:before
+.icon-check:before
 	content '\e080'
 
-.s-icon-clock:before
+.icon-clock:before
 	content '\e081'
 
-.s-icon-plus:before
+.icon-plus:before
 	content '\e095'
 
-.s-icon-minus:before
+.icon-minus:before
 	content '\e615'
 
-.s-icon-close:before
+.icon-close:before
 	content '\e082'
 
-.s-icon-event:before
+.icon-event:before
 	content '\e619'
 
-.s-icon-exclamation:before
+.icon-exclamation:before
 	content '\e617'
 
-.s-icon-organization:before
+.icon-organization:before
 	content '\e616'
 
-.s-icon-trophy:before
+.icon-trophy:before
 	content '\e006'
 
-.s-icon-screen-smartphone:before
+.icon-screen-smartphone:before
 	content '\e010'
 
-.s-icon-screen-desktop:before
+.icon-screen-desktop:before
 	content '\e011'
 
-.s-icon-plane:before
+.icon-plane:before
 	content '\e012'
 
-.s-icon-notebook:before
+.icon-notebook:before
 	content '\e013'
 
-.s-icon-mustache:before
+.icon-mustache:before
 	content '\e014'
 
-.s-icon-mouse:before
+.icon-mouse:before
 	content '\e015'
 
-.s-icon-magnet:before
+.icon-magnet:before
 	content '\e016'
 
-.s-icon-energy:before
+.icon-energy:before
 	content '\e020'
 
-.s-icon-disc:before
+.icon-disc:before
 	content '\e022'
 
-.s-icon-cursor:before
+.icon-cursor:before
 	content '\e06e'
 
-.s-icon-cursor-move:before
+.icon-cursor-move:before
 	content '\e023'
 
-.s-icon-crop:before
+.icon-crop:before
 	content '\e024'
 
-.s-icon-chemistry:before
+.icon-chemistry:before
 	content '\e026'
 
-.s-icon-speedometer:before
+.icon-speedometer:before
 	content '\e007'
 
-.s-icon-shield:before
+.icon-shield:before
 	content '\e00e'
 
-.s-icon-screen-tablet:before
+.icon-screen-tablet:before
 	content '\e00f'
 
-.s-icon-magic-wand:before
+.icon-magic-wand:before
 	content '\e017'
 
-.s-icon-hourglass:before
+.icon-hourglass:before
 	content '\e018'
 
-.s-icon-graduation:before
+.icon-graduation:before
 	content '\e019'
 
-.s-icon-ghost:before
+.icon-ghost:before
 	content '\e01a'
 
-.s-icon-game-controller:before
+.icon-game-controller:before
 	content '\e01b'
 
-.s-icon-fire:before
+.icon-fire:before
 	content '\e01c'
 
-.s-icon-eyeglass:before
+.icon-eyeglass:before
 	content '\e01d'
 
-.s-icon-envelope-open:before
+.icon-envelope-open:before
 	content '\e01e'
 
-.s-icon-envelope-letter:before
+.icon-envelope-letter:before
 	content '\e01f'
 
-.s-icon-bell:before
+.icon-bell:before
 	content '\e027'
 
-.s-icon-badge:before
+.icon-badge:before
 	content '\e028'
 
-.s-icon-anchor:before
+.icon-anchor:before
 	content '\e029'
 
-.s-icon-wallet:before
+.icon-wallet:before
 	content '\e02a'
 
-.s-icon-vector:before
+.icon-vector:before
 	content '\e02b'
 
-.s-icon-speech:before
+.icon-speech:before
 	content '\e02c'
 
-.s-icon-puzzle:before
+.icon-puzzle:before
 	content '\e02d'
 
-.s-icon-printer:before
+.icon-printer:before
 	content '\e02e'
 
-.s-icon-present:before
+.icon-present:before
 	content '\e02f'
 
-.s-icon-playlist:before
+.icon-playlist:before
 	content '\e030'
 
-.s-icon-pin:before
+.icon-pin:before
 	content '\e031'
 
-.s-icon-picture:before
+.icon-picture:before
 	content '\e032'
 
-.s-icon-handbag:before
+.icon-handbag:before
 	content '\e035'
 
-.s-icon-globe-alt:before
+.icon-globe-alt:before
 	content '\e036'
 
-.s-icon-globe:before
+.icon-globe:before
 	content '\e037'
 
-.s-icon-folder-alt:before
+.icon-folder-alt:before
 	content '\e039'
 
-.s-icon-folder:before
+.icon-folder:before
 	content '\e089'
 
-.s-icon-film:before
+.icon-film:before
 	content '\e03a'
 
-.s-icon-feed:before
+.icon-feed:before
 	content '\e03b'
 
-.s-icon-drop:before
+.icon-drop:before
 	content '\e03e'
 
-.s-icon-drawer:before
+.icon-drawer:before
 	content '\e03f'
 
-.s-icon-docs:before
+.icon-docs:before
 	content '\e040'
 
-.s-icon-doc:before
+.icon-doc:before
 	content '\e085'
 
-.s-icon-diamond:before
+.icon-diamond:before
 	content '\e043'
 
-.s-icon-cup:before
+.icon-cup:before
 	content '\e044'
 
-.s-icon-calculator:before
+.icon-calculator:before
 	content '\e049'
 
-.s-icon-bubbles:before
+.icon-bubbles:before
 	content '\e04a'
 
-.s-icon-briefcase:before
+.icon-briefcase:before
 	content '\e04b'
 
-.s-icon-book-open:before
+.icon-book-open:before
 	content '\e04c'
 
-.s-icon-basket-loaded:before
+.icon-basket-loaded:before
 	content '\e04d'
 
-.s-icon-basket:before
+.icon-basket:before
 	content '\e04e'
 
-.s-icon-bag:before
+.icon-bag:before
 	content '\e04f'
 
-.s-icon-action-undo:before
+.icon-action-undo:before
 	content '\e050'
 
-.s-icon-action-redo:before
+.icon-action-redo:before
 	content '\e051'
 
-.s-icon-wrench:before
+.icon-wrench:before
 	content '\e052'
 
-.s-icon-umbrella:before
+.icon-umbrella:before
 	content '\e053'
 
-.s-icon-trash:before
+.icon-trash:before
 	content '\e054'
 
-.s-icon-tag:before
+.icon-tag:before
 	content '\e055'
 
-.s-icon-support:before
+.icon-support:before
 	content '\e056'
 
-.s-icon-frame:before
+.icon-frame:before
 	content '\e038'
 
-.s-icon-size-fullscreen:before
+.icon-size-fullscreen:before
 	content '\e057'
 
-.s-icon-size-actual:before
+.icon-size-actual:before
 	content '\e058'
 
-.s-icon-shuffle:before
+.icon-shuffle:before
 	content '\e059'
 
-.s-icon-share-alt:before
+.icon-share-alt:before
 	content '\e05a'
 
-.s-icon-share:before
+.icon-share:before
 	content '\e05b'
 
-.s-icon-rocket:before
+.icon-rocket:before
 	content '\e05c'
 
-.s-icon-question:before
+.icon-question:before
 	content '\e05d'
 
-.s-icon-pie-chart:before
+.icon-pie-chart:before
 	content '\e05e'
 
-.s-icon-pencil:before
+.icon-pencil:before
 	content '\e05f'
 
-.s-icon-note:before
+.icon-note:before
 	content '\e060'
 
-.s-icon-loop:before
+.icon-loop:before
 	content '\e064'
 
-.s-icon-home:before
+.icon-home:before
 	content '\e069'
 
-.s-icon-grid:before
+.icon-grid:before
 	content '\e06a'
 
-.s-icon-graph:before
+.icon-graph:before
 	content '\e06b'
 
-.s-icon-microphone:before
+.icon-microphone:before
 	content '\e063'
 
-.s-icon-music-tone-alt:before
+.icon-music-tone-alt:before
 	content '\e061'
 
-.s-icon-music-tone:before
+.icon-music-tone:before
 	content '\e062'
 
-.s-icon-earphones-alt:before
+.icon-earphones-alt:before
 	content '\e03c'
 
-.s-icon-earphones:before
+.icon-earphones:before
 	content '\e03d'
 
-.s-icon-equalizer:before
+.icon-equalizer:before
 	content '\e06c'
 
-.s-icon-like:before
+.icon-like:before
 	content '\e068'
 
-.s-icon-dislike:before
+.icon-dislike:before
 	content '\e06d'
 
-.s-icon-control-start:before
+.icon-control-start:before
 	content '\e06f'
 
-.s-icon-control-rewind:before
+.icon-control-rewind:before
 	content '\e070'
 
-.s-icon-control-play:before
+.icon-control-play:before
 	content '\e071'
 
-.s-icon-control-pause:before
+.icon-control-pause:before
 	content '\e072'
 
-.s-icon-control-forward:before
+.icon-control-forward:before
 	content '\e073'
 
-.s-icon-control-end:before
+.icon-control-end:before
 	content '\e074'
 
-.s-icon-volume-1:before
+.icon-volume-1:before
 	content '\e09f'
 
-.s-icon-volume-2:before
+.icon-volume-2:before
 	content '\e0a0'
 
-.s-icon-volume-off:before
+.icon-volume-off:before
 	content '\e0a1'
 
-.s-icon-calendar:before
+.icon-calendar:before
 	content '\e075'
 
-.s-icon-bulb:before
+.icon-bulb:before
 	content '\e076'
 
-.s-icon-chart:before
+.icon-chart:before
 	content '\e077'
 
-.s-icon-ban:before
+.icon-ban:before
 	content '\e07c'
 
-.s-icon-bubble:before
+.icon-bubble:before
 	content '\e07d'
 
-.s-icon-camrecorder:before
+.icon-camrecorder:before
 	content '\e07e'
 
-.s-icon-camera:before
+.icon-camera:before
 	content '\e07f'
 
-.s-icon-cloud-download:before
+.icon-cloud-download:before
 	content '\e083'
 
-.s-icon-cloud-upload:before
+.icon-cloud-upload:before
 	content '\e084'
 
-.s-icon-envelope:before
+.icon-envelope:before
 	content '\e086'
 
-.s-icon-eye:before
+.icon-eye:before
 	content '\e087'
 
-.s-icon-flag:before
+.icon-flag:before
 	content '\e088'
 
-.s-icon-heart:before
+.icon-heart:before
 	content '\e08a'
 
-.s-icon-info:before
+.icon-info:before
 	content '\e08b'
 
-.s-icon-key:before
+.icon-key:before
 	content '\e08c'
 
-.s-icon-link:before
+.icon-link:before
 	content '\e08d'
 
-.s-icon-lock:before
+.icon-lock:before
 	content '\e08e'
 
-.s-icon-lock-open:before
+.icon-lock-open:before
 	content '\e08f'
 
-.s-icon-magnifier:before
+.icon-magnifier:before
 	content '\e090'
 
-.s-icon-magnifier-add:before
+.icon-magnifier-add:before
 	content '\e091'
 
-.s-icon-magnifier-remove:before
+.icon-magnifier-remove:before
 	content '\e092'
 
-.s-icon-paper-clip:before
+.icon-paper-clip:before
 	content '\e093'
 
-.s-icon-paper-plane:before
+.icon-paper-plane:before
 	content '\e094'
 
-.s-icon-power:before
+.icon-power:before
 	content '\e097'
 
-.s-icon-refresh:before
+.icon-refresh:before
 	content '\e098'
 
-.s-icon-reload:before
+.icon-reload:before
 	content '\e099'
 
-.s-icon-settings:before
+.icon-settings:before
 	content '\e09a'
 
-.s-icon-star:before
+.icon-star:before
 	content '\e09b'
 
-.s-icon-symbol-female:before
+.icon-symbol-female:before
 	content '\e09c'
 
-.s-icon-symbol-male:before
+.icon-symbol-male:before
 	content '\e09d'
 
-.s-icon-target:before
+.icon-target:before
 	content '\e09e'
 
-.s-icon-credit-card:before
+.icon-credit-card:before
 	content '\e025'
 
-.s-icon-paypal:before
+.icon-paypal:before
 	content '\e608'
 
-.s-icon-social-tumblr:before
+.icon-social-tumblr:before
 	content '\e00a'
 
-.s-icon-social-twitter:before
+.icon-social-twitter:before
 	content '\e009'
 
-.s-icon-social-facebook:before
+.icon-social-facebook:before
 	content '\e00b'
 
-.s-icon-social-instagram:before
+.icon-social-instagram:before
 	content '\e609'
 
-.s-icon-social-linkedin:before
+.icon-social-linkedin:before
 	content '\e60a'
 
-.s-icon-social-pinterest:before
+.icon-social-pinterest:before
 	content '\e60b'
 
-.s-icon-social-github:before
+.icon-social-github:before
 	content '\e60c'
 
-.s-icon-social-google:before
+.icon-social-google:before
 	content '\e60d'
 
-.s-icon-social-reddit:before
+.icon-social-reddit:before
 	content '\e60e'
 
-.s-icon-social-skype:before
+.icon-social-skype:before
 	content '\e60f'
 
-.s-icon-social-dribbble:before
+.icon-social-dribbble:before
 	content '\e00d'
 
-.s-icon-social-behance:before
+.icon-social-behance:before
 	content '\e610'
 
-.s-icon-social-foursqare:before
+.icon-social-foursqare:before
 	content '\e611'
 
-.s-icon-social-soundcloud:before
+.icon-social-soundcloud:before
 	content '\e612'
 
-.s-icon-social-spotify:before
+.icon-social-spotify:before
 	content '\e613'
 
-.s-icon-social-stumbleupon:before
+.icon-social-stumbleupon:before
 	content '\e614'
 
-.s-icon-social-youtube:before
+.icon-social-youtube:before
 	content '\e008'
 
-.s-icon-social-dropbox:before
+.icon-social-dropbox:before
 	content '\e00c'
 
-.s-icon-social-vkontakte:before
+.icon-social-vkontakte:before
 	content '\e618'
 
-.s-icon-social-steam:before
+.icon-social-steam:before
 	content '\e620'
