@@ -29,6 +29,7 @@ module.exports = {
 		'no-await-in-loop': 0,
 		'no-loop-func': 0,
 		'func-names': 0,
+		'no-restricted-syntax': 0,
 		'implicit-arrow-linebreak': 0,
 		'import/no-dynamic-require': 0,
 		'global-require': 0,

@@ -28,8 +28,8 @@
 		<template #profile>
 			<component
 				:is="injections.components.SidebarProfile"
-				:avatarUrl="props.profile.avatar.url"
-				:avatarPosition="props.profile.avatar.position"
+				:avatarUrl="props.profile.avatarUrl"
+				:avatarPosition="props.profile.avatarPosition"
 				:name="props.profile.name"
 				:isNameVisible="props.isVertical"
 			/>
@@ -38,6 +38,7 @@
 		<template #menu>
 			<component
 				:is="injections.components.SidebarMenu"
+				:classNamespace="props.menu.classNamespace"
 				:tree="props.menu.tree"
 				:isTitlesVisible="props.menu.isTitlesVisible"
 				:isIconsVisible="props.menu.isIconsVisible"
@@ -98,12 +99,12 @@ import LayoutHorizontal from '@/components/local/Sidebar/layouts/Horizontal/inde
 export default class Sidebar extends Vue {
 	@Prop({ type: Boolean, default: false }) isVertical!: boolean
 
-	@Prop({ type: Object }) notification!: object
+	@Prop({ type: Object, default: () => ({}) }) notification!: object
 
-	@Prop({ type: Object }) profile!: object
+	@Prop({ type: Object, default: () => ({}) }) profile!: object
 
-	@Prop({ type: Object }) menu!: object
+	@Prop({ type: Object, default: () => ({}) }) menu!: object
 
-	@Prop({ type: Object }) search!: object
+	@Prop({ type: Object, default: () => ({}) }) search!: object
 }
 </script>

@@ -1,6 +1,7 @@
 <template functional>
 	<component
 		:is="$options.components.TreeMenu"
+		:classNamespace="props.classNamespace"
 		:tree="props.tree"
 		:styles="{ arrow: 'icon-arrow-right' }"
 		:isIconVisible="props.isIconsVisible"
@@ -23,6 +24,8 @@ import { TreeI } from '@/components/global/TreeMenu/types'
 	}
 })
 export default class SidebarMenu extends Vue {
+	@Prop({ type: String, default: '' }) readonly classNamespace!: string
+
 	@Prop(Object) readonly tree!: TreeI
 
 	@Prop({ type: Boolean, default: true }) readonly isIconsVisible!: boolean
@@ -37,10 +40,10 @@ export default class SidebarMenu extends Vue {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="stylus">
 @import '~@/assets/styles/variables.styl'
 
->>>.tree
+.sidebar-tree
 	display block
 
 	&__nodes
@@ -101,16 +104,11 @@ export default class SidebarMenu extends Vue {
 		stroke-miterlimit 4
 		pointer-events none
 
-		& + .tree__title
-			margin 0 $margin_base
-
-		& + .tree__arrow
-			margin-left $margin_base
-
 	&__title
 		display inline-block
 		vertical-align bottom
 		text-transform uppercase
+		margin 0 $margin_base
 
 	&__arrow
 		position absolute

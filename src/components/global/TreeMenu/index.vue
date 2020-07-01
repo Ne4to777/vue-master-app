@@ -28,8 +28,9 @@
 			v-if="isChildrenVisible"
 		>
 			<tree-menu
-				:class="[css.node, { [css.active]: node.isActive }]"
+				:class="[css.node, { [css.nodeActive]: node.isActive }]"
 				v-for="(node, i) in tree.nodes"
+				:classNamespace="classNamespace"
 				:tree="node"
 				:key="i"
 				:depth="depth + 1"
@@ -50,6 +51,8 @@ import SvgRef from '@/components/global/SvgRef/index.vue'
 
 const setChildrenVisibilityDelayed = switchValueDelayed('isChildrenNeedToShow', 'timeoutLabel', 'delay')
 
+// const generateClassName =
+
 @Component({
 	name: 'TreeMenu',
 	components: {
@@ -57,7 +60,9 @@ const setChildrenVisibilityDelayed = switchValueDelayed('isChildrenNeedToShow', 
 	}
 })
 export default class TreeMenu extends Vue {
-	@Prop(Object) readonly tree!: TreeI
+	@Prop({ type: String, default: '' }) readonly classNamespace!: string
+
+	@Prop({ type: Object, default: () => ({}) }) readonly tree!: TreeI
 
 	@Prop({ type: Number, default: 0 }) readonly depth!: number
 
@@ -73,23 +78,28 @@ export default class TreeMenu extends Vue {
 
 	@Prop({ type: Boolean, required: false }) readonly isRootArrowVisible!: boolean
 
-
-	readonly css: object = {
-		tree: joinBySpace(['tree', this.styles.tree]),
-		nodes: joinBySpace(['tree__nodes', this.styles.nodes]),
-		nodesRoot: joinBySpace(['tree__nodes_root', this.styles.nodesRoot]),
-		node: joinBySpace(['tree__node', this.styles.node]),
-		nodeRoot: joinBySpace(['tree__node_root', this.styles.nodeRoot]),
-		content: joinBySpace(['tree__content', this.styles.content]),
-		title: joinBySpace(['tree__title', this.styles.title]),
-		active: joinBySpace(['tree__node_active', this.styles.active]),
-		arrow: joinBySpace(['tree__arrow', this.styles.arrow]),
-		icon: joinBySpace(['tree__icon', this.styles.icon])
+	get css(): object {
+		return {
+			tree: this.generateClassName(['tree', this.styles.tree]),
+			nodes: this.generateClassName(['tree__nodes', this.styles.nodes]),
+			nodesRoot: this.generateClassName(['tree__nodes_root', this.styles.nodesRoot]),
+			node: this.generateClassName(['tree__node', this.styles.node]),
+			nodeRoot: this.generateClassName(['tree__node_root', this.styles.nodeRoot]),
+			content: this.generateClassName(['tree__content', this.styles.content]),
+			title: this.generateClassName(['tree__title', this.styles.title]),
+			nodeActive: this.generateClassName(['tree__node_active', this.styles.active]),
+			arrow: this.generateClassName(['tree__arrow', this.styles.arrow]),
+			icon: this.generateClassName(['tree__icon', this.styles.icon])
+		}
 	}
 
 	private readonly isChildrenNeedToShow = false
 
 	private readonly timeoutLabel = 0
+
+	generateClassName(names: string[]): string {
+		return `${this.classNamespace}-${joinBySpace(names)}`
+	}
 
 	mouseHandler(): object {
 		const {

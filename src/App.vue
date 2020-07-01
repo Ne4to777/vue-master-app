@@ -4,9 +4,9 @@
 		<div class="body__background-placeholder" />
 		<div
 			class="master body__master"
-			:class="{ 'master_max-width': !isLayoutWide }"
+			:class="{ 'master_max-width': !layout.isWide }"
 		>
-			<div v-if="isWidgetbarVisible" class="master__widgetbar-placeholder">
+			<div v-if="widgetbar.isVisible" class="master__widgetbar-placeholder">
 				<widgetbar :class="paddingTopClass">
 					<slot name="widgetbar">
 						<dummy :length="2500" />
@@ -16,10 +16,10 @@
 			<div class="master__sidebar-placeholder" :class="sidebarDirectionClass">
 				<sidebar
 					:isVertical="sidebar.isVertical"
-					:notification="sidebar.notification"
-					:profile="sidebar.profile"
-					:menu="sidebar.menu"
-					:search="sidebar.search"
+					:notification="notification"
+					:profile="profile"
+					:menu="menu"
+					:search="search"
 				/>
 			</div>
 			<div
@@ -38,101 +38,108 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 import Dummy from '@/components/global/Dummy/index.vue'
 import Favicon from '@/components/local/Favicon/index.vue'
 import Sidebar from '@/components/local/Sidebar/index.vue'
 import Widgetbar from '@/components/local/Widgetbar/index.vue'
 import MainApp from '@/components/local/MainApp/index.vue'
 
-const FAVICON = {
-	isNotified: false
-}
+const masterModule = namespace('master')
 
-const NOTIFICATION = {
-	items: [
-		{
-			author: 'author',
-			type: 'post',
-			text: 'some text'
-		}
-	]
-}
+// const NOTIFICATION = {
+// 	items: [
+// 		{
+// 			author: 'author',
+// 			type: 'post',
+// 			text: 'some text'
+// 		}
+// 	]
+// }
 
-const PROFILE = {
-	avatar: {
-		url: require('@/components/local/Sidebar/components/Profile/avatar.png'),
-		position: ''
-	},
-	name: 'Алексеев Алексей Сергеевич'
-}
+// const PROFILE = {
+// 	avatarUrl: require('@/components/local/Sidebar/components/Profile/avatar.png'),
+// 	avatarPosition: '',
+// 	name: 'Алексеев Алексей Сергеевич'
+// }
 
-const SEARCH = { url: '/test' }
+// const SEARCH = { url: '/test' }
 
-const TREE = {
-	icon: 'icon-menu',
-	isChildrenShownByClick: true,
-	nodes: [
-		{
-			title: 'title1',
-			icon: 'icon-bulb',
-			onClick: () => console.log('click'),
-			nodes: []
-		},
-		{
-			title: 'title2',
-			icon: 'icon-globe',
-			url: '/?a=3',
-			nodes: [
-				{
-					title: 'title21',
-					icon: 'icon-info',
-					url: '/?a=4'
-				}
-			]
-		},
-		{
-			title: 'title3',
-			icon: 'icon-sheet',
-			url: '/?a=5',
-			nodes: [
-				{
-					title: 'title31',
-					icon: 'icon-wrench',
-					url: '/?a=6',
-					nodes: [
-						{
-							title: 'title311',
-							icon: 'icon-bell',
-							onClick: () => console.log('click'),
-							nodes: []
-						},
-						{
-							title: 'title312',
-							icon: 'icon-discussion',
-							url: '/?a=8',
-							isActive: true,
-							nodes: []
-						}
-					]
-				},
-				{
-					title: 'title311',
-					icon: 'icon-bell',
-					iconViewBox: '0 0 20 20',
-					onClick: () => console.log('click'),
-					nodes: []
-				},
-				{
-					title: 'title312',
-					icon: 'icon-discussion',
-					url: '/?a=8',
-					isActive: true,
-					nodes: []
-				}
-			]
-		}
-	]
-}
+// const TREE = {
+// 	icon: 'icon-menu',
+// 	isChildrenShownByClick: true,
+// 	nodes: [
+// 		{
+// 			title: 'title1',
+// 			icon: 'icon-bulb',
+// 			onClick: () => console.log('click'),
+// 			nodes: []
+// 		},
+// 		{
+// 			title: 'title2',
+// 			icon: 'icon-globe',
+// 			url: '/?a=3',
+// 			nodes: [
+// 				{
+// 					title: 'title21',
+// 					icon: 'icon-info',
+// 					url: '/?a=4'
+// 				}
+// 			]
+// 		},
+// 		{
+// 			title: 'title3',
+// 			icon: 'icon-sheet',
+// 			url: '/?a=5',
+// 			nodes: [
+// 				{
+// 					title: 'title31',
+// 					icon: 'icon-wrench',
+// 					url: '/?a=6',
+// 					nodes: [
+// 						{
+// 							title: 'title311',
+// 							icon: 'icon-bell',
+// 							onClick: () => console.log('click'),
+// 							nodes: []
+// 						},
+// 						{
+// 							title: 'title312',
+// 							icon: 'icon-discussion',
+// 							url: '/?a=8',
+// 							isActive: true,
+// 							nodes: []
+// 						}
+// 					]
+// 				},
+// 				{
+// 					title: 'title311',
+// 					icon: 'icon-bell',
+// 					iconViewBox: '0 0 20 20',
+// 					onClick: () => console.log('click'),
+// 					nodes: []
+// 				},
+// 				{
+// 					title: 'title312',
+// 					icon: 'icon-discussion',
+// 					url: '/?a=8',
+// 					isActive: true,
+// 					nodes: []
+// 				}
+// 			]
+// 		}
+// 	]
+// }
+
+// const MENU = {
+// 	tree: TREE,
+// 	classNamespace: 'sidebar',
+// 	isTitlesVisible: true,
+// 	isRootVisible: false,
+// 	isRootArrowVisible: false,
+// 	isIconsVisible: true,
+// 	delay: 100
+// }
 
 Component.registerHooks(['created', 'beforeUpdate'])
 
@@ -144,43 +151,49 @@ Component.registerHooks(['created', 'beforeUpdate'])
 		Widgetbar,
 		MainApp,
 		Dummy
-	}
+	},
 })
 
 export default class MasterApp extends Vue {
-	private readonly isLayoutWide = false
+	@masterModule.State layout!: object
 
-	private readonly isSidebarVertical = false
+	@masterModule.Action setLayoutProps!: Function
 
-	private readonly favicon = FAVICON
+	@masterModule.State favicon!: object
 
-	private isWidgetbarVisible = true
+	@masterModule.Action setFaviconProps!: Function
 
+	@masterModule.State widgetbar!: any
 
-	// created(): void {
-	// 	this.setIsWidgetbarVisible()
-	// }
+	@masterModule.Action setWidgetbarProps!: Function
+
+	@masterModule.State sidebar!: any
+
+	@masterModule.Action setSidebarProps!: Function
+
+	@masterModule.State notification!: any
+
+	@masterModule.Action setNotificationProps!: Function
+
+	@masterModule.State profile!: any
+
+	@masterModule.Action setProfileProps!: Function
+
+	@masterModule.State menu!: any
+
+	@masterModule.Action setMenuProps!: Function
+
+	@masterModule.State search!: any
+
+	@masterModule.Action setSearchProps!: Function
+
+	created(): void {
+		this.setIsWidgetbarVisible()
+	}
 
 	// beforeUpdate(): void {
 	// 	this.setIsWidgetbarVisible()
 	// }
-
-	private get sidebar(): any {
-		return {
-			isVertical: this.isSidebarVertical,
-			notification: NOTIFICATION,
-			profile: PROFILE,
-			search: SEARCH,
-			menu: {
-				tree: TREE,
-				isTitlesVisible: true,
-				isRootVisible: !this.isSidebarVertical,
-				isRootArrowVisible: false,
-				isIconsVisible: true,
-				delay: 100
-			}
-		}
-	}
 
 	private get sidebarDirectionClass(): string {
 		return `master__sidebar-placeholder_${this.sidebar.isVertical ? 'vertical' : 'horizontal'}`
@@ -191,7 +204,7 @@ export default class MasterApp extends Vue {
 	}
 
 	private setIsWidgetbarVisible(): void {
-		this.isWidgetbarVisible = !!this.$slots.widgetbar
+		this.setWidgetbarProps({ isVisible: !!this.$slots.widgetbar })
 	}
 }
 </script>

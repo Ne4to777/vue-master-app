@@ -28,6 +28,7 @@ declare const location: any
 			const query = value === undefined
 				? (document.getElementById('sidebar__search-input') as HTMLInputElement).value
 				: value
+			console.log(url)
 
 			if (query) location.assign(`${url}?q=${query}`)
 		}
