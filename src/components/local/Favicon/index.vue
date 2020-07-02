@@ -5,11 +5,11 @@ export default {
 	props: {
 		isNotified: Boolean
 	},
-	render(h, context): any {
+	render(h: Function, context: any): any {
 		const faviconType = context.props.isNotified ? 'notified' : 'regular'
 		const timeHash = new Date().getTime().toString()
 		const head = document.getElementsByTagName('head')[0]
-		const favicon = document.querySelector('link[rel*=\'icon\']') as Element
+		const favicon = document.querySelector('link[rel*="icon"]') as Element
 		if (favicon) head.removeChild(favicon)
 		const link = document.createElement('link')
 		link.type = 'image/x-icon'

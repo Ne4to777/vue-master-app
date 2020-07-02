@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 20">
+	<style>
+		#icon-notification_regular{
+			fill: #4D4F51;
+		}
+		#icon-notification_active{
+			fill: #FFFFFF;
+		}
+	</style>
+	<defs>
+		<path id="icon-bell" fill-rule="evenodd" d="M8,18 C6.64583333,18 5.5,17.3 5.5,16 L10.5,16 C10.5,17.3 9.35416667,18 8,18 Z M13.9956933,11 C13.9956933,12.5 16,12.5 16,13.5 C16,14 16,15 13.8955984,15 L1.98430985,15 C-6.19060359e-13,15 -1.62536651e-13,14 -1.63424829e-13,13.5 C-1.63369318e-13,12.5 1.98430985,12.5 2,11 L2,8 C2,4 4.09724901,1.5 7,1.1 L7,1 C7,0.4 7.5,5.74053187e-17 8,0 C8.5,0 9,0.4 9,1 L9,1.1 C11.902751,1.5 13.9956933,4 13.9956933,8 L13.9956933,11 Z" transform="translate(2 1)"/>
+	</defs>
+	<use xlink:href="#icon-bell" x="0" y="0" id="icon-notification_regular"/>
+	<use xlink:href="#icon-bell" x="20" y="0" id="icon-notification_active"/>
+</svg>

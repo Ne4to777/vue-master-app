@@ -32,7 +32,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
 	name: 'LayoutVertical'
 })
-export default class LayoutVertical extends Vue { }
+export default class LayoutVertical extends Vue {}
 </script>
 
 <style lang="stylus">
@@ -43,7 +43,7 @@ export default class LayoutVertical extends Vue { }
 	height 100%
 	color $color-gray_dark
 	background $color-gray_darkest
-	background linear-gradient(to top, $color-gray_darkest, $color-gray_darker)
+	background linear-gradient(to top, #16181A, #2E3235)
 	box-sizing border-box
 	padding $padding_small 0
 	border-radius $border-radius_base $border-radius_base 0 0

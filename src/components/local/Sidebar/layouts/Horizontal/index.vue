@@ -32,7 +32,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
 	name: 'LayoutHorizontal'
 })
-export default class LayoutHorizontal extends Vue { }
+export default class LayoutHorizontal extends Vue {}
 </script>
 
 <style lang="stylus">
@@ -42,7 +42,7 @@ export default class LayoutHorizontal extends Vue { }
 .sidebar_horizontal
 	color $color-gray_dark
 	background $color-gray_darkest
-	background linear-gradient(-90deg, $color-gray_darkest, $color-gray_darker)
+	background linear-gradient(-90deg, #16181A, #2E3235)
 	box-sizing border-box
 
 	&__background-placeholder
