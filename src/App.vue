@@ -227,6 +227,8 @@ export default class MasterApp extends Vue {
 .master
 	&__sidebar
 		&-placeholder
+			background-size contain
+			background-repeat no-repeat
 			position fixed
 
 			&_vertical

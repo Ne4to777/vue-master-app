@@ -1,5 +1,5 @@
 <template functional>
-	<a href="/" class="logo">Аура</a>
+	<a href="/" class="logo"></a>
 </template>
 
 <script lang="ts">
@@ -16,6 +16,9 @@ export default class SidebarLogo extends Vue { }
 @import '~@/assets/styles/variables.styl'
 
 .logo
+	display block
+	width 100%
+	height 100%
 	background-image $logo-background
 	background-size auto 100%
 	background-repeat no-repeat

@@ -3,7 +3,7 @@
 		<svg-ref
 			class="notification__icon"
 			:class="{ notification__icon_active: isCounterVisible }"
-			:ref-id="'icon-bell'"
+			ref-id="icon-bell"
 		/>
 		<div v-if="isCounterVisible" class="notification__counter">
 			{{ count }}
@@ -61,20 +61,19 @@ $size = 20px
 		border-width $border-width_base
 		border-color $color-blue_darker
 		border-style solid
-		cursor pointer
 
 	&__icon
 		width $size
 		height $size
-		cursor pointer
 		vertical-align bottom
-		stroke-width 1.6
-		stroke currentColor
 		stroke-linecap round
-		fill transparent
+		fill currentColor
 		stroke-miterlimit 4
 		pointer-events none
 
 		&_active
 			color $color-gray_lightest
+
+	&:hover
+		cursor pointer
 </style>

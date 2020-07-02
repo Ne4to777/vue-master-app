@@ -64,7 +64,7 @@ export default class SidebarProfile extends Vue {
 		box-sizing border-box
 		vertical-align middle
 		background-image $anonymous-image
-		background-size cover
+		background-size contain
 		background-position center center
 
 	&__name

@@ -32,7 +32,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
 	name: 'LayoutHorizontal'
 })
-export default class LayoutHorizontal extends Vue {}
+export default class LayoutHorizontal extends Vue { }
 </script>
 
 <style lang="stylus">
@@ -54,6 +54,9 @@ export default class LayoutHorizontal extends Vue {}
 
 	&__logo
 		display inline-block
+		height 28px
+		width 94px
+		vertical-align middle
 
 	&__notification
 		position absolute
