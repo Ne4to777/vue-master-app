@@ -44,7 +44,6 @@ const devServer = {
 	}).serve()
 }
 
-
 module.exports = {
 	devServer,
 	filenameHashing,

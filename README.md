@@ -2,7 +2,8 @@
 
 ## Project setup
 ```
-npm install
+npm i
+npm run sweeper-fix
 ```
 
 ### Compiles and hot-reloads for development

@@ -1,7 +1,6 @@
 import { equal } from '@/utility/equality'
 import { switchCase } from '@/utility/conditional'
 
-
 const sliceBegin = 8
 const sliceEnd = -1
 

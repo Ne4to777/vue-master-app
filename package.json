@@ -13,11 +13,11 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"safe-install:vue": "npm un @vue/cli-service && npm i -D @vue/cli-service && node dev/sweeperFix/vue.ts",
 		"safe-install:sp": "npm un sp-rest-proxy && npm i -D sp-rest-proxy@2.11.1 && node dev/sweeperFix/sp.ts",
-		"safe-install": "npm i && npm run safe-install:vue && safe-install:sp"
+		"sweeper-fix": "npm run safe-install:vue && npm run safe-install:sp"
 	},
 	"main": "index.js",
 	"dependencies": {
-		"core-js": "^3.6.4",
+		"core-js": "latest",
 		"mongoose": "^5.9.18",
 		"vue": "^2.6.11",
 		"vue-property-decorator": "^8.4.1",
@@ -35,7 +35,7 @@
 		"@vue/cli-plugin-typescript": "~4.3.0",
 		"@vue/cli-plugin-unit-jest": "~4.3.0",
 		"@vue/cli-plugin-vuex": "~4.3.0",
-		"@vue/cli-service": "^4.3.1",
+		"@vue/cli-service": "^4.4.6",
 		"@vue/eslint-config-airbnb": "^5.0.2",
 		"@vue/eslint-config-typescript": "^5.0.2",
 		"@vue/test-utils": "1.0.0-beta.31",

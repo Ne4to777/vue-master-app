@@ -18,18 +18,18 @@ const demoLibJSXHTML = './node_modules/@vue/cli-service/lib/commands/build/demo-
 !(async () => {
 	const { rename, read, write } = require('./utility.ts')
 	await rename(sourceServerFilenameToRename, targetServerFilenameToRename).catch(console.log)
-	const dataServer: any = await read(sourceServerFilenameToWrite).catch(console.log)
+	let dataServer = await read(sourceServerFilenameToWrite).catch(console.log)
 	const resultServer = dataServer.replace(/index-default\.html/, 'index-default.xhtml')
 	await write(sourceServerFilenameToWrite, resultServer).catch(console.log)
 
 	await rename(demoWCHTML, demoWCXHTML).catch(console.log)
-	const dataWC: any = await read(demoWCJS).catch(console.log)
+	let dataWC = await read(demoWCJS).catch(console.log)
 	const resultWC = dataWC.replace(/demo-wc\.html/, 'demo-wc.xhtml')
 	await write(demoWCJS, resultWC).catch(console.log)
 
 	await rename(demoLibHTML, demoLibXHTML).catch(console.log)
 	await rename(demoLibJSHTML, demoLibJSXHTML).catch(console.log)
-	const dataLib: any = await read(demoLibJS).catch(console.log)
+	let dataLib = await read(demoLibJS).catch(console.log)
 	const resultLib = dataLib.replace(/demo-lib\.html/, 'demo-lib.xhtml').replace(/demo-lib-js\.html/, 'demo-lib-js.xhtml')
 	await write(demoLibJS, resultLib).catch(console.log)
 })()
