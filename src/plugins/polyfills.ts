@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 
 export default {
-	install(Vue, params) {
+	install() {
 		let timeLast = 0
 
 		if (!window.requestAnimationFrame) {

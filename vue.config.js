@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
+const RestProxy = require('sp-rest-proxy')
 const privateJSON = require('./dev/private.json')
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -32,8 +33,20 @@ if (isProduction) {
 	filenameHashing = false
 }
 
+const devServer = {
+	contentBase: './public',
+	port: 3001,
+	proxy: 'http://localhost:8080',
+	before: () => new RestProxy({
+		configPath: './dev/private.json',
+		hostname: 'localhost',
+		port: 8080
+	}).serve()
+}
+
 
 module.exports = {
+	devServer,
 	filenameHashing,
 	publicPath,
 	pages: {

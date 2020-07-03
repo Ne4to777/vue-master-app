@@ -32,7 +32,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
 	name: 'LayoutHorizontal'
 })
-export default class LayoutHorizontal extends Vue { }
+export default class LayoutHorizontal extends Vue {}
 </script>
 
 <style lang="stylus">
@@ -60,9 +60,8 @@ export default class LayoutHorizontal extends Vue { }
 
 	&__notification
 		position absolute
-		top $margin_small
+		top $margin_smaller
 		right 96px
-		top 12px
 		display inline-block
 		z-index 1
 

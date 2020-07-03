@@ -77,6 +77,7 @@ module.exports = {
 			'error',
 			'never'
 		],
+		'eol-last': 0,
 		'operator-linebreak': 0,
 		'@typescript-eslint/semi': ['error', 'never'],
 		'@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'none' } }],

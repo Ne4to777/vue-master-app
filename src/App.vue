@@ -2,10 +2,7 @@
 	<div>
 		<favicon :isNotified="favicon.isNotified" />
 		<div class="body__background-placeholder" />
-		<div
-			class="master body__master"
-			:class="{ 'master_max-width': !layout.isWide }"
-		>
+		<div class="master body__master" :class="{ 'master_max-width': !layout.isWide }">
 			<div v-if="widgetbar.isVisible" class="master__widgetbar-placeholder">
 				<widgetbar :class="paddingTopClass">
 					<slot name="widgetbar">
@@ -22,10 +19,7 @@
 					:search="search"
 				/>
 			</div>
-			<div
-				class="master__main-app-placeholder"
-				:class="{ 'margin-left': sidebar.isVertical }"
-			>
+			<div class="master__main-app-placeholder" :class="{ 'margin-left': sidebar.isVertical }">
 				<main-app :class="paddingTopClass">
 					<slot>
 						<dummy :length="11500" />
@@ -47,100 +41,6 @@ import MainApp from '@/components/local/MainApp/index.vue'
 
 const masterModule = namespace('master')
 
-// const NOTIFICATION = {
-// 	items: [
-// 		{
-// 			author: 'author',
-// 			type: 'post',
-// 			text: 'some text'
-// 		}
-// 	]
-// }
-
-// const PROFILE = {
-// 	avatarUrl: require('@/components/local/Sidebar/components/Profile/avatar.png'),
-// 	avatarPosition: '',
-// 	name: 'Алексеев Алексей Сергеевич'
-// }
-
-// const SEARCH = { url: '/test' }
-
-// const TREE = {
-// 	icon: 'icon-menu',
-// 	isChildrenShownByClick: true,
-// 	nodes: [
-// 		{
-// 			title: 'title1',
-// 			icon: 'icon-bulb',
-// 			onClick: () => console.log('click'),
-// 			nodes: []
-// 		},
-// 		{
-// 			title: 'title2',
-// 			icon: 'icon-globe',
-// 			url: '/?a=3',
-// 			nodes: [
-// 				{
-// 					title: 'title21',
-// 					icon: 'icon-info',
-// 					url: '/?a=4'
-// 				}
-// 			]
-// 		},
-// 		{
-// 			title: 'title3',
-// 			icon: 'icon-sheet',
-// 			url: '/?a=5',
-// 			nodes: [
-// 				{
-// 					title: 'title31',
-// 					icon: 'icon-wrench',
-// 					url: '/?a=6',
-// 					nodes: [
-// 						{
-// 							title: 'title311',
-// 							icon: 'icon-bell',
-// 							onClick: () => console.log('click'),
-// 							nodes: []
-// 						},
-// 						{
-// 							title: 'title312',
-// 							icon: 'icon-discussion',
-// 							url: '/?a=8',
-// 							isActive: true,
-// 							nodes: []
-// 						}
-// 					]
-// 				},
-// 				{
-// 					title: 'title311',
-// 					icon: 'icon-bell',
-// 					iconViewBox: '0 0 20 20',
-// 					onClick: () => console.log('click'),
-// 					nodes: []
-// 				},
-// 				{
-// 					title: 'title312',
-// 					icon: 'icon-discussion',
-// 					url: '/?a=8',
-// 					isActive: true,
-// 					nodes: []
-// 				}
-// 			]
-// 		}
-// 	]
-// }
-
-// const MENU = {
-// 	tree: TREE,
-// 	classNamespace: 'sidebar',
-// 	isTitlesVisible: true,
-// 	isRootVisible: false,
-// 	isRootArrowVisible: false,
-// 	isIconsVisible: true,
-// 	delay: 100
-// }
-
 Component.registerHooks(['created', 'beforeUpdate'])
 
 @Component({
@@ -151,9 +51,8 @@ Component.registerHooks(['created', 'beforeUpdate'])
 		Widgetbar,
 		MainApp,
 		Dummy
-	},
+	}
 })
-
 export default class MasterApp extends Vue {
 	@masterModule.State layout!: object
 
@@ -196,7 +95,9 @@ export default class MasterApp extends Vue {
 	// }
 
 	private get sidebarDirectionClass(): string {
-		return `master__sidebar-placeholder_${this.sidebar.isVertical ? 'vertical' : 'horizontal'}`
+		return `master__sidebar-placeholder_${
+			this.sidebar.isVertical ? 'vertical' : 'horizontal'
+		}`
 	}
 
 	private get paddingTopClass(): string {
