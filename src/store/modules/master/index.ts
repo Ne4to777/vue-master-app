@@ -3,6 +3,8 @@ import initState from '@/store/initState/index'
 
 const NAMES = Object.keys(initState)
 
+declare const axios: any
+
 export default {
 	namespaced: true,
 	state: () => ({
@@ -12,6 +14,10 @@ export default {
 		...generatePropsMutationsByNames(NAMES)
 	},
 	actions: {
-		...generatePropsActionsByNames(NAMES)
+		...generatePropsActionsByNames(NAMES),
+		async getCurrentUser() {
+			const response = await axios.get('/api/user').catch(console.log)
+			console.log(response.data)
+		}
 	}
 }

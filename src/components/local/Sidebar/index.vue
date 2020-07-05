@@ -42,7 +42,7 @@
 				:tree="props.menu.tree"
 				:isTitlesVisible="props.menu.isTitlesVisible"
 				:isIconsVisible="props.menu.isIconsVisible"
-				:isRootVisible="props.menu.isRootVisible"
+				:isRootVisible="!props.isVertical"
 				:isRootArrowVisible="props.menu.isRootArrowVisible"
 				:delay="props.menu.delay"
 			/>

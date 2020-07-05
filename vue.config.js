@@ -5,19 +5,22 @@ const privateJSON = require('./dev/private.json')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
+const isMongo = process.env.BACKEND_MODE === 'mongo'
+
 let externals = {}
 let optimization = {}
 let templateParameters = {
 	BASE_URL: '@/'
 }
 let publicPath = '/'
-let template = 'src/index.dev.ejs'
+let template = 'src/index.spx.ejs'
 let filenameHashing = true
 
 if (isProduction) {
 	externals = {
+		axios: 'axios',
 		vue: 'Vue',
-		// 'vue-router': 'VueRouter',
+		'vue-router': 'VueRouter',
 		vuex: 'Vuex'
 	}
 	optimization = {
@@ -33,15 +36,25 @@ if (isProduction) {
 	filenameHashing = false
 }
 
-const devServer = {
-	contentBase: './public',
-	port: 3001,
-	proxy: 'http://localhost:8080',
-	before: () => new RestProxy({
+let startProxy
+let entry = 'src/main.spx.ts'
+
+if (isMongo) {
+	entry = 'src/main.mongo.ts'
+	template = 'src/index.mongo.ejs'
+} else {
+	startProxy = () => new RestProxy({
 		configPath: './dev/private.json',
 		hostname: 'localhost',
 		port: 8080
 	}).serve()
+}
+
+const devServer = {
+	contentBase: './public',
+	port: 3001,
+	proxy: 'http://localhost:8080',
+	before: startProxy
 }
 
 module.exports = {
@@ -50,7 +63,7 @@ module.exports = {
 	publicPath,
 	pages: {
 		index: {
-			entry: 'src/main.ts',
+			entry,
 			template,
 			filename: 'index.html',
 			templateParameters
