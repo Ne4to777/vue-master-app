@@ -2,10 +2,7 @@
 	<div>
 		<favicon :isNotified="favicon.isNotified" />
 		<div class="body__background-placeholder" />
-		<div
-			class="master body__master"
-			:class="{ 'master_max-width': !layout.isWide }"
-		>
+		<div class="master body__master" :class="{ 'master_max-width': !layout.isWide }">
 			<div v-if="widgetbar.isVisible" class="master__widgetbar-placeholder">
 				<widgetbar :class="paddingTopClass">
 					<slot name="widgetbar">
@@ -22,10 +19,7 @@
 					:search="search"
 				/>
 			</div>
-			<div
-				class="master__main-app-placeholder"
-				:class="{ 'margin-left': sidebar.isVertical }"
-			>
+			<div class="master__main-app-placeholder" :class="{ 'margin-left': sidebar.isVertical }">
 				<main-app :class="paddingTopClass">
 					<slot>
 						<dummy :length="11500" />
@@ -104,7 +98,9 @@ export default class MasterApp extends Vue {
 	// }
 
 	private get sidebarDirectionClass(): string {
-		return `master__sidebar-placeholder_${this.sidebar.isVertical ? 'vertical' : 'horizontal'}`
+		return `master__sidebar-placeholder_${
+			this.sidebar.isVertical ? 'vertical' : 'horizontal'
+		}`
 	}
 
 	private get paddingTopClass(): string {
