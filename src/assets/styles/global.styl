@@ -3,8 +3,7 @@
 @import 'variables.styl'
 @import 'functions.styl'
 
-body
-	background-image setUrl($body-background)
+$body-background = $imagesDir + 'background/index.png'
 
 .fade-enter-active, .fade-leave-active
 	transition opacity 0.5s
@@ -31,7 +30,7 @@ body
 		left 0
 		right 0
 		height 100vh
-		background-image $body-background
+		// background-image url(setPath($body-background))
 		background-repeat no-repeat
 		background-size 100% 100%
 		z-index 0

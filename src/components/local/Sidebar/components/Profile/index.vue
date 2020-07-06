@@ -1,13 +1,8 @@
 <template functional>
 	<div class="profile">
 		<a :href="props.profilePageUrl" class="profile__a">
-			<div
-				class="profile__avatar"
-				:style="$options.methods.getAvatarStyle(props)"
-			></div>
-			<div v-if="props.isNameVisible" class="profile__name">
-				{{ props.name }}
-			</div>
+			<div class="profile__avatar" :style="$options.methods.getAvatarStyle(props)"></div>
+			<div v-if="props.isNameVisible" class="profile__name">{{ props.name }}</div>
 			<div style="clear:both"></div>
 		</a>
 	</div>
@@ -46,7 +41,10 @@ export default class SidebarProfile extends Vue {
 
 <style lang="stylus">
 @import '~@/assets/styles/paths.styl'
+@import '~@/assets/styles/functions.styl'
 @import '~@/assets/styles/variables.styl'
+
+$anonymous-image = $imagesDir + 'anonymous/index.png'
 
 .profile
 	padding 12px $padding_base
@@ -63,7 +61,7 @@ export default class SidebarProfile extends Vue {
 		border-style solid
 		box-sizing border-box
 		vertical-align middle
-		background-image $anonymous-image
+		background-image url(setPath($anonymous-image))
 		background-size contain
 		background-position center center
 

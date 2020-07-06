@@ -16,8 +16,8 @@ export default {
 	actions: {
 		...generatePropsActionsByNames(NAMES),
 		async getCurrentUser() {
-			const response = await axios.get('/api/user').catch(console.log)
-			console.log(response.data)
+			// const response = await axios.get('/api/user').catch(console.log)
+			// console.log(response.data)
 		}
 	}
 }

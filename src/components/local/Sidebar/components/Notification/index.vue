@@ -5,9 +5,7 @@
 			:class="{ notification__icon_active: isCounterVisible }"
 			ref-id="icon-bell"
 		/>
-		<div v-if="isCounterVisible" class="notification__counter">
-			{{ count }}
-		</div>
+		<div v-if="isCounterVisible" class="notification__counter">{{ count }}</div>
 	</div>
 </template>
 
@@ -22,7 +20,7 @@ import SvgRef from '@/components/global/SvgRef/index.vue'
 	}
 })
 export default class SidebarNotification extends Vue {
-	@Prop({ type: Array, default: () => ([]) }) private readonly items!: object[]
+	@Prop({ type: Array, default: () => [] }) private readonly items!: object[]
 
 	private readonly COUNT_MAX = 9
 

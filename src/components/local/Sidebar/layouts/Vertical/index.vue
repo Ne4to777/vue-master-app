@@ -37,7 +37,10 @@ export default class LayoutVertical extends Vue {}
 
 <style lang="stylus">
 @import '~@/assets/styles/paths.styl'
+@import '~@/assets/styles/functions.styl'
 @import '~@/assets/styles/variables.styl'
+
+$sidebar-background = $imagesDir + 'sidebar/background/index.png'
 
 .sidebar_vertical
 	height 100%
@@ -55,7 +58,7 @@ export default class LayoutVertical extends Vue {}
 		width 100%
 		top 0
 		left 0
-		background-image $sidebar-background
+		background-image url(setPath($sidebar-background))
 
 	&__logo
 		display block

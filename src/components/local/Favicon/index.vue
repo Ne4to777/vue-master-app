@@ -15,7 +15,7 @@ export default {
 		link.type = 'image/x-icon'
 		link.rel = 'shortcut icon'
 		link.id = 'notified-favicon'
-		link.href = 'common/Images/current/master/favicon/'
+		link.href = '/common/Images/current/master/favicon/'
 			.concat(faviconType)
 			.concat('/favicon.ico?=')
 			.concat(timeHash)
