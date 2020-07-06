@@ -1,3 +1,5 @@
+use('../../plugins/stylus.js')
+
 formatByProp(tag, prop, variable)
 	.{tag}
 		{prop} $ + variable
@@ -19,5 +21,3 @@ generateClassebByColorsAndIntensities(prop, colors, intensities)
 		for intensity in intensities
 			suffix = '-' + colour + '_' + intensity
 			formatByProp(prop + suffix, prop, 'color' + suffix)
-
-				

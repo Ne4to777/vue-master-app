@@ -1,10 +1,10 @@
 {
-	"siteUrl": "http://aura.dme.aero.corp",
-	"strategy": "OnpremiseUserCredentials",
-	"domain": "dme",
-	"siteRelativePath": "/common",
-	"siteDisk": "A://",
-	"deployPath": "/common",
-	"username": "asalekseev",
-	"password": "5a7b95cfb90dd0c0d34a23e39ff3b1ce54939f347e4345f706a63bf4297dca7172a7c7052c0d1558282829ab70cc57ebQsnlQQV5Z75jzEAuv3NCHdcmmjfkzBnTIYdpvkvR7RCsNp5tGs4pAJ7nv/ysrQV1IcZvZDWQ/KsfNM+bIXuCmea/7GBpUdcYHs5XKTZLV7QV/RgJqVvo3AKV1tqOlGsUYeDGz+35NpUtK+XjREtdAtqB4Ha68Ok5ugKUVDRgYrg="
+  "siteUrl": "http://aura.dme.aero.corp",
+  "strategy": "OnpremiseUserCredentials",
+  "domain": "dme",
+  "siteRelativePath": "/common",
+  "siteDisk": "A://",
+  "deployPath": "/common",
+  "username": "asalekseev",
+  "password": "9e76a6f051fbbe432ee1d499484d933c3a0b566b35341249cd221d44d51c2dddca8e2bd5bf3f5f85305d47942e3e7976V6kVp6FluZcTQVs10VDDbwEjzbmjENCpjRoAuB1LWI9NtsBMnn5+gAEGig8BoPMOsP1amPI5yf/SJLaYmkgXle7x3QnCtGV0CsGRqXJ6hMOMq36BZbGqAoIo7O3YQl9LfyFWH1kcZGFTJHLfgSTJ8xw7wayBuBNVAuhPKAFbOu2uxLsVvfOlx/o3yGC9IOU6csX6Pma6Qgnr+lA3grdEMMV3zsjOysqzD6SJtBTtXihwYuFtgU8FnWZfOQb8Lm4e+56uwPRc0kofd2JugVKlsH+y8mT4tAcNL3PUNcniWc/dMPMDsvLHLw4MqVICav0/7aRHTrYLeXMA7wostG/v8gT9iz3NM9wXr/km8Q4S+Gk="
 }
