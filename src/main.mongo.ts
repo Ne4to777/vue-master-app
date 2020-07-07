@@ -6,8 +6,11 @@ import './assets/styles/global.styl'
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
+import initDataMongoPlugin from './plugins/initDataMongo'
 
 Vue.config.productionTip = false
+
+Vue.use(initDataMongoPlugin)
 
 new Vue({
 	store,

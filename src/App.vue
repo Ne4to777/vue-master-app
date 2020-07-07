@@ -86,11 +86,11 @@ export default class MasterApp extends Vue {
 
 	@masterModule.Action setSearchProps!: Function
 
-	@masterModule.Action getCurrentUser!: Function
+	@masterModule.Action getInitData!: Function
 
-	created(): void {
+	async created(): Promise<void> {
 		this.setIsWidgetbarVisible()
-		this.getCurrentUser()
+		this.init()
 	}
 
 	// beforeUpdate(): void {
@@ -109,6 +109,26 @@ export default class MasterApp extends Vue {
 
 	private setIsWidgetbarVisible(): void {
 		this.setWidgetbarProps({ isVisible: !!this.$slots.widgetbar })
+	}
+
+	private async init(): Promise<void> {
+		const { user, userSP } = await (this as any).$initData()
+		// console.log(user, userSP)
+		let name = userSP.Title
+		let avatar
+		let avatarPosition
+
+		if (user) {
+			name = `${user.firstName} ${user.lastName}`
+			avatar = user.avatar
+			avatarPosition = user.avatarPosition
+		}
+
+		this.setProfileProps({
+			name,
+			avatar,
+			avatarPosition
+		})
 	}
 }
 </script>

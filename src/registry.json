@@ -1,0 +1,17 @@
+{
+	"masterWeb": "common",
+	"hosts": {
+		"aura": "http://aura.dme.aero.corp",
+		"wiki": "http://wiki.aura.dme.aero.corp",
+		"avatar": "http://intranet.dme.aero.corp"
+	},
+	"libraries": {
+		"images": "Images",
+		"assets": "Assets",
+		"modules": "Modules",
+		"avatars": "Avatars"
+	},
+	"lists": {
+		"users": "Users"
+	}
+}

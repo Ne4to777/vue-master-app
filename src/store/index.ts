@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import masterModule from '@/store/modules/master/index'
+import master from '@/store/modules/master/index'
 
 Vue.use(Vuex)
 
@@ -11,6 +11,6 @@ export default new Vuex.Store({
 	actions: {
 	},
 	modules: {
-		master: masterModule
+		master
 	}
 })

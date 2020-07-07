@@ -1,4 +1,7 @@
-$baseDir = '/common/'
-$imagesDir = $baseDir + 'Images/current/master/'
-$fontDir = $baseDir + 'Assets/fonts/Roboto/'
-$iconsDir = $baseDir + 'Assets/icons/SimpleLineIcons/'
+registry = json('../../registry.json', { hash: true })
+$baseDir = '/' + registry.masterWeb + '/'
+$imagesLib = registry.libraries.images
+$assetsLib = registry.libraries.assets
+$imagesDir = $baseDir + $imagesLib + '/current/master/'
+$fontDir = $baseDir + $assetsLib + '/fonts/Roboto/'
+$iconsDir = $baseDir + $assetsLib + '/icons/SimpleLineIcons/'
