@@ -18,7 +18,7 @@
 	},
 	"main": "index.js",
 	"dependencies": {
-		"aura-connector": "^1.0.0",
+		"aura-connector": "^1.0.1",
 		"core-js": "latest",
 		"vue": "^2.6.11",
 		"vue-property-decorator": "^8.4.1",

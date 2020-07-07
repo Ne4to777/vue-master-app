@@ -7,12 +7,12 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import spxPlugin from './plugins/spx'
-import initDataSPXPlugin from './plugins/initDataSP'
+import initDataSPPlugin from './plugins/initDataSP'
 
 Vue.config.productionTip = false
 
 Vue.use(spxPlugin)
-Vue.use(initDataSPXPlugin)
+Vue.use(initDataSPPlugin)
 
 new Vue({
 	store,

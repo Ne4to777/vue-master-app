@@ -1,9 +1,10 @@
+/* eslint-disable no-param-reassign */
 import model from '@/model/sp'
 import { newClientContext, execute } from '@/utility/sp'
 import registry from '@/registry.json'
 
 export default {
-	install(Vue: any, params: any) {
+	install(Vue: any) {
 		Vue.prototype.$initData = async () => {
 			const requests: any = {}
 			const result: any = {}
