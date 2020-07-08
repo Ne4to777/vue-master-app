@@ -31,19 +31,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
 import Dummy from '@/components/global/Dummy/index.vue'
 import Favicon from '@/components/local/Favicon/index.vue'
 import Sidebar from '@/components/local/Sidebar/index.vue'
 import Widgetbar from '@/components/local/Widgetbar/index.vue'
 import MainApp from '@/components/local/MainApp/index.vue'
+import { mapMasterActions, mapMasterState } from '@/utility/store'
 
-const masterModule = namespace('master')
-
-Component.registerHooks(['created', 'beforeUpdate'])
-
-@Component({
+export default {
 	name: 'MasterApp',
 	components: {
 		Favicon,
@@ -51,86 +46,157 @@ Component.registerHooks(['created', 'beforeUpdate'])
 		Widgetbar,
 		MainApp,
 		Dummy
-	}
-})
-export default class MasterApp extends Vue {
-	@masterModule.State layout!: object
-
-	@masterModule.Action setLayoutProps!: Function
-
-	@masterModule.State favicon!: object
-
-	@masterModule.Action setFaviconProps!: Function
-
-	@masterModule.State widgetbar!: any
-
-	@masterModule.Action setWidgetbarProps!: Function
-
-	@masterModule.State sidebar!: any
-
-	@masterModule.Action setSidebarProps!: Function
-
-	@masterModule.State notification!: any
-
-	@masterModule.Action setNotificationProps!: Function
-
-	@masterModule.State profile!: any
-
-	@masterModule.Action setProfileProps!: Function
-
-	@masterModule.State menu!: any
-
-	@masterModule.Action setMenuProps!: Function
-
-	@masterModule.State search!: any
-
-	@masterModule.Action setSearchProps!: Function
-
-	@masterModule.Action getInitData!: Function
-
+	},
 	async created(): Promise<void> {
 		this.setIsWidgetbarVisible()
 		this.init()
-	}
-
-	// beforeUpdate(): void {
-	// 	this.setIsWidgetbarVisible()
-	// }
-
-	private get sidebarDirectionClass(): string {
-		return `master__sidebar-placeholder_${
-			this.sidebar.isVertical ? 'vertical' : 'horizontal'
-		}`
-	}
-
-	private get paddingTopClass(): string {
-		return this.sidebar.isVertical ? 'padding-top_base' : 'padding-top_sidebar'
-	}
-
-	private setIsWidgetbarVisible(): void {
-		this.setWidgetbarProps({ isVisible: !!this.$slots.widgetbar })
-	}
-
-	private async init(): Promise<void> {
-		const { user, userSP } = await (this as any).$initData()
-		// console.log(user, userSP)
-		let name = userSP.Title
-		let avatar
-		let avatarPosition
-
-		if (user) {
-			name = `${user.firstName} ${user.lastName}`
-			avatar = user.avatar
-			avatarPosition = user.avatarPosition
+	},
+	data() {
+		return {
+			...mapMasterState([
+				'layout',
+				'favicon',
+				'widgetbar',
+				'sidebar',
+				'notification',
+				'profile',
+				'menu',
+				'search'
+			])
 		}
+	},
+	methods: {
+		...mapMasterActions([
+			'setLayoutProps',
+			'setFaviconProps',
+			'setWidgetbarProps',
+			'setSidebarProps',
+			'setNotificationProps',
+			'setProfileProps',
+			'setMenuProps',
+			'setSearchProps',
+			'getInitData'
+		]),
+		setIsWidgetbarVisible(): void {
+			this.setWidgetbarProps({ isVisible: !!this.$slots.widgetbar })
+		},
 
-		this.setProfileProps({
-			name,
-			avatar,
-			avatarPosition
-		})
+		async init(): Promise<void> {
+			const { user, userSP } = await (this as any).$initData()
+			// console.log(user, userSP)
+			let name = userSP.Title
+			let avatar
+			let avatarPosition
+
+			if (user) {
+				name = `${user.firstName} ${user.lastName}`
+				avatar = user.avatar
+				avatarPosition = user.avatarPosition
+			}
+
+			this.setProfileProps({
+				name,
+				avatar,
+				avatarPosition
+			})
+		}
 	}
 }
+// import { Component, Vue } from 'vue-property-decorator'
+// import { namespace } from 'vuex-class'
+
+// const masterModule = namespace('master')
+
+// Component.registerHooks(['created', 'beforeUpdate'])
+
+// @Component({
+// 	name: 'MasterApp',
+// 	components: {
+// 		Favicon,
+// 		Sidebar,
+// 		Widgetbar,
+// 		MainApp,
+// 		Dummy
+// 	}
+// })
+// export default class MasterApp extends Vue {
+// 	@masterModule.State layout!: object
+
+// 	@masterModule.Action setLayoutProps!: Function
+
+// 	@masterModule.State favicon!: object
+
+// 	@masterModule.Action setFaviconProps!: Function
+
+// 	@masterModule.State widgetbar!: any
+
+// 	@masterModule.Action setWidgetbarProps!: Function
+
+// 	@masterModule.State sidebar!: any
+
+// 	@masterModule.Action setSidebarProps!: Function
+
+// 	@masterModule.State notification!: any
+
+// 	@masterModule.Action setNotificationProps!: Function
+
+// 	@masterModule.State profile!: any
+
+// 	@masterModule.Action setProfileProps!: Function
+
+// 	@masterModule.State menu!: any
+
+// 	@masterModule.Action setMenuProps!: Function
+
+// 	@masterModule.State search!: any
+
+// 	@masterModule.Action setSearchProps!: Function
+
+// 	@masterModule.Action getInitData!: Function
+
+// 	async created(): Promise<void> {
+// 		this.setIsWidgetbarVisible()
+// 		this.init()
+// 	}
+
+// 	// beforeUpdate(): void {
+// 	// 	this.setIsWidgetbarVisible()
+// 	// }
+
+// 	private get sidebarDirectionClass(): string {
+// 		return `master__sidebar-placeholder_${
+// 			this.sidebar.isVertical ? 'vertical' : 'horizontal'
+// 		}`
+// 	}
+
+// 	private get paddingTopClass(): string {
+// 		return this.sidebar.isVertical ? 'padding-top_base' : 'padding-top_sidebar'
+// 	}
+
+// 	private setIsWidgetbarVisible(): void {
+// 		this.setWidgetbarProps({ isVisible: !!this.$slots.widgetbar })
+// 	}
+
+// 	private async init(): Promise<void> {
+// 		const { user, userSP } = await (this as any).$initData()
+// 		// console.log(user, userSP)
+// 		let name = userSP.Title
+// 		let avatar
+// 		let avatarPosition
+
+// 		if (user) {
+// 			name = `${user.firstName} ${user.lastName}`
+// 			avatar = user.avatar
+// 			avatarPosition = user.avatarPosition
+// 		}
+
+// 		this.setProfileProps({
+// 			name,
+// 			avatar,
+// 			avatarPosition
+// 		})
+// 	}
+// }
 </script>
 
 <style lang="stylus">

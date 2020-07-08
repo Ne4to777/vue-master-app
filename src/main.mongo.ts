@@ -15,4 +15,4 @@ Vue.use(initDataMongoPlugin)
 new Vue({
 	store,
 	render: (h) => h(App)
-}).$mount('#master-app')
+}).$mount('#app')

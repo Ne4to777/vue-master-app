@@ -3,18 +3,24 @@ import './assets/styles/fonts.styl'
 import './assets/styles/icons.styl'
 import './assets/styles/global.styl'
 
-import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
+import polyfillsPlugin from './plugins/polyfills'
 import spxPlugin from './plugins/spx'
 import initDataSPPlugin from './plugins/initDataSP'
 
+declare const Vue: any
+
 Vue.config.productionTip = false
 
+Vue.use(polyfillsPlugin)
 Vue.use(spxPlugin)
+Vue.use(store)
 Vue.use(initDataSPPlugin)
 
-new Vue({
-	store,
-	render: (h) => h(App)
-}).$mount('#app')
+Vue.component(App.name, App)
+
+// new Vue({
+// 	store,
+// 	render: (h: any) => h(App)
+// }).$mount('#app')

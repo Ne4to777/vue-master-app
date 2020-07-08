@@ -1,4 +1,6 @@
 import { capitalize } from '@/utility/string'
+import { joinBySlash } from '@/utility/array'
+import { mapGetters, mapActions, mapState } from 'vuex'
 
 export const generatePropsMutationsByNames = (names: string[]): object => names.reduce(
 	(acc: any, name: string): object => {
@@ -20,3 +22,16 @@ export const generatePropsActionsByNames = (names: string[]): object => names.re
 		return acc
 	}, {}
 )
+
+export const mapByModule = (moduleName: string) => (mapper: Function) => (items: any[]) => mapper(
+	items.reduce((acc, item: any) => {
+		acc[item] = joinBySlash([moduleName, item])
+		return acc
+	}, {})
+)
+
+export const mapByMaster = mapByModule('master')
+
+export const mapMasterState = mapByMaster(mapState)
+export const mapMasterGetters = mapByMaster(mapGetters)
+export const mapMasterActions = mapByMaster(mapActions)

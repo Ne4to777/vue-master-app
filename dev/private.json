@@ -2,9 +2,9 @@
 	"siteUrl": "http://aura.dme.aero.corp",
 	"strategy": "OnpremiseUserCredentials",
 	"domain": "dme",
-	"siteRelativePath": "",
+	"siteRelativePath": "/common",
 	"siteDisk": "A://",
-	"deployPath": "/common",
+	"deployPath": "/Modules/native/master-app/current",
 	"userID": 10842,
 	"username": "asalekseev",
 	"password": "6affa0edf50c887101bd8b64da6a4d215b6fb32b1f67d0c7d0c0228dcb85c4a63e74cda7a1c04b87cfb22df6b2a6632cxm2s+FzSUz/uh9ZFeTYprw=="

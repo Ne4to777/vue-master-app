@@ -15,8 +15,10 @@ let templateParameters = {
 let publicPath = '/'
 let template = 'src/index.spx.ejs'
 let filenameHashing = true
+let entry = 'src/main.spx.ts'
 
 if (isProduction) {
+	entry = 'src/main.prod.ts'
 	externals = {
 		axios: 'axios',
 		vue: 'Vue',
@@ -24,9 +26,7 @@ if (isProduction) {
 		vuex: 'Vuex'
 	}
 	optimization = {
-		splitChunks: {
-			chunks: 'all'
-		}
+		splitChunks: false
 	}
 	templateParameters = {
 		BASE_URL: privateJSON.siteUrl
@@ -37,7 +37,6 @@ if (isProduction) {
 }
 
 let startProxy
-let entry = 'src/main.spx.ts'
 
 if (isMongo) {
 	entry = 'src/main.mongo.ts'
