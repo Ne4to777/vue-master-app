@@ -1,16 +1,17 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import master from '@/store/modules/master/index'
+import { generatePropsMutationsByNames, generatePropsActionsByNames } from '@/utility/store'
+import initialState from '@/store/initialState/index'
 
-Vue.use(Vuex)
+const NAMES = Object.keys(initialState)
 
-export default new Vuex.Store({
-	state: () => ({}),
+export default {
+	namespaced: true,
+	state: () => ({
+		...initialState
+	}),
 	mutations: {
+		...generatePropsMutationsByNames(NAMES)
 	},
 	actions: {
-	},
-	modules: {
-		master
+		...generatePropsActionsByNames(NAMES)
 	}
-})
+}

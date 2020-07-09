@@ -38,21 +38,24 @@ if (isProduction) {
 
 let startProxy
 
+const proxyHost = 'localhost'
+const proxyPort = 8081
+
 if (isMongo) {
 	entry = 'src/main.mongo.ts'
 	template = 'src/index.mongo.ejs'
 } else {
 	startProxy = () => new RestProxy({
 		configPath: './dev/private.json',
-		hostname: 'localhost',
-		port: 8080
+		hostname: proxyHost,
+		port: proxyPort
 	}).serve()
 }
 
 const devServer = {
 	contentBase: './public',
 	port: 3001,
-	proxy: 'http://localhost:8080',
+	proxy: `http://${proxyHost}:${proxyPort}`,
 	before: startProxy
 }
 

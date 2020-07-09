@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
-import Vuex from 'vuex'
-import master from '@/store/modules/master/index'
+import master from '@/store/index'
+
+// declare const Vuex: any
 
 export default {
-	install(Vue: any) {
-		Vue.use(Vuex)
+	install(Vue: any, Vuex: any) {
 		Vue.prototype.$store = new Vuex.Store({
 			state: () => ({}),
 			mutations: {
